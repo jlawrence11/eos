@@ -1,41 +1,79 @@
 <?php
 
-//Basic Stack Class
-//written by Jon Lawrence
+/**
+ * Basic Stack Class
+ *
+ * Created for use with eqEOS. May eventually be replaced with native
+ * PHP functions `array_pop()`, `array_push()`, and `end()`
+ *
+ * @author Jon Lawrence <jlawrence11@gmail.com>
+ * @copyright Copyright ©2005-2013 Jon Lawrence
+ * @license http://opensource.org/licenses/LGPL-2.1 LGPL 2.1 License
+ * @package eos.class.php
+ * @version 2.0
+ */
+class phpStack {
+	private $index;
+	private $locArray;
 
-class phpStack
-{
-	var $index;
-	var $locArray;
-
-	function phpStack()
-	{
+	/**
+	 * Constructor
+	 *
+	 * Initializes the stack
+	 */
+	public function __construct() {
 		//define the private vars
 		$this->locArray = array();
 		$this->index = -1;
 	}
 
-	function peek()
-	{
+	/**
+	 * Peek
+	 *
+	 * Will view the last element of the stack without removing it
+	 *
+	 * @return Mixed An element of the array or false if none exist
+	 */
+	public function peek() {
 		if($this->index > -1)
 			return $this->locArray[$this->index];
 		else
 			return false;
 	}
 
-	function poke($data)
-	{
+	/**
+	 * Poke
+	 *
+	 * Will add an element to the end of the stack
+	 *
+	 * @param Mixed Element to add
+	 */
+	public function poke($data) {
 		$this->locArray[++$this->index] = $data;
 	}
 
-	function push($data)
-	{
+	/**
+	 * Push
+	 *
+	 * Alias of {@see phpStack::poke()}
+	 * Adds element to the stack
+	 *
+	 * @param Mixed Element to add
+	 */
+	public function push($data) {
 		//allias for 'poke'
 		$this->poke($data);
 	}
 
-	function pop()
-	{
+	/**
+	 * Pop
+	 *
+	 * Retrives an element from the end of the stack, and removes it from
+	 * the stack at the same time. If no elements, returns boolean false
+	 *
+	 * @return Mixed Element at end of stack or false if none exist
+	 */
+	public function pop() {
 		if($this->index > -1)
 		{
 			$this->index--;
@@ -45,20 +83,27 @@ class phpStack
 			return false;
 	}
 
-	function clear()
-	{
+	/**
+	 * Clear
+	 *
+	 * Clears the stack to be reused.
+	 */
+	public function clear() {
 		$this->index = -1;
 		$this->locArray = array();
 	}
 
-	function getStack()
-	{
+	/**
+	 * Get Stack
+	 *
+	 * Returns the array of stack elements, keeping all, indexed at 0
+	 *
+	 * @return Mixed Array of stack elements or false if none exist.
+	 */
+	public function getStack() {
 		if($this->index > -1)
 		{
-			$tmpArray = array();
-			for($i=0;$i<$this->index;$i++)
-				$tmpArray[$i] = $this->locArray[$i];
-			return $tmpArray;
+			return array_values($this->locArray);
 		}
 		else
 			return false;
