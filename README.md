@@ -2,7 +2,7 @@
 ---
 
 ## eos.class.php
----
+
 ### Equation Operating System
 
 This class makes it incredibly easy to use and parse/solve equations in
