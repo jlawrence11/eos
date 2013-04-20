@@ -146,7 +146,6 @@ class eqEOS {
 		$pf = array();
 		$ops = new phpStack();
 		$vars = new phpStack();
-		$lChar = "";
 
 		// remove all white-space
 		preg_replace("/\s/", "", $infix);
@@ -249,8 +248,9 @@ class eqEOS {
 	 *
 	 * @link http://en.wikipedia.org/wiki/Reverse_Polish_notation Postix Notation
 	 * @param Array $pfArray RPN formatted array. Optional.
+         * @return Float Result of the operation.
 	 */
-	function solvePF($pfArray = null) {
+	public function solvePF($pfArray = null) {
 		// if no RPN array is passed - use the one stored in the private var
 		$pf = (!is_array($pfArray)) ? $this->postFix : $pfArray;
 		
@@ -318,7 +318,7 @@ class eqEOS {
 	 * @return Float Solved equation
 	 */
 	function solveIF($infix, $vArray = null) {
-		$if = ($infix != "") ? $infix : $this->inFix;
+		$infix = ($infix != "") ? $infix : $this->inFix;
 		
 		//Check to make sure a 'valid' expression
 		$this->checkInfix($infix);
@@ -365,7 +365,6 @@ class eqEOS {
 		// NOTE - when using function, only 1 set of paranthesis will be found, instead use brackets for sets within functions!! 
 		while((preg_match("/(". implode("|", $this->FNC) . ")\(([^\)\(]*(\([^\)]*\)[^\(\)]*)*[^\)\(]*)\)/", $infix, $match)) != 0) {
 			$func = $this->solveIF($match[2]);
-			$func = ($func);
 			switch($match[1]) {
 				case "cos":
 					$ans = cos($func);
