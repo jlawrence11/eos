@@ -15,6 +15,7 @@ local.properties
 .classpath
 .settings/
 .loadpath
+nbproject/
 
 # External tool builders
 .externalToolBuilders/
@@ -161,3 +162,4 @@ pip-log.txt
 
 # Mac crap
 .DS_Store
+/nbproject/private/
