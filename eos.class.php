@@ -225,7 +225,7 @@ class eqEOS {
 				if((in_array($lChar, array_merge($this->ST1, $this->ST2, $this->ST)) || $lChar=="") && $chr=="-") {
 					// increase the index because there is no reason that it shouldn't..
 					$pfIndex++;
-					$pf[$pfIndex] .= $chr; 
+					$pf[$pfIndex] = $chr; 
 				}
 				// Otherwise it will function like a normal operator
 				else {
