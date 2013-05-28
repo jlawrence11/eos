@@ -222,7 +222,7 @@ class eqEOS {
 			// if a '+' or '-'
 			elseif(in_array($chr, $this->ST2)) {
 				// if it is a '-' and the character before it was an operator or nothingness (e.g. it negates a number)
-				if((in_array($lChar, array_merge($this->ST1, $this->ST2, $this->ST)) || $lChar=="") && $chr=="-") {
+				if((in_array($lChar, array_merge($this->ST1, $this->ST2, $this->ST, $this->SEP['open'])) || $lChar=="") && $chr=="-") {
 					// increase the index because there is no reason that it shouldn't..
 					$pfIndex++;
 					$pf[$pfIndex] = $chr; 
