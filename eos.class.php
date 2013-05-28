@@ -1,6 +1,6 @@
 <?php
 /**
- * Equation Operating System
+ * Equation Operating System Classes.
  * 
  * This class was created for the safe parsing of mathematical equations
  * in PHP.  There is a need for a way to successfully parse equations
@@ -25,7 +25,7 @@
  * @author Jon Lawrence <jlawrence11@gmail.com>
  * @copyright Copyright ©2005-2013, Jon Lawrence
  * @license http://opensource.org/licenses/LGPL-2.1 LGPL 2.1 License
- * @package eos.class.php
+ * @package EOS
  * @version 2.0
  */
 
@@ -48,7 +48,7 @@ define('EQEOS_E_NO_EQ', 5502);
  */
 define('EQEOS_E_NO_VAR', 5503);
 
-if(!defined(DEBUG))
+if(!defined('DEBUG'))
 	define('DEBUG', false);
 
 //We use a stack class so we don't have to keep track of indices for an array
@@ -58,18 +58,31 @@ require_once "stack.class.php";
 
 
 /**
- * Equation Operating System (EOS)
+ * Equation Operating System (EOS) Parser
  *
  * An EOS that can safely parse equations from unknown sources returning
  * the calculated value of it.  Can also handle solving equations with
  * variables, if the variables are defined (useful for the Graph creation
  * that the second and extended class in this file provides. {@see eqGraph})
  * This class was created for PHP4 in 2005, updated to fully PHP5 in 2013.
+ * 
+ * @author Jon Lawrence <jlawrence11@gmail.com>
+ * @copyright Copyright ©2005-2013, Jon Lawrence
+ * @license http://opensource.org/licenses/LGPL-2.1 LGPL 2.1 License
+ * @package Math
+ * @subpackage EOS
+ * @version 2.0
  */
 class eqEOS {
+    /**#@+
+     *Private variables
+     */
 	private $postFix;
 	private $inFix;
-	
+    /**#@-*/
+    /**#@+
+     * Protected variables
+     */
 	//What are opening and closing selectors
 	protected $SEP = array('open' => array('(', '['), 'close' => array(')', ']'));
 	//Top presedence following operator - not in use
@@ -80,7 +93,7 @@ class eqEOS {
 	protected $ST2 = array('+', '-');
 	//Allowed functions
 	protected $FNC = array('sin', 'cos', 'tan', 'csc', 'sec', 'cot');
-
+    /**#@-*/
 	/**
 	 * Construct method
 	 *
@@ -134,7 +147,7 @@ class eqEOS {
 	 *
 	 * @link http://en.wikipedia.org/wiki/Infix_notation Infix Notation
 	 * @link http://en.wikipedia.org/wiki/Reverse_Polish_notation Reverse Polish Notation
-	 * @param String $inFix A standard notation equation
+	 * @param String $infix A standard notation equation
 	 * @return Array Fully formed RPN Stack
 	 */
 	public function in2post($infix = null) {
@@ -164,10 +177,10 @@ class eqEOS {
 			// if the character is numerical
 			if(preg_match('/[0-9.]/i', $chr)) {
 				// if the previous character was not a '-' or a number
-				if((!preg_match('/[0-9.]/i', $lChar) && ($lChar != "")) && ($pf[$pfIndex]!="-"))
+				if((!preg_match('/[0-9.]/i', $lChar) && ($lChar != "")) && (@$pf[$pfIndex]!="-"))
 					$pfIndex++;	// increase the index so as not to overlap anything
 				// Add the number character to the array
-				$pf[$pfIndex] .= $chr;
+				@$pf[$pfIndex] .= $chr;
 			}
 			// If the character opens a set e.g. '(' or '['
 			elseif(in_array($chr, $this->SEP['open'])) {
@@ -425,7 +438,8 @@ class eqEOS {
  * @author Jon Lawrence <jlawrence11@gmail.com>
  * @copyright Copyright ©2005-2013 Jon Lawrence
  * @license http://opensource.org/licenses/LGPL-2.1 LGPL 2.1 License
- * @package eos.class.php
+ * @package Math
+ * @subpackage EOS
  * @version 2.0
  */
 class eqGraph extends eqEOS {
