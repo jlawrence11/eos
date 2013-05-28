@@ -347,6 +347,11 @@ class eqEOS {
 		//Find all the variables that were passed and replaces them
 		while((preg_match('/(.){0,1}[&$]([a-zA-Z]+)(.){0,1}/', $infix, $match)) != 0) {
 
+			//remove notices by defining if undefined.
+			if(!isset($match[3])) {
+				$match[3] = "";
+			}
+
 			if(DEBUG)
 				fwrite($hand, "{$match[1]} || {$match[3]}\n");
 			// Ensure that the variable has an operator or something of that sort in front and back - if it doesn't, add an implied '*'
