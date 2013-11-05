@@ -88,7 +88,7 @@ It will equal '20', as every variable is replaced by 2.  However, if called like
                                 'x' => 2,
                                 'y' => 3);
 
-You will get the result of '40' as it would equate to '5*2^3', as expected.
+You will get the result of '40' as it would equate to `5*2^3`, as expected.
 
 #### eqGraph
 

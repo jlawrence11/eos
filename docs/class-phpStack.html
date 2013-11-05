@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="ApiGen 2.8.0" />
+
+	<title>Class phpStack | Classes</title>
+
+	<script type="text/javascript" src="resources/combined.js?4101338664"></script>
+	<script type="text/javascript" src="elementlist.js?2171688255"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+			<h3>Packages</h3>
+			<ul>
+				<li class="active"><a href="package-Math.html">Math<span></span></a>
+						<ul>
+				<li class="active"><a href="package-Math.EOS.html">EOS</a>
+						</li>
+				<li><a href="package-Math.Matrix.html">Matrix</a>
+						</li>
+							</ul></li>
+				<li><a href="package-PHP.html">PHP</a>
+						</li>
+			</ul>
+		</div>
+
+		<hr />
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-eqEOS.html">eqEOS</a></li>
+				<li><a href="class-eqGraph.html">eqGraph</a></li>
+				<li class="active"><a href="class-phpStack.html">phpStack</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="" />
+		<input type="hidden" name="ie" value="UTF-8" />
+		<input type="text" name="q" class="text" />
+		<input type="submit" value="Search" />
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="package-Math.EOS.html" title="Summary of Math\EOS"><span>Package</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class phpStack</h1>
+
+
+	<div class="description">
+	
+<p>Basic Stack Class.</p>
+
+<p>Created for use with eqEOS. May eventually be replaced with native PHP
+functions <code>array_pop()</code>, <code>array_push()</code>, and
+<code>end()</code></p>
+
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		
+		<b>Package:</b> <a href="package-Math.html">Math</a>\<a href="package-Math.EOS.html">EOS</a><br />
+
+				<b>Copyright:</b>
+				Copyright ©2005-2013 Jon Lawrence<br />
+				<b>License:</b>
+				<a href="http://opensource.org/licenses/LGPL-2.1">LGPL 2.1 License</a><br />
+				<b>Author:</b>
+				Jon Lawrence &lt;<a
+href="mailto:jlawrence11&#64;gmail.com">jlawrence11&#64;<!---->gmail.com</a>&gt;<br />
+				<b>Version:</b>
+				2.0<br />
+		<b>Located at</b> <a href="source-class-phpStack.html#3-112" title="Go to source code">stack.class.php</a><br />
+	</div>
+
+
+
+	<table class="summary" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-phpStack.html#20-29" title="Go to source code">__construct</a>( )</code>
+
+		<div class="description short">
+			
+<p>Constructor</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Constructor</p>
+
+<p>Initializes the stack</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="peek" id="_peek">
+
+		<td class="attributes"><code>
+			 public 
+			Mixed
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_peek">#</a>
+		<code><a href="source-class-phpStack.html#31-43" title="Go to source code">peek</a>( )</code>
+
+		<div class="description short">
+			
+<p>Peek</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Peek</p>
+
+<p>Will view the last element of the stack without removing it</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>Mixed</code><br>An element of the array or false if none exist<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="poke" id="_poke">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_poke">#</a>
+		<code><a href="source-class-phpStack.html#45-54" title="Go to source code">poke</a>( <span>Mixed <var>$data</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Poke</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Poke</p>
+
+<p>Will add an element to the end of the stack</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$data</var></dt>
+					<dd><code>Mixed</code><br>Element to add</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="push" id="_push">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_push">#</a>
+		<code><a href="source-class-phpStack.html#56-67" title="Go to source code">push</a>( <span>Mixed <var>$data</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Push</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Push</p>
+
+<p>Alias of <code><a href="class-phpStack.html#_poke">phpStack::poke()</a></code> Adds element to the stack</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$data</var></dt>
+					<dd><code>Mixed</code><br>Element to add</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="pop" id="_pop">
+
+		<td class="attributes"><code>
+			 public 
+			Mixed
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_pop">#</a>
+		<code><a href="source-class-phpStack.html#69-85" title="Go to source code">pop</a>( )</code>
+
+		<div class="description short">
+			
+<p>Pop</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Pop</p>
+
+<p>Retrives an element from the end of the stack, and removes it from the stack
+at the same time. If no elements, returns boolean false</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>Mixed</code><br>Element at end of stack or false if none exist<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="clear" id="_clear">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_clear">#</a>
+		<code><a href="source-class-phpStack.html#87-95" title="Go to source code">clear</a>( )</code>
+
+		<div class="description short">
+			
+<p>Clear</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Clear</p>
+
+<p>Clears the stack to be reused.</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getStack" id="_getStack">
+
+		<td class="attributes"><code>
+			 public 
+			Mixed
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getStack">#</a>
+		<code><a href="source-class-phpStack.html#97-111" title="Go to source code">getStack</a>( )</code>
+
+		<div class="description short">
+			
+<p>Get Stack</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get Stack</p>
+
+<p>Returns the array of stack elements, keeping all, indexed at 0</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>Mixed</code><br>Array of stack elements or false if none exist.<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		Classes API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>

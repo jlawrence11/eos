@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="ApiGen 2.8.0" />
+
+	<title>Class eqEOS | Classes</title>
+
+	<script type="text/javascript" src="resources/combined.js?4101338664"></script>
+	<script type="text/javascript" src="elementlist.js?2171688255"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+			<h3>Packages</h3>
+			<ul>
+				<li class="active"><a href="package-Math.html">Math<span></span></a>
+						<ul>
+				<li class="active"><a href="package-Math.EOS.html">EOS</a>
+						</li>
+				<li><a href="package-Math.Matrix.html">Matrix</a>
+						</li>
+							</ul></li>
+				<li><a href="package-PHP.html">PHP</a>
+						</li>
+			</ul>
+		</div>
+
+		<hr />
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li class="active"><a href="class-eqEOS.html">eqEOS</a></li>
+				<li><a href="class-eqGraph.html">eqGraph</a></li>
+				<li><a href="class-phpStack.html">phpStack</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="" />
+		<input type="hidden" name="ie" value="UTF-8" />
+		<input type="text" name="q" class="text" />
+		<input type="submit" value="Search" />
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="package-Math.EOS.html" title="Summary of Math\EOS"><span>Package</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class eqEOS</h1>
+
+
+	<div class="description">
+	
+<p>Equation Operating System (EOS) Parser</p>
+
+<p>An EOS that can safely parse equations from unknown sources returning the
+calculated value of it. Can also handle solving equations with variables, if the
+variables are defined (useful for the Graph creation that the second and
+extended class in this file provides. <code><a href="class-eqGraph.html">eqGraph</a></code>) This class was created for
+PHP4 in 2005, updated to fully PHP5 in 2013.</p>
+
+	</div>
+
+
+
+	<div>
+		<h4>Direct known subclasses</h4>
+			<a href="class-eqGraph.html">eqGraph</a>
+	</div>
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		
+		<b>Package:</b> <a href="package-Math.html">Math</a>\<a href="package-Math.EOS.html">EOS</a><br />
+
+				<b>Copyright:</b>
+				Copyright ©2005-2013, Jon Lawrence<br />
+				<b>License:</b>
+				<a href="http://opensource.org/licenses/LGPL-2.1">LGPL 2.1 License</a><br />
+				<b>Author:</b>
+				Jon Lawrence &lt;<a
+href="mailto:jlawrence11&#64;gmail.com">jlawrence11&#64;<!---->gmail.com</a>&gt;<br />
+				<b>Version:</b>
+				2.0<br />
+		<b>Located at</b> <a href="source-class-eqEOS.html#60-426" title="Go to source code">eos.class.php</a><br />
+	</div>
+
+
+
+	<table class="summary" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-eqEOS.html#97-110" title="Go to source code">__construct</a>( <span>String <var>$inFix</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Construct method</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Construct method</p>
+
+<p>Will initiate the class. If variable given, will assign to internal variable
+to solve with this::solveIF() without needing additional input. Initializing
+with a variable is not suggested.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$inFix</var></dt>
+					<dd><code>String</code><br>$inFix Standard format equation</dd>
+				</dl></div>
+
+
+
+				<h4>See</h4>
+				<div class="list">
+						<code><code><a href="class-eqEOS.html#_solveIF">eqEOS::solveIF()</a></code></code><br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="in2post" id="_in2post">
+
+		<td class="attributes"><code>
+			 public 
+			Array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_in2post">#</a>
+		<code><a href="source-class-eqEOS.html#141-253" title="Go to source code">in2post</a>( <span>String <var>$infix</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Infix to Postfix</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Infix to Postfix</p>
+
+<p>Converts an infix (standard) equation to postfix (RPN) notation. Sets the
+internal variable $this-&gt;postFix for the eqEOS::solvePF() function to
+use.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$infix</var></dt>
+					<dd><code>String</code><br>$infix A standard notation equation</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>Array</code><br>Fully formed RPN Stack<br />
+				</div>
+
+
+				<h4>Link</h4>
+				<div class="list">
+						<a href="http://en.wikipedia.org/wiki/Infix_notation">Infix Notation</a><br />
+						<a href="http://en.wikipedia.org/wiki/Reverse_Polish_notation">Reverse Polish Notation</a><br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="solvePF" id="_solvePF">
+
+		<td class="attributes"><code>
+			 public 
+			Float
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_solvePF">#</a>
+		<code><a href="source-class-eqEOS.html#255-318" title="Go to source code">solvePF</a>( <span>Array <var>$pfArray</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Solve Postfix (RPN)</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Solve Postfix (RPN)</p>
+
+<p>This function will solve a RPN array. Default action is to solve the RPN
+array stored in the class from eqEOS::in2post(), can take an array input to
+solve as well, though default action is prefered.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$pfArray</var></dt>
+					<dd><code>Array</code><br>$pfArray RPN formatted array. Optional.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>Float</code><br>Result of the operation.<br />
+				</div>
+
+
+				<h4>Link</h4>
+				<div class="list">
+						<a href="http://en.wikipedia.org/wiki/Reverse_Polish_notation">Postix Notation</a><br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="solveIF" id="_solveIF">
+
+		<td class="attributes"><code>
+			 public 
+			Float
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_solveIF">#</a>
+		<code><a href="source-class-eqEOS.html#321-425" title="Go to source code">solveIF</a>( <span>String <var>$infix</var></span>, <span>String|Array <var>$vArray</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Solve Infix (Standard) Notation Equation</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Solve Infix (Standard) Notation Equation</p>
+
+<p>Will take a standard equation with optional variables and solve it. Variables
+must begin with '&amp;' will expand to allow variables to begin with '$' (TODO)
+The variable array must be in the format of 'variable' =&gt; value. If variable
+array is scalar (ie 5), all variables will be replaced with it.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$infix</var></dt>
+					<dd><code>String</code><br>$infix Standard Equation to solve</dd>
+					<dt><var>$vArray</var></dt>
+					<dd><code>String|Array</code><br>$vArray Variable replacement</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>Float</code><br>Solved equation<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+	<table class="summary" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="SEP" id="$SEP">
+		<td class="attributes"><code>
+			protected  
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-eqEOS.html#87" title="Go to source code"><var>$SEP</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">array</span>(<span class="php-quote">'open'</span> =&gt; <span class="php-keyword1">array</span>(<span class="php-quote">'('</span>, <span class="php-quote">'['</span>), <span class="php-quote">'close'</span> =&gt; <span class="php-keyword1">array</span>(<span class="php-quote">')'</span>, <span class="php-quote">']'</span>))</code></td>
+		<td class="description"><div>
+			<a href="#$SEP" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="SGL" id="$SGL">
+		<td class="attributes"><code>
+			protected  
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-eqEOS.html#89" title="Go to source code"><var>$SGL</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">array</span>(<span class="php-quote">'!'</span>)</code></td>
+		<td class="description"><div>
+			<a href="#$SGL" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="ST" id="$ST">
+		<td class="attributes"><code>
+			protected  
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-eqEOS.html#91" title="Go to source code"><var>$ST</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">array</span>(<span class="php-quote">'^'</span>)</code></td>
+		<td class="description"><div>
+			<a href="#$ST" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="ST1" id="$ST1">
+		<td class="attributes"><code>
+			protected  
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-eqEOS.html#92" title="Go to source code"><var>$ST1</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">array</span>(<span class="php-quote">'/'</span>, <span class="php-quote">'*'</span>, <span class="php-quote">'%'</span>)</code></td>
+		<td class="description"><div>
+			<a href="#$ST1" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="ST2" id="$ST2">
+		<td class="attributes"><code>
+			protected  
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-eqEOS.html#93" title="Go to source code"><var>$ST2</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">array</span>(<span class="php-quote">'+'</span>, <span class="php-quote">'-'</span>)</code></td>
+		<td class="description"><div>
+			<a href="#$ST2" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="FNC" id="$FNC">
+		<td class="attributes"><code>
+			protected  
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-eqEOS.html#95" title="Go to source code"><var>$FNC</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">array</span>(<span class="php-quote">'sin'</span>, <span class="php-quote">'cos'</span>, <span class="php-quote">'tan'</span>, <span class="php-quote">'csc'</span>, <span class="php-quote">'sec'</span>, <span class="php-quote">'cot'</span>)</code></td>
+		<td class="description"><div>
+			<a href="#$FNC" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		Classes API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>

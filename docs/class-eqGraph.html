@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="ApiGen 2.8.0" />
+
+	<title>Class eqGraph | Classes</title>
+
+	<script type="text/javascript" src="resources/combined.js?4101338664"></script>
+	<script type="text/javascript" src="elementlist.js?2171688255"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+			<h3>Packages</h3>
+			<ul>
+				<li class="active"><a href="package-Math.html">Math<span></span></a>
+						<ul>
+				<li class="active"><a href="package-Math.EOS.html">EOS</a>
+						</li>
+				<li><a href="package-Math.Matrix.html">Matrix</a>
+						</li>
+							</ul></li>
+				<li><a href="package-PHP.html">PHP</a>
+						</li>
+			</ul>
+		</div>
+
+		<hr />
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-eqEOS.html">eqEOS</a></li>
+				<li class="active"><a href="class-eqGraph.html">eqGraph</a></li>
+				<li><a href="class-phpStack.html">phpStack</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="" />
+		<input type="hidden" name="ie" value="UTF-8" />
+		<input type="text" name="q" class="text" />
+		<input type="submit" value="Search" />
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="package-Math.EOS.html" title="Summary of Math\EOS"><span>Package</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class eqGraph</h1>
+
+
+	<div class="description">
+	
+<p>Equation Graph</p>
+
+<p>Fun class that requires the GD libraries to give visual output of an equation
+to the user. Extends the eqEOS class.</p>
+
+	</div>
+
+	<dl class="tree">
+		<dd style="padding-left:0px">
+			<a href="class-eqEOS.html"><span>eqEOS</span></a>
+			
+			
+			
+		</dd>
+		<dd style="padding-left:30px">
+			<img src="resources/inherit.png" alt="Extended by" />
+<b><span>eqGraph</span></b>			
+			
+			
+		</dd>
+	</dl>
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		
+		<b>Package:</b> <a href="package-Math.html">Math</a>\<a href="package-Math.EOS.html">EOS</a><br />
+
+				<b>Copyright:</b>
+				Copyright ©2005-2013 Jon Lawrence<br />
+				<b>License:</b>
+				<a href="http://opensource.org/licenses/LGPL-2.1">LGPL 2.1 License</a><br />
+				<b>Author:</b>
+				Jon Lawrence &lt;<a
+href="mailto:jlawrence11&#64;gmail.com">jlawrence11&#64;<!---->gmail.com</a>&gt;<br />
+				<b>Version:</b>
+				2.0<br />
+		<b>Located at</b> <a href="source-class-eqGraph.html#432-618" title="Go to source code">eos.class.php</a><br />
+	</div>
+
+
+
+	<table class="summary" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-eqGraph.html#451-466" title="Go to source code">__construct</a>( <span>Integer <var>$width</var> = <span class="php-num">640</span></span>, <span>Integer <var>$height</var> = <span class="php-num">480</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Constructor</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Constructor</p>
+
+<p>Sets up the Graph class with an image width and height defaults to
+640x480</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$width</var></dt>
+					<dd><code>Integer</code><br>$width Image width</dd>
+					<dt><var>$height</var></dt>
+					<dd><code>Integer</code><br>$height Image height</dd>
+				</dl></div>
+
+
+
+
+				<h4>Overrides</h4>
+				<div class="list"><code><a href="class-eqEOS.html#___construct">eqEOS::__construct()</a></code></div>
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="graph" id="_graph">
+
+		<td class="attributes"><code>
+			 public 
+			Null
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_graph">#</a>
+		<code><a href="source-class-eqGraph.html#469-574" title="Go to source code">graph</a>( <span>String <var>$eq</var></span>, <span>Integer <var>$xLow</var></span>, <span>Integer <var>$xHigh</var></span>, <span>Float <var>$xStep</var></span>, <span>Boolean <var>$xyGrid</var> = <span class="php-keyword1">false</span></span>, <span>Boolean <var>$yGuess</var> = <span class="php-keyword1">true</span></span>, <span>Integer <var>$yLow</var> = <span class="php-keyword1">false</span></span>, <span>Integer <var>$yHigh</var> = <span class="php-keyword1">false</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Create GD Graph Image</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Create GD Graph Image</p>
+
+<p>Creates a GD image based on the equation given with the parameters that are
+set</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$eq</var></dt>
+					<dd><code>String</code><br>$eq Equation to use. Needs variable in equation to create graph, all variables
+are interpreted as 'x'</dd>
+					<dt><var>$xLow</var></dt>
+					<dd><code>Integer</code><br>$xLow Lower x-bound for graph</dd>
+					<dt><var>$xHigh</var></dt>
+					<dd><code>Integer</code><br>$xHigh Upper x-bound for graph</dd>
+					<dt><var>$xStep</var></dt>
+					<dd><code>Float</code><br>$xStep Stepping points while solving, the lower, the better precision. Slow if
+lower than .01</dd>
+					<dt><var>$xyGrid</var></dt>
+					<dd><code>Boolean</code><br>$xyGrid Draw gridlines?</dd>
+					<dt><var>$yGuess</var></dt>
+					<dd><code>Boolean</code><br>$yGuess Guess the upper/lower yBounds?</dd>
+					<dt><var>$yLow</var></dt>
+					<dd><code>Integer</code><br>$yLow Lower y-bound</dd>
+					<dt><var>$yHigh</var></dt>
+					<dd><code>Integer</code><br>$yHigh Upper y-bound</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>Null</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="outJPG" id="_outJPG">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_outJPG">#</a>
+		<code><a href="source-class-eqGraph.html#576-584" title="Go to source code">outJPG</a>( )</code>
+
+		<div class="description short">
+			
+<p>Sends JPG to browser</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Sends JPG to browser</p>
+
+<p>Sends a JPG image with proper header to output</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="outPNG" id="_outPNG">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_outPNG">#</a>
+		<code><a href="source-class-eqGraph.html#586-594" title="Go to source code">outPNG</a>( )</code>
+
+		<div class="description short">
+			
+<p>Sends PNG to browser</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Sends PNG to browser</p>
+
+<p>Sends a PNG image with proper header to output</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getImage" id="_getImage">
+
+		<td class="attributes"><code>
+			 public 
+			Resource
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getImage">#</a>
+		<code><a href="source-class-eqGraph.html#596-606" title="Go to source code">getImage</a>( )</code>
+
+		<div class="description short">
+			
+<p>Output GD Image</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Output GD Image</p>
+
+<p>Will give the developer the GD resource for the graph that can be used to
+store the graph to the FS or other media</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>Resource</code><br>GD Image Resource<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="outGD" id="_outGD">
+
+		<td class="attributes"><code>
+			 public 
+			Resource
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_outGD">#</a>
+		<code><a href="source-class-eqGraph.html#608-617" title="Go to source code">outGD</a>( )</code>
+
+		<div class="description short">
+			
+<p>Output GD Image</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Output GD Image</p>
+
+<p>Alias for eqGraph::getImage()</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>Resource</code><br>GD Image resource<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+	<table class="summary inherited">
+	<caption>Methods inherited from <a href="class-eqEOS.html#methods">eqEOS</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-eqEOS.html#_in2post">in2post()</a>, 
+			<a href="class-eqEOS.html#_solveIF">solveIF()</a>, 
+			<a href="class-eqEOS.html#_solvePF">solvePF()</a>
+		</code></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+	<table class="summary inherited">
+	<caption>Properties inherited from <a href="class-eqEOS.html#properties">eqEOS</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-eqEOS.html#$FNC"><var>$FNC</var></a>, 
+			<a href="class-eqEOS.html#$SEP"><var>$SEP</var></a>, 
+			<a href="class-eqEOS.html#$SGL"><var>$SGL</var></a>, 
+			<a href="class-eqEOS.html#$ST"><var>$ST</var></a>, 
+			<a href="class-eqEOS.html#$ST1"><var>$ST1</var></a>, 
+			<a href="class-eqEOS.html#$ST2"><var>$ST2</var></a>
+		</code></td>
+	</tr>
+	</table>
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		Classes API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>

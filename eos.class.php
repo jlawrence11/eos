@@ -11,6 +11,9 @@
  * developer.  It is a safe way to evaluate expressions without putting
  * the system at risk.
  *
+ * 2013/06 UPDATE:
+ * - Added 'abs' (absolute value) support per tjbaron's update.
+ *
  * 2013/04 UPDATE:
  * - Moved to native class functions for PHP5
  * - Removed deprecated `eregi` calls to `preg_match`
@@ -92,7 +95,7 @@ class eqEOS {
 	protected $ST1 = array('/', '*', '%');
 	protected $ST2 = array('+', '-');
 	//Allowed functions
-	protected $FNC = array('sin', 'cos', 'tan', 'csc', 'sec', 'cot');
+	protected $FNC = array('sin', 'cos', 'tan', 'csc', 'sec', 'cot', 'abs');
     /**#@-*/
 	/**
 	 * Construct method
@@ -416,6 +419,9 @@ class eqEOS {
 						return false;
 					}
 					$ans = 1/$tmp;
+					break;
+				case "abs":
+					$ans = abs($func);
 					break;
 				default:
 					break;

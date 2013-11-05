@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="ApiGen 2.8.0" />
+
+	<title>Class LW_Matrix | Classes</title>
+
+	<script type="text/javascript" src="resources/combined.js?4101338664"></script>
+	<script type="text/javascript" src="elementlist.js?2171688255"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+			<h3>Packages</h3>
+			<ul>
+				<li class="active"><a href="package-Math.html">Math<span></span></a>
+						<ul>
+				<li><a href="package-Math.EOS.html">EOS</a>
+						</li>
+				<li class="active"><a href="package-Math.Matrix.html">Matrix</a>
+						</li>
+							</ul></li>
+				<li><a href="package-PHP.html">PHP</a>
+						</li>
+			</ul>
+		</div>
+
+		<hr />
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li class="active"><a href="class-LW_Matrix.html">LW_Matrix</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="" />
+		<input type="hidden" name="ie" value="UTF-8" />
+		<input type="text" name="q" class="text" />
+		<input type="submit" value="Search" />
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="package-Math.Matrix.html" title="Summary of Math\Matrix"><span>Package</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class LW_Matrix</h1>
+
+
+	<div class="description">
+	
+<p>LW_Matrix Class</p>
+
+<p>This class will allow you to create and use Matrices as well as providing
+common Matrix operations. It uses PHP5 for OOP and Error Throwing and is
+commented for the PHPDoc Parser for documentation creation.</p>
+
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		
+		<b>Package:</b> <a href="package-Math.html">Math</a>\<a href="package-Math.Matrix.html">Matrix</a><br />
+
+				<b>Copyright:</b>
+				Copyright ©2012, Jon Lawrence<br />
+				<b>License:</b>
+				<a href="http://opensource.org/licenses/LGPL-2.1">LGPL 2.1 License</a><br />
+				<b>Author:</b>
+				Jon Lawrence &lt;<a
+href="mailto:JLawrence11&#64;gmail.com">JLawrence11&#64;<!---->gmail.com</a>&gt;<br />
+				<b>Version:</b>
+				$Id: matrix.class.php 10 2012-08-06 23:41:36Z jlawrence11 $<br />
+		<b>Located at</b> <a href="source-class-LW_Matrix.html#46-677" title="Go to source code">matrix.class.php</a><br />
+	</div>
+
+
+
+	<table class="summary" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-LW_Matrix.html#64-76" title="Go to source code">__construct</a>( <span>String <var>$mText</var> = <span class="php-quote">&quot;&quot;</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Construct method</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Construct method</p>
+
+<p>For format of input string, see the see tag below</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$mText</var></dt>
+					<dd><code>String</code><br>$mText Matrix text input</dd>
+				</dl></div>
+
+
+
+				<h4>See</h4>
+				<div class="list">
+						<code><code><a href="class-LW_Matrix.html#__assign">LW_Matrix::_assign()</a></code></code><br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="_assign" id="__assign">
+
+		<td class="attributes"><code>
+			 public 
+			Boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#__assign">#</a>
+		<code><a href="source-class-LW_Matrix.html#78-118" title="Go to source code">_assign</a>( <span>String <var>$mText</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Create a matrix based on string input similar to the TI Calculators input
+string "[1,2,3;4,5,6;7,8,9]" is the equivalent of the matrix:</p>
+
+<pre>
+| 1  2  3 |
+| 4  5  6 |
+| 7  8  9 |
+</pre>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Create a matrix based on string input similar to the TI Calculators input
+string "[1,2,3;4,5,6;7,8,9]" is the equivalent of the matrix:</p>
+
+<pre>
+| 1  2  3 |
+| 4  5  6 |
+| 7  8  9 |
+</pre>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$mText</var></dt>
+					<dd><code>String</code><br>$mText The matrix in string format to assign to the current object</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>Boolean</code><br>True if is passes verification after being converted<br />
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					<code><code><a href="class-Exception.html">Exception</a></code></code><br>If the input text is not in a valid format<br />
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="isValid" id="_isValid">
+
+		<td class="attributes"><code>
+			 public 
+			Boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_isValid">#</a>
+		<code><a href="source-class-LW_Matrix.html#153-168" title="Go to source code">isValid</a>( <span>Array <var>$mArray</var> = <span class="php-keyword1">false</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Is it a valid matrix?</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Is it a valid matrix?</p>
+
+<p>Public function to tell the class user whether or not the passed array is
+valid, if no array is passed, it will tell the user whether the matrix of the
+current instance is valid. Valid is denoted by all rows have the same number of
+columns.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$mArray</var></dt>
+					<dd><code>Array</code><br>$mArray Array to be used, if not assigned will default to $this-&gt;matrix</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>Boolean</code><br>True/False depending on if array is a valid matrix<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="isSquare" id="_isSquare">
+
+		<td class="attributes"><code>
+			 public 
+			Boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_isSquare">#</a>
+		<code><a href="source-class-LW_Matrix.html#170-188" title="Go to source code">isSquare</a>( <span>Array <var>$mArray</var> = <span class="php-keyword1">false</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Is it a square Matrix?</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Is it a square Matrix?</p>
+
+<p>Will determine whether or not the matrix is valid, and if it is, will
+determine if the matrix is a square matrix (n by n).</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$mArray</var></dt>
+					<dd><code>Array</code><br>$mArray Matrix array, if not assigned will use $this-&gt;matrix</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>Boolean</code><br>True/False depending on whether or not the matrix is square<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="_getN" id="__getN">
+
+		<td class="attributes"><code>
+			 public 
+			Integer
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#__getN">#</a>
+		<code><a href="source-class-LW_Matrix.html#190-211" title="Go to source code">_getN</a>( <span>Array <var>$mArray</var> = <span class="php-keyword1">false</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Get 'n' from a square (n by n) Matrix</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get 'n' from a square (n by n) Matrix</p>
+
+<p>Will check to see if a matrix is square, if so, will return 'n', which is the
+number of rows==columns in the matrix</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$mArray</var></dt>
+					<dd><code>Array</code><br>$mArray Matrix array, uses $this-&gt;matrix if not assigned</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>Integer</code><br>The 'n' of a square matrix, or false if not square<br />
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					<code><code><a href="class-Exception.html">Exception</a></code></code><br>If not a square matrix, throws an exception<br />
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="createIdentity" id="_createIdentity">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-LW_Matrix.html">LW_Matrix</a></code>|Boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_createIdentity">#</a>
+		<code><a href="source-class-LW_Matrix.html#213-243" title="Go to source code">createIdentity</a>( <span>Integer <var>$n</var></span>, <span>Boolean <var>$useInternal</var> = <span class="php-keyword1">true</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Create an Identity Matrix</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Create an Identity Matrix</p>
+
+<p>Creates an Identity Matrix of size 'n'.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$n</var></dt>
+					<dd><code>Integer</code><br>$n The rows/cols of identity matrix</dd>
+					<dt><var>$useInternal</var></dt>
+					<dd><code>Boolean</code><br>$useInternal If true will set $this-&gt;matrix</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-LW_Matrix.html">LW_Matrix</a></code>|Boolean</code><br>Return an identity matrix if $useInternal is false, otherwise 'true'<br />
+				</div>
+
+
+				<h4>Link</h4>
+				<div class="list">
+						<a href="http://en.wikipedia.org/wiki/Identity_matrix">http://en.wikipedia.org/wiki/Identity_matrix</a><br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="toString" id="_toString">
+
+		<td class="attributes"><code>
+			 public 
+			String
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_toString">#</a>
+		<code><a href="source-class-LW_Matrix.html#245-271" title="Go to source code">toString</a>( <span>Array <var>$mArray</var> = <span class="php-keyword1">false</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Convert current Matrix to string format</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Convert current Matrix to string format</p>
+
+<p>Convert an array to the string format used by this class.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$mArray</var></dt>
+					<dd><code>Array</code><br>$mArray if not assigned will use this instance's matrix.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>String</code><br>The array broken down in to string format<br />
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					<code><code><a href="class-Exception.html">Exception</a></code></code><br>If matrix is not an array<br />
+				</div>
+
+				<h4>See</h4>
+				<div class="list">
+						<code><code><a href="class-LW_Matrix.html#__assign">LW_Matrix::_assign()</a></code></code><br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="__toString" id="___toString">
+
+		<td class="attributes"><code>
+			 public 
+			String
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___toString">#</a>
+		<code><a href="source-class-LW_Matrix.html#273-284" title="Go to source code">__toString</a>( )</code>
+
+		<div class="description short">
+			
+<p>Overload PHP's class __toString() method</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Overload PHP's class __toString() method</p>
+
+<p>PHP magic method for "echoing" this object without a specific method called
+Will use <code><a href="class-LW_Matrix.html#_toString">LW_Matrix::toString()</a></code> with no parameters for it's return.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>String</code><br>Returns the $matrix value in string format<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getArray" id="_getArray">
+
+		<td class="attributes"><code>
+			 public 
+			Array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getArray">#</a>
+		<code><a href="source-class-LW_Matrix.html#286-296" title="Go to source code">getArray</a>( )</code>
+
+		<div class="description short">
+			
+<p>Get Matrix Array</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get Matrix Array</p>
+
+<p>Will return the matrix array of the current instance.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>Array</code><br>The matrix array of the current instance<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="prettyPrint" id="_prettyPrint">
+
+		<td class="attributes"><code>
+			 public 
+			String
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_prettyPrint">#</a>
+		<code><a href="source-class-LW_Matrix.html#298-329" title="Go to source code">prettyPrint</a>( <span>Integer <var>$width</var> = <span class="php-num">80</span></span>, <span>Array <var>$mArray</var> = <span class="php-keyword1">false</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Formatted Matrix output for use in console</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Formatted Matrix output for use in console</p>
+
+<p>Will output the matrix in 'pretty' format, if used with 'echo' and HTML,
+surround it by the '&lt;</p>
+
+<pre>&gt;' and '&lt;</pre>
+
+<p>' tags to display properly</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$width</var></dt>
+					<dd><code>Integer</code><br>$width The width of printing space to use</dd>
+					<dt><var>$mArray</var></dt>
+					<dd><code>Array</code><br>$mArray Matrix array, defaults to $this-&gt;matrix</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>String</code><br>"Pretty-Printed" matrix in ASCII format<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="addMatrix" id="_addMatrix">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-LW_Matrix.html">LW_Matrix</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_addMatrix">#</a>
+		<code><a href="source-class-LW_Matrix.html#331-367" title="Go to source code">addMatrix</a>( <span><code><a href="class-LW_Matrix.html">LW_Matrix</a></code> <var>$nMatrix</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Adds two matrices together</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Adds two matrices together</p>
+
+<p>Will add the inputted Matrix to the current instance, and return the result
+as LW_Matrix class.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$nMatrix</var></dt>
+					<dd><code><code><a href="class-LW_Matrix.html">LW_Matrix</a></code></code><br>$nMatrix Matrix class to be added to current instance</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-LW_Matrix.html">LW_Matrix</a></code></code><br>The result of the addition<br />
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					<code><code><a href="class-Exception.html">Exception</a></code></code><br>$msg of exception explains problem<br />
+				</div>
+
+				<h4>Link</h4>
+				<div class="list">
+						<a href="http://en.wikipedia.org/wiki/Matrix_addition">http://en.wikipedia.org/wiki/Matrix_addition</a><br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="subMatrix" id="_subMatrix">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-LW_Matrix.html">LW_Matrix</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_subMatrix">#</a>
+		<code><a href="source-class-LW_Matrix.html#369-405" title="Go to source code">subMatrix</a>( <span><code><a href="class-LW_Matrix.html">LW_Matrix</a></code> <var>$nMatrix</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Subtract Matrices</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Subtract Matrices</p>
+
+<p>Will subtract the inputted Matrix from the current instance, and return the
+result as LW_Matrix class.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$nMatrix</var></dt>
+					<dd><code><code><a href="class-LW_Matrix.html">LW_Matrix</a></code></code><br>$nMatrix Matrix class to be subtracted from current instance</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-LW_Matrix.html">LW_Matrix</a></code></code><br>The result of the subtraction<br />
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					<code><code><a href="class-Exception.html">Exception</a></code></code><br>$msg of exception explains problem<br />
+				</div>
+
+				<h4>Link</h4>
+				<div class="list">
+						<a href="http://en.wikipedia.org/wiki/Matrix_subtraction">http://en.wikipedia.org/wiki/Matrix_subtraction</a><br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="mpScalar" id="_mpScalar">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-LW_Matrix.html">LW_Matrix</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_mpScalar">#</a>
+		<code><a href="source-class-LW_Matrix.html#407-436" title="Go to source code">mpScalar</a>( <span>Float <var>$k</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Multiply current matrix by a scalar value</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Multiply current matrix by a scalar value</p>
+
+<p>Multiplies a matrix by a scalar value (int/float/etc) (constant, ie '2')</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$k</var></dt>
+					<dd><code>Float</code><br>$k The value to multiply the matrix by</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-LW_Matrix.html">LW_Matrix</a></code></code><br>Returns a new Matrix instance with the result<br />
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					<code><code><a href="class-Exception.html">Exception</a></code></code><br>if the instance matrix is not valid<br />
+				</div>
+
+				<h4>Link</h4>
+				<div class="list">
+						<a href="http://en.wikipedia.org/wiki/Scalar_multiplication">http://en.wikipedia.org/wiki/Scalar_multiplication</a><br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getDeterminant" id="_getDeterminant">
+
+		<td class="attributes"><code>
+			 public 
+			Float
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getDeterminant">#</a>
+		<code><a href="source-class-LW_Matrix.html#438-485" title="Go to source code">getDeterminant</a>( <span>Array <var>$mArray</var> = <span class="php-keyword1">false</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Get the Matrix Determinant</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the Matrix Determinant</p>
+
+<p>Finds the determinant of the square matrix, user should not use the
+parameter, as that is meant to allow recursive calling of this function from
+within itself.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$mArray</var></dt>
+					<dd><code>Array</code><br>$mArray The array to find a determinate of</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>Float</code><br>The Determinate of the square matrix<br />
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					<code><code><a href="class-Exception.html">Exception</a></code></code><br>If matrix is 1,1 or is not square<br />
+				</div>
+
+				<h4>Link</h4>
+				<div class="list">
+						<a href="http://en.wikipedia.org/wiki/Matrix_determinant">http://en.wikipedia.org/wiki/Matrix_determinant</a><br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="coFactor" id="_coFactor">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-LW_Matrix.html">LW_Matrix</a></code>|Array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_coFactor">#</a>
+		<code><a href="source-class-LW_Matrix.html#487-540" title="Go to source code">coFactor</a>( <span>Array <var>$cArray</var> = <span class="php-keyword1">false</span></span>, <span>Boolean <var>$asArray</var> = <span class="php-keyword1">true</span></span> )</code>
+
+		<div class="description short">
+			
+<p>coFactor Matrix</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>coFactor Matrix</p>
+
+<p>Will return a LW_Matrix of coFactors for the matrix provided, or an array of
+the matrix as is the default.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$cArray</var></dt>
+					<dd><code>Array</code><br>$cArray A matrix in array format (or $this-&gt;matrix by default)</dd>
+					<dt><var>$asArray</var></dt>
+					<dd><code>Boolean</code><br>$asArray When set to true, will return an array, when false a LW_Matrix Object</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-LW_Matrix.html">LW_Matrix</a></code>|Array</code><br>A matrix of coFactors for the array provided (or current matrix)<br />
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					<code><code><a href="class-Exception.html">Exception</a></code></code><br>if the matrix is not square<br />
+				</div>
+
+				<h4>Link</h4>
+				<div class="list">
+						<a href="http://en.wikipedia.org/wiki/Matrix_cofactors">http://en.wikipedia.org/wiki/Matrix_cofactors</a><br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="transpose" id="_transpose">
+
+		<td class="attributes"><code>
+			 public 
+			Array|<code><a href="class-LW_Matrix.html">LW_Matrix</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_transpose">#</a>
+		<code><a href="source-class-LW_Matrix.html#542-574" title="Go to source code">transpose</a>( <span>Array <var>$cArray</var> = <span class="php-keyword1">false</span></span>, <span>Boolean <var>$asArray</var> = <span class="php-keyword1">true</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Will transpose the current matrix or array provided</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Will transpose the current matrix or array provided</p>
+
+<p>Transposes the current matrix, or the array provided</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$cArray</var></dt>
+					<dd><code>Array</code><br>$cArray the array to transpose (defaults to $this-&gt;matrix)</dd>
+					<dt><var>$asArray</var></dt>
+					<dd><code>Boolean</code><br>$asArray whether to return an array or LW_Matrix object</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>Array|<code><a href="class-LW_Matrix.html">LW_Matrix</a></code></code><br>Defaults to returning an array of the transposed matrix<br />
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					<code><code><a href="class-Exception.html">Exception</a></code></code><br>if the matrix is not square<br />
+				</div>
+
+				<h4>Link</h4>
+				<div class="list">
+						<a href="http://en.wikipedia.org/wiki/Matrix_transpose">http://en.wikipedia.org/wiki/Matrix_transpose</a><br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="adjugate" id="_adjugate">
+
+		<td class="attributes"><code>
+			 public 
+			Array|<code><a href="class-LW_Matrix.html">LW_Matrix</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_adjugate">#</a>
+		<code><a href="source-class-LW_Matrix.html#576-597" title="Go to source code">adjugate</a>( <span>Array <var>$cArray</var> = <span class="php-keyword1">false</span></span>, <span>Boolean <var>$asArray</var> = <span class="php-keyword1">true</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Adjugate Matrix</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Adjugate Matrix</p>
+
+<p>Will return the Adjugate matrix of the array provided or the current matrix
+instance if not provided.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$cArray</var></dt>
+					<dd><code>Array</code><br>$cArray Defaults to $this-&gt;matrix if not provided</dd>
+					<dt><var>$asArray</var></dt>
+					<dd><code>Boolean</code><br>$asArray Whether to return an array or LW_Matrix object</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>Array|<code><a href="class-LW_Matrix.html">LW_Matrix</a></code></code><br>Defaults to return the array of the Adjugate matrix<br />
+				</div>
+
+
+				<h4>Link</h4>
+				<div class="list">
+						<a href="http://en.wikipedia.org/wiki/Adjugate_matrix">http://en.wikipedia.org/wiki/Adjugate_matrix</a><br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="inverse" id="_inverse">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-LW_Matrix.html">LW_Matrix</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_inverse">#</a>
+		<code><a href="source-class-LW_Matrix.html#599-626" title="Go to source code">inverse</a>( <span>Array <var>$cArray</var> = <span class="php-keyword1">false</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Inverse of current matrix</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Inverse of current matrix</p>
+
+<p>Will give the inverse of the array provided or the current matrix Matrix
+returned denoted by A<sup>−1</sup></p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$cArray</var></dt>
+					<dd><code>Array</code><br>$cArray Array to invert (defaults to $this-&gt;matrix)</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-LW_Matrix.html">LW_Matrix</a></code></code><br>By default returns a new instance of LW_Matrix<br />
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					<code><code><a href="class-Exception.html">Exception</a></code></code><br>for any number of reasons that would make the inverse not available<br />
+				</div>
+
+				<h4>Link</h4>
+				<div class="list">
+						<a href="http://en.wikipedia.org/wiki/Inverse_matrix">http://en.wikipedia.org/wiki/Inverse_matrix</a><br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="mpMatrix" id="_mpMatrix">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-LW_Matrix.html">LW_Matrix</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_mpMatrix">#</a>
+		<code><a href="source-class-LW_Matrix.html#628-676" title="Go to source code">mpMatrix</a>( <span><code><a href="class-LW_Matrix.html">LW_Matrix</a></code> <var>$bMatrix</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Multiply Matrices</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Multiply Matrices</p>
+
+<p>This function will multiply the current matrix with the matrix provided. If
+current Matrix is denoted by 'A' and the inputted is denoted by 'B', When
+written, this will return AB.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$bMatrix</var></dt>
+					<dd><code><code><a href="class-LW_Matrix.html">LW_Matrix</a></code></code><br>$bMatrix The matrix to multiply with the current</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-LW_Matrix.html">LW_Matrix</a></code></code><br>The result of multiplication.<br />
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					<code><code><a href="class-Exception.html">Exception</a></code></code><br>$msg explains why operation failed<br />
+				</div>
+
+				<h4>Link</h4>
+				<div class="list">
+						<a href="http://en.wikipedia.org/wiki/Matrix_multiplication">http://en.wikipedia.org/wiki/Matrix_multiplication</a><br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		Classes API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>
