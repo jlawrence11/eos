@@ -164,7 +164,7 @@ class eqEOS {
 		$vars = new phpStack();
 
 		// remove all white-space
-		preg_replace("/\s/", "", $infix);
+		$infix = preg_replace("/\s/", "", $infix);
 
 		// Create postfix array index
 		$pfIndex = 0;
