@@ -50,6 +50,10 @@ define('EQEOS_E_NO_EQ', 5502);
  * No variable replacement available
  */
 define('EQEOS_E_NO_VAR', 5503);
+/**
+ * Not a number
+ */
+define('EQEOS_E_NAN', 5504);
 
 if(!defined('DEBUG'))
 	define('DEBUG', false);
@@ -95,7 +99,7 @@ class eqEOS {
 	protected $ST1 = array('/', '*', '%');
 	protected $ST2 = array('+', '-');
 	//Allowed functions
-	protected $FNC = array('sin', 'cos', 'tan', 'csc', 'sec', 'cot', 'abs');
+	protected $FNC = array('sin', 'cos', 'tan', 'csc', 'sec', 'cot', 'abs', 'log', 'log10', 'sqrt');
     /**#@-*/
 	/**
 	 * Construct method
@@ -335,7 +339,6 @@ class eqEOS {
 	 */
 	function solveIF($infix, $vArray = null) {
 		$infix = ($infix != "") ? $infix : $this->inFix;
-		
 		//Check to make sure a 'valid' expression
 		$this->checkInfix($infix);
 
@@ -343,7 +346,7 @@ class eqEOS {
 		$vars = new phpStack();
 
 		//remove all white-space
-		preg_replace("/\s/", "", $infix);
+		$infix = preg_replace("/\s/", "", $infix);
 		if(DEBUG)
 			$hand=fopen("eq.txt","a");
 
@@ -369,7 +372,11 @@ class eqEOS {
 				$back = "";
 			
 			//Make sure that the variable does have a replacement
-			if(!isset($vArray[$match[2]]) && (!is_array($vArray != "") && !is_numeric($vArray))) {
+            //First check for pi and e variables that wll automagically be replaced
+            if(in_array(strtolower($match[2]), array('pi', 'e'))) {
+                $t = (strtolower($match[2])=='pi') ? pi() : exp(1);
+                $infix = str_replace($match[0], $match[1] . $front. $t. $back . $match[3], $infix);
+            } elseif(!isset($vArray[$match[2]]) && (!is_array($vArray != "") && !is_numeric($vArray))) {
 				throw new Exception("Variable replacement does not exist for '". substr($match[0], 1, -1) ."' in {$this->inFix}", EQEOS_E_NO_VAR);
 				return false;
 			} elseif(!isset($vArray[$match[2]]) && (!is_array($vArray != "") && is_numeric($vArray))) {
@@ -423,6 +430,23 @@ class eqEOS {
 				case "abs":
 					$ans = abs($func);
 					break;
+                case "log":
+                    $ans = log($func);
+                    if(is_nan($ans) || is_infinite($ans)) {
+                        throw new Exception("Result of 'log({$func}) = {$ans}' is either infinite or a non-number in {$this->inFix}", EQEOS_E_NAN);
+                        return false;
+                    }
+                    break;
+                case "log10":
+                    $ans = log10($func);
+                    if(is_nan($ans) || is_infinite($ans)) {
+                        throw new Exception("Result of 'log10({$func}) = {$ans}' is either infinite or a non-number in {$this->inFix}", EQEOS_E_NAN);
+                        return false;
+                    }
+                    break;
+                case "sqrt":
+                    $ans = sqrt($func);
+                    break;
 				default:
 					break;
 			}
