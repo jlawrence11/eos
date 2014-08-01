@@ -74,7 +74,7 @@ require_once "stack.class.php";
  * This class was created for PHP4 in 2005, updated to fully PHP5 in 2013.
  * 
  * @author Jon Lawrence <jlawrence11@gmail.com>
- * @copyright Copyright ©2005-2013, Jon Lawrence
+ * @copyright Copyright ï¿½2005-2013, Jon Lawrence
  * @license http://opensource.org/licenses/LGPL-2.1 LGPL 2.1 License
  * @package Math
  * @subpackage EOS
@@ -242,7 +242,7 @@ class eqEOS {
 					$pfIndex++;
 				}
 			}
-			// make sure we record this character to be refered to by the next one
+			// make sure we record this character to be referred to by the next one
 			$lChar = $chr;
 		}
 		// if there is anything on the stack after we are done...add it to the back of the RPN array
@@ -329,7 +329,7 @@ class eqEOS {
 	 * Solve Infix (Standard) Notation Equation
 	 *
 	 * Will take a standard equation with optional variables and solve it. Variables
-	 * must begin with '&' will expand to allow variables to begin with '$' (TODO)
+	 * must begin with '&' or '$'
 	 * The variable array must be in the format of 'variable' => value. If
 	 * variable array is scalar (ie 5), all variables will be replaced with it.
 	 *
@@ -349,6 +349,9 @@ class eqEOS {
 		$infix = preg_replace("/\s/", "", $infix);
 		if(DEBUG)
 			$hand=fopen("eq.txt","a");
+
+        //replace scientific notation with normal notation (2e-9 to 2*10^-9)
+        $infix = preg_replace('/([\d])([eE])(-?\d)/', '$1*10^$3', $infix);
 
 		//Find all the variables that were passed and replaces them
 		while((preg_match('/(.){0,1}[&$]([a-zA-Z]+)(.){0,1}/', $infix, $match)) != 0) {
