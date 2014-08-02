@@ -11,6 +11,10 @@
  * developer.  It is a safe way to evaluate expressions without putting
  * the system at risk.
  *
+ * 2014/08
+ * - Added scientific notation support
+ * - Added basic factorial support
+ * 
  * 2013/06 UPDATE:
  * - Added 'abs' (absolute value) support per tjbaron's update.
  *
@@ -21,9 +25,6 @@
  * - Added Exception throwing instead of silent exits
  * - Added additional variable prefix of '$', '&' is still allowed as well
  * - Fixed small implied multiplication problem
- *
- * TODO:
- * - Add factorial support. (ie 5! = 120)
  *
  * @author Jon Lawrence <jlawrence11@gmail.com>
  * @copyright Copyright ©2005-2013, Jon Lawrence
@@ -95,7 +96,7 @@ class eqEOS {
 	//Top presedence following operator - not in use
 	protected $SGL = array('!');
 	//Order of operations arrays follow
-	protected $ST = array('^');
+	protected $ST = array('^', '!');
 	protected $ST1 = array('/', '*', '%');
 	protected $ST2 = array('+', '-');
 	//Allowed functions
@@ -215,6 +216,8 @@ class eqEOS {
 			}
 			// If a special operator that has precedence over everything else
 			elseif(in_array($chr, $this->ST)) {
+                while(in_array($ops->peek(), $this->ST))
+                        $pf[++$pfIndex] = $ops->pop();
 				$ops->push($chr);
 				$pfIndex++;
 			}
@@ -307,6 +310,10 @@ class eqEOS {
 					case '^':
 						$temp[$hold-2] = pow($temp[$hold-2], $temp[$hold-1]);
 						break;
+                    case '!':
+                        $temp[$hold-1] = $this->factorial($temp[$hold-1]);
+                        $hold++;
+                        break;
 					case '%':
 						if($temp[$hold-1] == 0) {
 							throw new Exception("Division by 0 on: '{$temp[$hold-2]} % {$temp[$hold-1]}' in {$this->inFix}", EQEOS_E_DIV_ZERO);
@@ -461,6 +468,33 @@ class eqEOS {
 
 
 	} //end function solveIF
+    
+    /**
+	 * Solvwe factorial (!)
+	 *
+	 * Will take an integer and solve for it's factorial. Eg.
+     * `5!` will become `1*2*3*4*5` = `120`
+     * TODO: 
+     *    Solve for non-integer factorials
+	 *
+	 * @param Integer $num Number to get factorial of
+	 * @return Integer Solved factorial
+	 */
+    protected function factorial($num) {
+        if($num < 2) {
+            return 1;
+        }
+        //Until we can solve for non-integers, throw an error if not one.
+        if(intval($num) != $num) {
+            throw new Exception("Factorial Error: {$num} is not an integer", EQEOS_E_NAN);
+        }
+        
+        $tot = 1;
+        for($i=1;$i<=$num;$i++) {
+            $tot *= $i;
+        }
+        return $tot;
+    } //end function factorial
 } //end class 'eqEOS'
 
 
