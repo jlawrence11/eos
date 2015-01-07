@@ -33,37 +33,8 @@
  * @version 2.0
  */
 
-//The following are defines for thrown exceptions
-
-/**
- * No matching Open/Close pair
- */
-define('EQEOS_E_NO_SET', 5500);
-/**
- * Division by 0
- */
-define('EQEOS_E_DIV_ZERO', 5501);
-/**
- * No Equation
- */
-define('EQEOS_E_NO_EQ', 5502);
-/**
- * No variable replacement available
- */
-define('EQEOS_E_NO_VAR', 5503);
-/**
- * Not a number
- */
-define('EQEOS_E_NAN', 5504);
-
-if(!defined('DEBUG'))
-	define('DEBUG', false);
-
-//We use a stack class so we don't have to keep track of indices for an array
-// May eventually update to use `array_pop()` `end()` and `array_push()` instead
-// of this class.
-require_once "stack.class.php";
-
+namespace JonLawrence\EOS;
+use JonLawrence\Util\phpStack;
 
 /**
  * Equation Operating System (EOS) Parser
@@ -82,6 +53,39 @@ require_once "stack.class.php";
  * @version 2.0
  */
 class eqEOS {
+	
+	/**
+	 * No matching Open/Close pair
+	 */
+	const E_NO_SET = 5500;
+	
+	/**
+	 * Division by 0
+	 */
+	const E_DIV_ZERO = 5501;
+
+	/**
+	 * No Equation
+	 */
+	const E_NO_EQ = 5502;
+
+	/**
+	 * No variable replacement available
+	 */
+	const E_NO_VAR = 5503;
+
+	/**
+	 * Not a number
+	 */
+	const E_NAN = 5504;
+	
+	/**
+	 * @var bool Activate Debug output.
+	 * @see __construct()
+	 * @see solveIF()
+	 */
+	public static $debug = FALSE;
+	
     /**#@+
      *Private variables
      */
@@ -113,6 +117,9 @@ class eqEOS {
 	 * @param String $inFix Standard format equation
 	 */
 	public function __construct($inFix = null) {
+		if(defined('DEBUG') && DEBUG) {
+			self::$debug = true;
+		}
 		$this->inFix = (isset($inFix)) ? $inFix : null;
 		$this->postFix = array();
 	}
@@ -130,16 +137,16 @@ class eqEOS {
 	 */
 	private function checkInfix($infix) {
 		if(trim($infix) == "") {
-			throw new Exception("No Equation given", EQEOS_E_NO_EQ);
+			throw new Exception("No Equation given", eqEOS::E_NO_EQ);
 			return false;
 		}
 		//Make sure we have the same number of '(' as we do ')'
 		// and the same # of '[' as we do ']'
 		if(substr_count($infix, '(') != substr_count($infix, ')')) {
-			throw new Exception("Mismatched parenthesis in '{$infix}'", EQEOS_E_NO_SET);
+			throw new Exception("Mismatched parenthesis in '{$infix}'", eqEOS::E_NO_SET);
 			return false;
 		} elseif(substr_count($infix, '[') != substr_count($infix, ']')) {
-			throw new Exception("Mismatched brackets in '{$infix}'", EQEOS_E_NO_SET);
+			throw new Exception("Mismatched brackets in '{$infix}'", eqEOS::E_NO_SET);
 			return false;
 		}
 		$this->inFix = $infix;
@@ -208,7 +215,7 @@ class eqEOS {
 					if($nchr)
 						$pf[++$pfIndex] = $nchr;
 					else {
-						throw new Exception("Error while searching for '". $this->SEP['open'][$key] ."' in '{$infix}'.", EQEOS_E_NO_SET);
+						throw new Exception("Error while searching for '". $this->SEP['open'][$key] ."' in '{$infix}'.", eqEOS::E_NO_SET);
 						return false;
 					}
 				}
@@ -302,7 +309,7 @@ class eqEOS {
 						break;
 					case '/':
 						if($temp[$hold-1] == 0) {
-							throw new Exception("Division by 0 on: '{$temp[$hold-2]} / {$temp[$hold-1]}' in {$this->inFix}", EQEOS_E_DIV_ZERO);
+							throw new Exception("Division by 0 on: '{$temp[$hold-2]} / {$temp[$hold-1]}' in {$this->inFix}", eqEOS::E_DIV_ZERO);
 							return false;
 						}
 						$temp[$hold-2] = $temp[$hold-2] / $temp[$hold-1];
@@ -316,7 +323,7 @@ class eqEOS {
                         break;
 					case '%':
 						if($temp[$hold-1] == 0) {
-							throw new Exception("Division by 0 on: '{$temp[$hold-2]} % {$temp[$hold-1]}' in {$this->inFix}", EQEOS_E_DIV_ZERO);
+							throw new Exception("Division by 0 on: '{$temp[$hold-2]} % {$temp[$hold-1]}' in {$this->inFix}", eqEOS::E_DIV_ZERO);
 							return false;
 						}
 						$temp[$hold-2] = bcmod($temp[$hold-2], $temp[$hold-1]);
@@ -354,7 +361,7 @@ class eqEOS {
 
 		//remove all white-space
 		$infix = preg_replace("/\s/", "", $infix);
-		if(DEBUG)
+		if(eqEOS::$debug)
 			$hand=fopen("eq.txt","a");
 
         //replace scientific notation with normal notation (2e-9 to 2*10^-9)
@@ -368,7 +375,7 @@ class eqEOS {
 				$match[3] = "";
 			}
 
-			if(DEBUG)
+			if(eqEOS::$debug)
 				fwrite($hand, "{$match[1]} || {$match[3]}\n");
 			// Ensure that the variable has an operator or something of that sort in front and back - if it doesn't, add an implied '*'
 			if((!in_array($match[1], array_merge($this->ST, $this->ST1, $this->ST2, $this->SEP['open'])) && $match[1] != "") || is_numeric($match[1])) //$this->SEP['close'] removed
@@ -387,7 +394,7 @@ class eqEOS {
                 $t = (strtolower($match[2])=='pi') ? pi() : exp(1);
                 $infix = str_replace($match[0], $match[1] . $front. $t. $back . $match[3], $infix);
             } elseif(!isset($vArray[$match[2]]) && (!is_array($vArray != "") && !is_numeric($vArray))) {
-				throw new Exception("Variable replacement does not exist for '". substr($match[0], 1, -1) ."' in {$this->inFix}", EQEOS_E_NO_VAR);
+				throw new Exception("Variable replacement does not exist for '". substr($match[0], 1, -1) ."' in {$this->inFix}", eqEOS::E_NO_VAR);
 				return false;
 			} elseif(!isset($vArray[$match[2]]) && (!is_array($vArray != "") && is_numeric($vArray))) {
 				$infix = str_replace($match[0], $match[1] . $front. $vArray. $back . $match[3], $infix);
@@ -396,7 +403,7 @@ class eqEOS {
 			}
 		}
 
-		if(DEBUG)
+		if(eqEOS::$debug)
 			fwrite($hand, "$infix\n");
 
 		// Finds all the 'functions' within the equation and calculates them 
@@ -416,7 +423,7 @@ class eqEOS {
 				case "sec":
 					$tmp = cos($func);
 					if($tmp == 0) {
-						throw new Exception("Division by 0 on: 'sec({$func}) = 1/cos({$func})' in {$this->inFix}", EQEOS_E_DIV_ZERO);
+						throw new Exception("Division by 0 on: 'sec({$func}) = 1/cos({$func})' in {$this->inFix}", eqEOS::E_DIV_ZERO);
 						return false;
 					}
 					$ans = 1/$tmp;
@@ -424,7 +431,7 @@ class eqEOS {
 				case "csc":
 					$tmp = sin($func);
 					if($tmp == 0) {
-						throw new Exception("Division by 0 on: 'csc({$func}) = 1/sin({$func})' in {$this->inFix}", EQEOS_E_DIV_ZERO);
+						throw new Exception("Division by 0 on: 'csc({$func}) = 1/sin({$func})' in {$this->inFix}", eqEOS::E_DIV_ZERO);
 						return false;
 					}
 					$ans = 1/$tmp;
@@ -432,7 +439,7 @@ class eqEOS {
 				case "cot":
 					$tmp = tan($func);
 					if($tmp == 0) {
-						throw new Exception("Division by 0 on: 'cot({$func}) = 1/tan({$func})' in {$this->inFix}", EQEOS_E_DIV_ZERO);
+						throw new Exception("Division by 0 on: 'cot({$func}) = 1/tan({$func})' in {$this->inFix}", eqEOS::E_DIV_ZERO);
 						return false;
 					}
 					$ans = 1/$tmp;
@@ -443,14 +450,14 @@ class eqEOS {
                 case "log":
                     $ans = log($func);
                     if(is_nan($ans) || is_infinite($ans)) {
-                        throw new Exception("Result of 'log({$func}) = {$ans}' is either infinite or a non-number in {$this->inFix}", EQEOS_E_NAN);
+                        throw new Exception("Result of 'log({$func}) = {$ans}' is either infinite or a non-number in {$this->inFix}", eqEOS::E_NAN);
                         return false;
                     }
                     break;
                 case "log10":
                     $ans = log10($func);
                     if(is_nan($ans) || is_infinite($ans)) {
-                        throw new Exception("Result of 'log10({$func}) = {$ans}' is either infinite or a non-number in {$this->inFix}", EQEOS_E_NAN);
+                        throw new Exception("Result of 'log10({$func}) = {$ans}' is either infinite or a non-number in {$this->inFix}", eqEOS::E_NAN);
                         return false;
                     }
                     break;
@@ -462,7 +469,7 @@ class eqEOS {
 			}
 			$infix = str_replace($match[0], $ans, $infix);
 		}
-		if(DEBUG)
+		if(eqEOS::$debug)
 			fclose($hand);
 		return $this->solvePF($this->in2post($infix));
 
@@ -486,7 +493,7 @@ class eqEOS {
         }
         //Until we can solve for non-integers, throw an error if not one.
         if(intval($num) != $num) {
-            throw new Exception("Factorial Error: {$num} is not an integer", EQEOS_E_NAN);
+            throw new Exception("Factorial Error: {$num} is not an integer", eqEOS::E_NAN);
         }
         
         $tot = 1;
@@ -567,7 +574,7 @@ class eqGraph extends eqEOS {
 		
 		$xScale = $this->width/($xHigh-$xLow);
 		$counter = 0;
-		if(DEBUG) {
+		if(eqEOS::$debug) {
 			$hand=fopen("eqgraph.txt","w");
 			fwrite($hand, "$eq\n");
 		}
@@ -576,7 +583,7 @@ class eqGraph extends eqEOS {
 			if($tester == "-0.000") $i = 0;
 			$y = $this->solveIF($eq, $i);
 			//eval('$y='. str_replace('&x', $i, $eq).";"); /* used to debug my eqEOS class results */
-			if(DEBUG) {
+			if(eqEOS::$debug) {
 				$tmp1 = sprintf("y(%5.3f) = %10.3f\n", $i, $y);
 				fwrite($hand, $tmp1);
 			}
@@ -589,7 +596,7 @@ class eqGraph extends eqEOS {
 			$xVars[$counter] = $y;
 			$counter++;			
 		}
-		if(DEBUG)
+		if(eqEOS::$debug)
 			fclose($hand);
 		// add 0.01 to each side so that if y is from 1 to 5, the lines at 1 and 5 are seen 
 		$yLow-=0.01;$yHigh+=0.01;

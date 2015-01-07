@@ -1,5 +1,7 @@
 <?php
 
+namespace JonLawrence\Util;
+
 /**
  * Basic Stack Class.
  *

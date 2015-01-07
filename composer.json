@@ -1,0 +1,17 @@
+{
+    "name": "jlawrence11/EOS",
+    "description": "Nacho, nacho man. I want to be a nacho man",
+    "license": "MIT",
+    "keywords": ["EOS"],
+    "authors": [
+        {
+            "name": "Jon Lawrence",
+            "email": "jon@jon-lawrence.com"
+        }
+    ],
+    "require": {},
+    "require-dev": {},
+    "autoload": {
+        "classmap": [ "src", "lib" ]
+    }
+}

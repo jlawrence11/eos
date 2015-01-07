@@ -10,38 +10,7 @@
  * @subpackage Matrix
  */
 
-//The following are defines for thrown exceptions
-//so that the user of the class can handle them based
-//on type rather than relying on the $msg thrown
-
-/**
- * Invalid String input type
- */
-define('LW_MATRIX_E_INVALID_INPUT', 5001);
-
-/**
- * Matrix needed to be a square matrix for the operation
- */
-define('LW_MATRIX_E_NOT_SQUARE', 5002);
-
-/**
- * Matrix was undefined
- */
-define('LW_MATRIX_E_NO_MATRIX', 5003);
-/**
- * Matrix had varying column lengths
- */
-define('LW_MATRIX_E_INVALID_MATRIX', 5004);
-
-/**
- * Matrix operation required rows/cols to be even, they were not
- */
-define('LW_MATRIX_E_NOT_EQUAL', 5005);
-
-/**
- * Determinate was '0' while preforming another operation
- */
-define('LW_MATRIX_E_NO_INVERSE', 5006);
+namespace JonLawrence\EOS;
 
 /**
  * LW_Matrix Class
@@ -59,6 +28,37 @@ define('LW_MATRIX_E_NO_INVERSE', 5006);
  * @subpackage Matrix
  */
 class LW_Matrix {
+
+	/**
+	 * Invalid String input type
+	 */
+	const E_INVALID_INPUT = 5001;
+
+	/**
+	 * Matrix needed to be a square matrix for the operation
+	 */
+	const E_NOT_SQUARE = 5002;
+	
+	/**
+	 * Matrix was undefined
+	 */
+	const E_NO_MATRIX = 5003;
+	
+	/**
+	 * Matrix had varying column lengths
+	 */
+	const E_INVALID_MATRIX = 5004;
+	
+	/**
+	 * Matrix operation required rows/cols to be even, they were not
+	 */
+	const E_NOT_EQUAL = 5005;
+	
+	/**
+	 * Determinate was '0' while preforming another operation
+	 */
+	const E_NO_INVERSE = 5006;
+	
     private $matrix;
     
     /**
@@ -95,7 +95,7 @@ class LW_Matrix {
         
         $mText = preg_replace("/\s/", "", $mText);
         if(!preg_match("/^\[(([\-]*[0-9\. ]+[,]{0,1})+[;]{0,1})*\]$/", $mText)) {
-            throw new Exception("'{$mText}' is not a valid input", LW_MATRIX_E_INVALID_INPUT);
+            throw new Exception("'{$mText}' is not a valid input", LW_Matrix::E_INVALID_INPUT);
             return false;
         }
         $mText = preg_replace("/(\[|\])/", "", $mText);
@@ -205,7 +205,7 @@ class LW_Matrix {
             return count($mArray);
         } else {
             $m = $this->toString($mArray);
-            throw new Exception("'{$m}' is not a square matrix", LW_MATRIX_E_NOT_SQUARE);
+            throw new Exception("'{$m}' is not a square matrix", LW_Matrix::E_NOT_SQUARE);
             return false;
         }
     }
@@ -265,7 +265,7 @@ class LW_Matrix {
             $retString = sprintf("[%s]", implode($rows, ";"));
             return $retString;
         } else {
-            throw new Exception("No matrix to convert", LW_MATRIX_E_NO_MATRIX);
+            throw new Exception("No matrix to convert", LW_Matrix::E_NO_MATRIX);
             return false;
         }
     }
@@ -343,7 +343,7 @@ class LW_Matrix {
     {
         if(!$this->_verify() || !$nMatrix->_verify())
         {
-            throw new Exception("Matrices have varying column sizes", LW_MATRIX_E_INVALID_MATRIX);
+            throw new Exception("Matrices have varying column sizes", LW_Matrix::E_INVALID_MATRIX);
             return false;
         }
         $matrix1 = $this->getArray();
@@ -352,7 +352,7 @@ class LW_Matrix {
         {
             $m1 = $this->toString($matrix1);
             $m2 = $this->toString($matrix2);
-            throw new Exception("The rows and/or columns '{$m1}' and '{$m2}' are not the same", LW_MATRIX_E_NOT_EQUAL);
+            throw new Exception("The rows and/or columns '{$m1}' and '{$m2}' are not the same", LW_Matrix::E_NOT_EQUAL);
             return false;
         }
         
@@ -381,7 +381,7 @@ class LW_Matrix {
     {
         if(!$this->_verify() || !$nMatrix->_verify())
         {
-            throw new Exception("Matrices have varying column sizes", LW_MATRIX_E_INVALID_MATRIX);
+            throw new Exception("Matrices have varying column sizes", LW_Matrix::E_INVALID_MATRIX);
             return false;
         }
         $matrix1 = $this->getArray();
@@ -390,7 +390,7 @@ class LW_Matrix {
         {
             $m1 = $this->toString($matrix1);
             $m2 = $this->toString($matrix2);
-            throw new Exception("The rows and/or columns '{$m1}' and '{$m2}' are not the same", LW_MATRIX_E_NOT_EQUAL);
+            throw new Exception("The rows and/or columns '{$m1}' and '{$m2}' are not the same", LW_Matrix::E_NOT_EQUAL);
             return false;
         }
         
@@ -419,7 +419,7 @@ class LW_Matrix {
         //we'll verify a true matrix to ... help the user
         if(!$this->_verify()) {
             $m = $this->toString;
-            throw new Exception("Matrix '{$m}' has varying column sizes", LW_MATRIX_E_INVALID_MATRIX);
+            throw new Exception("Matrix '{$m}' has varying column sizes", LW_Matrix::E_INVALID_MATRIX);
             return false;
         }
         $cArray = $this->getArray();
@@ -453,12 +453,12 @@ class LW_Matrix {
         //print_r($mArray);
         if(!$this->isSquare($mArray)) {
             $m = $this->toString($mArray);
-            throw new Exception("'{$m}' is not a square matrix", LW_MATRIX_E_NOT_SQUARE);
+            throw new Exception("'{$m}' is not a square matrix", LW_Matrix::E_NOT_SQUARE);
             return false;
         }
         $n = $this->_getN($mArray);
         if($n < 1){
-            throw new Exception("1 by 1 Matrix cannot have a determinant", LW_MATRIX_E_NO_MATRIX);
+            throw new Exception("1 by 1 Matrix cannot have a determinant", LW_Matrix::E_NO_MATRIX);
             return 0; // how did it get this far?
         } elseif ($n == 1) {
             $det = $mArray[0][0];
@@ -501,7 +501,7 @@ class LW_Matrix {
         if(!$cArray) $cArray = $this->matrix;
         if(!$this->isSquare($cArray)) {
             $m = $this->toString($cArray);
-            throw new Exception("'{$m}' is not a square matrix", LW_MATRIX_E_NOT_SQUARE);
+            throw new Exception("'{$m}' is not a square matrix", LW_Matrix::E_NOT_SQUARE);
             return false;
         }
         $n = $this->_getN($cArray);
@@ -555,7 +555,7 @@ class LW_Matrix {
         if(!$cArray) $cArray = $this->matrix;
         if(!$this->isSquare($cArray)) {
             $m = $this->toString($cArray);
-            throw new Exception("'{$m}' is not a square matrix", LW_MATRIX_E_NOT_SQUARE);
+            throw new Exception("'{$m}' is not a square matrix", LW_Matrix::E_NOT_SQUARE);
             return false;
         }
         $n = $this->_getN();
@@ -615,7 +615,7 @@ class LW_Matrix {
         $det = $this->getDeterminant($cArray);
         if($det == 0) {
             $eString = $this->toString($cArray);
-            throw new Exception("Determinant of {$eString} is 0, No Inverse found", LW_MATRIX_E_NO_INVERSE);
+            throw new Exception("Determinant of {$eString} is 0, No Inverse found", LW_Matrix::E_NO_INVERSE);
             return false;
         }
         
@@ -642,7 +642,7 @@ class LW_Matrix {
         if(!$this->_verify() || !$bMatrix->_verify()) {
             $eM1 = $this->toString();
             $eM2 = $bMatrix->toString();
-            throw new Exception("Either '{$eM1}' and/or '{$eM2}' is not a valid Matrix", LW_MATRIX_E_INVALID_MATRIX);
+            throw new Exception("Either '{$eM1}' and/or '{$eM2}' is not a valid Matrix", LW_Matrix::E_INVALID_MATRIX);
             return false;
         }
         $aArray = $this->matrix;
@@ -652,7 +652,7 @@ class LW_Matrix {
         if(count($aArray[0]) != count($bArray)) {
             $mA = $this->toString();
             $mB = $bMatrix->toString();
-            throw new Exception("Columns in '{$mA}' don't match Rows of '{$mB}'", LW_MATRIX_E_NOT_EQUAL);
+            throw new Exception("Columns in '{$mA}' don't match Rows of '{$mB}'", LW_Matrix::E_NOT_EQUAL);
             return false;
         }
         
