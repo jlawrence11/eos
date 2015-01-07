@@ -1,5 +1,26 @@
+Tweaks made to allow the class to be used as a Composer package, and namespaced,
+beyond that all code is the same as the original so full credit to
+[https://github.com/jlawrence11/Classes](https://github.com/jlawrence11/Classes).
+
 # Classes
----
+
+## Composer Usage
+Add the repository to your `composer.json` file:
+```json
+"repositories": [{
+    "type": "vcs",
+    "url":  "git@github.com:thebeline/php-eos-class.git"
+}]
+```
+
+Add the dependency:
+```json
+"require": {
+    "thebeline/eos": "dev-master"
+}
+```
+
+`$ composer update` and you're done.
 
 ## eos.class.php
 

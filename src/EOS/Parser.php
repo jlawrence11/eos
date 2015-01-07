@@ -33,8 +33,8 @@
  * @version 2.0
  */
 
-namespace JonLawrence\EOS;
-use JonLawrence\Util\phpStack;
+namespace EquationOS\Math;
+use EquationOS\Util\Stack;
 
 /**
  * Equation Operating System (EOS) Parser
@@ -52,7 +52,7 @@ use JonLawrence\Util\phpStack;
  * @subpackage EOS
  * @version 2.0
  */
-class eqEOS {
+class Parser {
 	
 	/**
 	 * No matching Open/Close pair
@@ -113,7 +113,7 @@ class eqEOS {
 	 * internal variable to solve with this::solveIF() without needing
 	 * additional input.  Initializing with a variable is not suggested.
 	 *
-	 * @see eqEOS::solveIF()
+	 * @see Parser::solveIF()
 	 * @param String $inFix Standard format equation
 	 */
 	public function __construct($inFix = null) {
@@ -137,16 +137,16 @@ class eqEOS {
 	 */
 	private function checkInfix($infix) {
 		if(trim($infix) == "") {
-			throw new Exception("No Equation given", eqEOS::E_NO_EQ);
+			throw new Exception("No Equation given", Parser::E_NO_EQ);
 			return false;
 		}
 		//Make sure we have the same number of '(' as we do ')'
 		// and the same # of '[' as we do ']'
 		if(substr_count($infix, '(') != substr_count($infix, ')')) {
-			throw new Exception("Mismatched parenthesis in '{$infix}'", eqEOS::E_NO_SET);
+			throw new Exception("Mismatched parenthesis in '{$infix}'", Parser::E_NO_SET);
 			return false;
 		} elseif(substr_count($infix, '[') != substr_count($infix, ']')) {
-			throw new Exception("Mismatched brackets in '{$infix}'", eqEOS::E_NO_SET);
+			throw new Exception("Mismatched brackets in '{$infix}'", Parser::E_NO_SET);
 			return false;
 		}
 		$this->inFix = $infix;
@@ -157,7 +157,7 @@ class eqEOS {
 	 * Infix to Postfix
 	 *
 	 * Converts an infix (standard) equation to postfix (RPN) notation.
-	 * Sets the internal variable $this->postFix for the eqEOS::solvePF()
+	 * Sets the internal variable $this->postFix for the Parser::solvePF()
 	 * function to use.
 	 *
 	 * @link http://en.wikipedia.org/wiki/Infix_notation Infix Notation
@@ -172,8 +172,8 @@ class eqEOS {
 		//check to make sure 'valid' equation
 		$this->checkInfix($infix);
 		$pf = array();
-		$ops = new phpStack();
-		$vars = new phpStack();
+		$ops = new Stack();
+		$vars = new Stack();
 
 		// remove all white-space
 		$infix = preg_replace("/\s/", "", $infix);
@@ -215,7 +215,7 @@ class eqEOS {
 					if($nchr)
 						$pf[++$pfIndex] = $nchr;
 					else {
-						throw new Exception("Error while searching for '". $this->SEP['open'][$key] ."' in '{$infix}'.", eqEOS::E_NO_SET);
+						throw new Exception("Error while searching for '". $this->SEP['open'][$key] ."' in '{$infix}'.", Parser::E_NO_SET);
 						return false;
 					}
 				}
@@ -273,12 +273,12 @@ class eqEOS {
 	 * Solve Postfix (RPN)
 	 * 
 	 * This function will solve a RPN array. Default action is to solve
-	 * the RPN array stored in the class from eqEOS::in2post(), can take
+	 * the RPN array stored in the class from Parser::in2post(), can take
 	 * an array input to solve as well, though default action is prefered.
 	 *
 	 * @link http://en.wikipedia.org/wiki/Reverse_Polish_notation Postix Notation
 	 * @param Array $pfArray RPN formatted array. Optional.
-         * @return Float Result of the operation.
+     * @return Float Result of the operation.
 	 */
 	public function solvePF($pfArray = null) {
 		// if no RPN array is passed - use the one stored in the private var
@@ -309,7 +309,7 @@ class eqEOS {
 						break;
 					case '/':
 						if($temp[$hold-1] == 0) {
-							throw new Exception("Division by 0 on: '{$temp[$hold-2]} / {$temp[$hold-1]}' in {$this->inFix}", eqEOS::E_DIV_ZERO);
+							throw new Exception("Division by 0 on: '{$temp[$hold-2]} / {$temp[$hold-1]}' in {$this->inFix}", Parser::E_DIV_ZERO);
 							return false;
 						}
 						$temp[$hold-2] = $temp[$hold-2] / $temp[$hold-1];
@@ -323,7 +323,7 @@ class eqEOS {
                         break;
 					case '%':
 						if($temp[$hold-1] == 0) {
-							throw new Exception("Division by 0 on: '{$temp[$hold-2]} % {$temp[$hold-1]}' in {$this->inFix}", eqEOS::E_DIV_ZERO);
+							throw new Exception("Division by 0 on: '{$temp[$hold-2]} % {$temp[$hold-1]}' in {$this->inFix}", Parser::E_DIV_ZERO);
 							return false;
 						}
 						$temp[$hold-2] = bcmod($temp[$hold-2], $temp[$hold-1]);
@@ -337,7 +337,14 @@ class eqEOS {
 		return $temp[$hold-1];
 
 	} //end function solvePF
-
+	
+	public function solve($equation, $values = null) {
+		if(is_array($equation)) {
+			return $this->solvePF($equation);
+		} else {
+			return $this->solveIF($equation, $values);
+		}
+	}
 
 	/**
 	 * Solve Infix (Standard) Notation Equation
@@ -356,26 +363,26 @@ class eqEOS {
 		//Check to make sure a 'valid' expression
 		$this->checkInfix($infix);
 
-		$ops = new phpStack();
-		$vars = new phpStack();
+		$ops = new Stack();
+		$vars = new Stack();
 
 		//remove all white-space
 		$infix = preg_replace("/\s/", "", $infix);
-		if(eqEOS::$debug)
+		if(Parser::$debug)
 			$hand=fopen("eq.txt","a");
 
         //replace scientific notation with normal notation (2e-9 to 2*10^-9)
         $infix = preg_replace('/([\d])([eE])(-?\d)/', '$1*10^$3', $infix);
 
 		//Find all the variables that were passed and replaces them
-		while((preg_match('/(.){0,1}[&$]([a-zA-Z]+)(.){0,1}/', $infix, $match)) != 0) {
+		while((preg_match('/(.){0,1}[&$]([a-zA-Z_][a-zA-Z0-9_]+)(.){0,1}/', $infix, $match)) != 0) {
 
 			//remove notices by defining if undefined.
 			if(!isset($match[3])) {
 				$match[3] = "";
 			}
 
-			if(eqEOS::$debug)
+			if(Parser::$debug)
 				fwrite($hand, "{$match[1]} || {$match[3]}\n");
 			// Ensure that the variable has an operator or something of that sort in front and back - if it doesn't, add an implied '*'
 			if((!in_array($match[1], array_merge($this->ST, $this->ST1, $this->ST2, $this->SEP['open'])) && $match[1] != "") || is_numeric($match[1])) //$this->SEP['close'] removed
@@ -394,7 +401,7 @@ class eqEOS {
                 $t = (strtolower($match[2])=='pi') ? pi() : exp(1);
                 $infix = str_replace($match[0], $match[1] . $front. $t. $back . $match[3], $infix);
             } elseif(!isset($vArray[$match[2]]) && (!is_array($vArray != "") && !is_numeric($vArray))) {
-				throw new Exception("Variable replacement does not exist for '". substr($match[0], 1, -1) ."' in {$this->inFix}", eqEOS::E_NO_VAR);
+				throw new Exception("Variable replacement does not exist for '". substr($match[0], 1, -1) ."' in {$this->inFix}", Parser::E_NO_VAR);
 				return false;
 			} elseif(!isset($vArray[$match[2]]) && (!is_array($vArray != "") && is_numeric($vArray))) {
 				$infix = str_replace($match[0], $match[1] . $front. $vArray. $back . $match[3], $infix);
@@ -403,7 +410,7 @@ class eqEOS {
 			}
 		}
 
-		if(eqEOS::$debug)
+		if(Parser::$debug)
 			fwrite($hand, "$infix\n");
 
 		// Finds all the 'functions' within the equation and calculates them 
@@ -423,7 +430,7 @@ class eqEOS {
 				case "sec":
 					$tmp = cos($func);
 					if($tmp == 0) {
-						throw new Exception("Division by 0 on: 'sec({$func}) = 1/cos({$func})' in {$this->inFix}", eqEOS::E_DIV_ZERO);
+						throw new Exception("Division by 0 on: 'sec({$func}) = 1/cos({$func})' in {$this->inFix}", Parser::E_DIV_ZERO);
 						return false;
 					}
 					$ans = 1/$tmp;
@@ -431,7 +438,7 @@ class eqEOS {
 				case "csc":
 					$tmp = sin($func);
 					if($tmp == 0) {
-						throw new Exception("Division by 0 on: 'csc({$func}) = 1/sin({$func})' in {$this->inFix}", eqEOS::E_DIV_ZERO);
+						throw new Exception("Division by 0 on: 'csc({$func}) = 1/sin({$func})' in {$this->inFix}", Parser::E_DIV_ZERO);
 						return false;
 					}
 					$ans = 1/$tmp;
@@ -439,7 +446,7 @@ class eqEOS {
 				case "cot":
 					$tmp = tan($func);
 					if($tmp == 0) {
-						throw new Exception("Division by 0 on: 'cot({$func}) = 1/tan({$func})' in {$this->inFix}", eqEOS::E_DIV_ZERO);
+						throw new Exception("Division by 0 on: 'cot({$func}) = 1/tan({$func})' in {$this->inFix}", Parser::E_DIV_ZERO);
 						return false;
 					}
 					$ans = 1/$tmp;
@@ -450,14 +457,14 @@ class eqEOS {
                 case "log":
                     $ans = log($func);
                     if(is_nan($ans) || is_infinite($ans)) {
-                        throw new Exception("Result of 'log({$func}) = {$ans}' is either infinite or a non-number in {$this->inFix}", eqEOS::E_NAN);
+                        throw new Exception("Result of 'log({$func}) = {$ans}' is either infinite or a non-number in {$this->inFix}", Parser::E_NAN);
                         return false;
                     }
                     break;
                 case "log10":
                     $ans = log10($func);
                     if(is_nan($ans) || is_infinite($ans)) {
-                        throw new Exception("Result of 'log10({$func}) = {$ans}' is either infinite or a non-number in {$this->inFix}", eqEOS::E_NAN);
+                        throw new Exception("Result of 'log10({$func}) = {$ans}' is either infinite or a non-number in {$this->inFix}", Parser::E_NAN);
                         return false;
                     }
                     break;
@@ -469,7 +476,7 @@ class eqEOS {
 			}
 			$infix = str_replace($match[0], $ans, $infix);
 		}
-		if(eqEOS::$debug)
+		if(Parser::$debug)
 			fclose($hand);
 		return $this->solvePF($this->in2post($infix));
 
@@ -493,7 +500,7 @@ class eqEOS {
         }
         //Until we can solve for non-integers, throw an error if not one.
         if(intval($num) != $num) {
-            throw new Exception("Factorial Error: {$num} is not an integer", eqEOS::E_NAN);
+            throw new Exception("Factorial Error: {$num} is not an integer", Parser::E_NAN);
         }
         
         $tot = 1;
@@ -502,197 +509,4 @@ class eqEOS {
         }
         return $tot;
     } //end function factorial
-} //end class 'eqEOS'
-
-
-// fun class that requires the GD libraries to give visual output to the user 
-/* extends the eqEOS class so that it doesn't need to create it as a private var 
-    - and it extends the functionality of that class */
-/**
- * Equation Graph
- *
- * Fun class that requires the GD libraries to give visual output of an
- * equation to the user.  Extends the eqEOS class.
- *
- * @author Jon Lawrence <jlawrence11@gmail.com>
- * @copyright Copyright ©2005-2013 Jon Lawrence
- * @license http://opensource.org/licenses/LGPL-2.1 LGPL 2.1 License
- * @package Math
- * @subpackage EOS
- * @version 2.0
- */
-class eqGraph extends eqEOS {
-	private $width;
-	private $height;
-	//GD Image reference
-	private $image;
-
-	/**
-	 * Constructor
-	 *
-	 * Sets up the Graph class with an image width and height defaults to
-	 * 640x480
-	 *
-	 * @param Integer $width Image width
-	 * @param Integer $height Image height
-	 */
-	public function __construct($width=640, $height=480) {
-		// default width and height equal to that of a poor monitor (in early 2000s)
-		$this->width = $width;
-		$this->height = $height;
-		//initialize main class variables
-		parent::__construct();
-	} //end function eqGraph
-
-
-	/**
-	 * Create GD Graph Image
-	 *
-	 * Creates a GD image based on the equation given with the parameters that are set
-	 *
-	 * @param String $eq Equation to use.  Needs variable in equation to create graph, all variables are interpreted as 'x'
-	 * @param Integer $xLow Lower x-bound for graph
-	 * @param Integer $xHigh Upper x-bound for graph
-	 * @param Float $xStep Stepping points while solving, the lower, the better precision. Slow if lower than .01
-	 * @param Boolean $xyGrid Draw gridlines?
-	 * @param Boolean $yGuess Guess the upper/lower yBounds?
-	 * @param Integer $yLow Lower y-bound
-	 * @param Integer $yHigh Upper y-bound
-	 * @return Null
-	 */
-	public function graph($eq, $xLow, $xHigh, $xStep, $xyGrid = false, $yGuess = true, $yLow=false, $yHigh=false) {
-		//create our image and allocate the two colors
-		$img = ImageCreate($this->width, $this->height);
-		$white = ImageColorAllocate($img, 255, 255, 255);
-		$black = ImageColorAllocate($img, 0, 0, 0);
-		$grey = ImageColorAllocate($img, 220, 220, 220);
-		$xStep = abs($xStep);
-		//DEVELOPER, UNCOMMENT NEXT LINE IF WANTING TO PREVENT SLOW GRAPHS
-		//$xStep = ($xStep > .01) ? $xStep : 0.01;
-		if($xLow > $xHigh)
-			list($xLow, $xHigh) = array($xHigh, $xLow);	//swap function
-		
-		$xScale = $this->width/($xHigh-$xLow);
-		$counter = 0;
-		if(eqEOS::$debug) {
-			$hand=fopen("eqgraph.txt","w");
-			fwrite($hand, "$eq\n");
-		}
-		for($i=$xLow;$i<=$xHigh;$i+=$xStep) {
-			$tester = sprintf("%10.3f",$i);
-			if($tester == "-0.000") $i = 0;
-			$y = $this->solveIF($eq, $i);
-			//eval('$y='. str_replace('&x', $i, $eq).";"); /* used to debug my eqEOS class results */
-			if(eqEOS::$debug) {
-				$tmp1 = sprintf("y(%5.3f) = %10.3f\n", $i, $y);
-				fwrite($hand, $tmp1);
-			}
-
-			// If developer asked us to find the upper and lower bounds for y... 
-			if($yGuess==true) {
-				$yLow = ($yLow===false || ($y<$yLow)) ? $y : $yLow;
-				$yHigh = ($yHigh===false || $y>$yHigh) ? $y : $yHigh;
-			}
-			$xVars[$counter] = $y;
-			$counter++;			
-		}
-		if(eqEOS::$debug)
-			fclose($hand);
-		// add 0.01 to each side so that if y is from 1 to 5, the lines at 1 and 5 are seen 
-		$yLow-=0.01;$yHigh+=0.01;
-
-		//Now that we have all the variables stored...find the yScale
-		$yScale = $this->height/(($yHigh)-($yLow));
-
-		// if developer wanted a grid on the graph, add it now 
-		if($xyGrid==true) {
-			for($i=ceil($yLow);$i<=floor($yHigh);$i++) {
-				$i0 = abs($yHigh-$i);
-				ImageLine($img, 0, $i0*$yScale, $this->width, $i0*$yScale, $grey);
-			}
-			for($i=ceil($xLow);$i<=floor($xHigh);$i++) {
-				$i0 = abs($xLow-$i);
-				ImageLine($img, $i0*$xScale, 0, $i0*$xScale, $this->height, $grey);
-			}
-		}
-		
-		//Now that we have the scales, let's see if we can draw an x/y-axis
-		if($xLow <= 0 && $xHigh >= 0) {
-			//the y-axis is within our range - draw it.
-			$x0 = abs($xLow)*$xScale;
-			ImageLine($img, $x0, 0, $x0, $this->height, $black);
-			for($i=ceil($yLow);$i<=floor($yHigh);$i++) {
-				$i0 = abs($yHigh-$i);
-				ImageLine($img, $x0-3, $i0*$yScale, $x0+3, $i0*$yScale, $black);
-			}
-		}
-		if($yLow <= 0 && $yHigh >= 0) {
-			//the x-axis is within our range - draw it.
-			$y0 = abs($yHigh)*$yScale;
-			ImageLine($img, 0, $y0, $this->width, $y0, $black);
-			for($i=ceil($xLow);$i<=floor($xHigh);$i++) {
-				$i0 = abs($xLow-$i);
-				ImageLine($img, $i0*$xScale, $y0-3, $i0*$xScale, $y0+3, $black);
-			}
-		}
-		$counter=2;
-
-		//now graph it all ;]
-		for($i=$xLow+$xStep;$i<=$xHigh;$i+=$xStep) {
-			$x1 = (abs($xLow - ($i - $xStep)))*$xScale;
-			$y1 = (($xVars[$counter-1]<$yLow) || ($xVars[$counter-1] > $yHigh)) ? -1 : (abs($yHigh - $xVars[$counter-1]))*$yScale;
-			$x2 = (abs($xLow - $i))*$xScale;
-			$y2 = (($xVars[$counter]<$yLow) || ($xVars[$counter] > $yHigh)) ? -1 : (abs($yHigh - $xVars[$counter]))*$yScale;
-			
-			// if any of the y values were found to be off of the y-bounds, don't graph those connecting lines 
-			if($y1!=-1 && $y2!=-1)
-				ImageLine($img, $x1, $y1, $x2, $y2, $black);
-			$counter++;
-		}
-		$this->image = $img;
-	} //end function 'graph'
-
-	/**
-	 * Sends JPG to browser
-	 *
-	 * Sends a JPG image with proper header to output
-	 */
-	public function outJPG() {
-		header("Content-type: image/jpeg");
-		ImageJpeg($this->image);
-	}
-
-	/**
-	 * Sends PNG to browser
-	 *
-	 * Sends a PNG image with proper header to output
-	 */
-	function outPNG() {
-		header("Content-type: image/png");
-		ImagePng($this->image);
-	}
-	
-	/**
-	 * Output GD Image
-	 *
-	 * Will give the developer the GD resource for the graph that
-	 * can be used to store the graph to the FS or other media
-	 *
-	 * @return Resource GD Image Resource
-	 */
-	public function getImage() {
-		return $this->image;
-	}
-	
-	/**
-	 * Output GD Image
-	 *
-	 * Alias for eqGraph::getImage()
-	 *
-	 * @return Resource GD Image resource
-	 */
-	public function outGD() {
-		return $this->getImage();
-	}
-} //end class 'eqGraph'
-?>
+} //end class 'Parser'
