@@ -1,6 +1,6 @@
 {
     "name": "jlawrence11/EOS",
-    "description": "Nacho, nacho man. I want to be a nacho man",
+    "description": "Parse and solve math equations without using 'eval()'.",
     "license": "MIT",
     "keywords": ["EOS"],
     "authors": [
