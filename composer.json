@@ -1,0 +1,17 @@
+{
+    "name": "thebeline/eos",
+    "description": "Parse and solve math equations without using 'eval()'. Based on https://github.com/jlawrence11/Classes",
+    "license": "MIT",
+    "keywords": ["EOS"],
+    "authors": [
+        {
+            "name": "Jon Lawrence",
+            "email": "jon@jon-lawrence.com"
+        }
+    ],
+    "require": {},
+    "require-dev": {},
+    "autoload": {
+        "classmap": [ "src" ]
+    }
+}

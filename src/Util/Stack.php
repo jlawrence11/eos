@@ -1,5 +1,7 @@
 <?php
 
+namespace EquationOS\Util;
+
 /**
  * Basic Stack Class.
  *
@@ -13,7 +15,7 @@
  * @subpackage EOS
  * @version 2.0
  */
-class phpStack {
+class Stack {
 	private $index;
 	private $locArray;
 
@@ -56,7 +58,7 @@ class phpStack {
 	/**
 	 * Push
 	 *
-	 * Alias of {@see phpStack::poke()}
+	 * Alias of {@see Stack::poke()}
 	 * Adds element to the stack
 	 *
 	 * @param Mixed Element to add
