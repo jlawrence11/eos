@@ -49,7 +49,7 @@ class Stack {
 	 *
 	 * Will add an element to the end of the stack
 	 *
-	 * @param Mixed Element to add
+	 * @param Mixed $data Element to add
 	 */
 	public function poke($data) {
 		$this->locArray[++$this->index] = $data;
@@ -61,7 +61,7 @@ class Stack {
 	 * Alias of {@see Stack::poke()}
 	 * Adds element to the stack
 	 *
-	 * @param Mixed Element to add
+	 * @param Mixed $data Element to add
 	 */
 	public function push($data) {
 		//allias for 'poke'

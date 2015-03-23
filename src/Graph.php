@@ -60,12 +60,14 @@ class Graph extends Parser {
 	public function graph($eq, $xLow, $xHigh, $xStep, $xyGrid = false, $yGuess = true, $yLow=false, $yHigh=false) {
 		//create our image and allocate the two colors
 		$img = ImageCreate($this->width, $this->height);
-		$white = ImageColorAllocate($img, 255, 255, 255);
+		//$white = ImageColorAllocate($img, 255, 255, 255);
 		$black = ImageColorAllocate($img, 0, 0, 0);
 		$grey = ImageColorAllocate($img, 220, 220, 220);
 		$xStep = abs($xStep);
+        $hand = null;
+        $xVars = array();
 		//DEVELOPER, UNCOMMENT NEXT LINE IF WANTING TO PREVENT SLOW GRAPHS
-		//$xStep = ($xStep > .01) ? $xStep : 0.01;
+		//$xStep = ($xStep < .01) ? $xStep : 0.01;
 		if($xLow > $xHigh)
 			list($xLow, $xHigh) = array($xHigh, $xLow);	//swap function
 		

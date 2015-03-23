@@ -86,7 +86,7 @@ class Matrix {
      *
      * @param String $mText The matrix in string format to assign to the current object
      * @return Boolean True if is passes verification after being converted
-     * @throws Exception If the input text is not in a valid format
+     * @throws \Exception If the input text is not in a valid format
      */
     public function _assign($mText)
     {
@@ -95,8 +95,7 @@ class Matrix {
         
         $mText = preg_replace("/\s/", "", $mText);
         if(!preg_match("/^\[(([\-]*[0-9\. ]+[,]{0,1})+[;]{0,1})*\]$/", $mText)) {
-            throw new Exception("'{$mText}' is not a valid input", Matrix::E_INVALID_INPUT);
-            return false;
+            throw new \Exception("'{$mText}' is not a valid input", Matrix::E_INVALID_INPUT);
         }
         $mText = preg_replace("/(\[|\])/", "", $mText);
         
@@ -149,16 +148,16 @@ class Matrix {
         
         return true;
     }
-    
+
     /**
      * Is it a valid matrix?
-     * 
+     *
      * Public function to tell the class user whether or not the passed
      * array is valid, if no array is passed, it will tell the user whether
      * the matrix of the current instance is valid. Valid is denoted by all
      * rows have the same number of columns.
-     * 
-     * @param Array $mArray Array to be used, if not assigned will default to $this->matrix
+     *
+     * @param Array|bool $mArray Array to be used, if not assigned will default to $this->matrix
      * @return Boolean True/False depending on if array is a valid matrix
      */
     public function isValid($mArray = false)
@@ -166,14 +165,14 @@ class Matrix {
         if(!$mArray) $mArray = $this->matrix;
         return $this->_verify($mArray);
     }
-    
+
     /**
      * Is it a square Matrix?
-     * 
+     *
      * Will determine whether or not the matrix is valid, and if it
      * is, will determine if the matrix is a square matrix (n by n).
      *
-     * @param Array $mArray Matrix array, if not assigned will use $this->matrix
+     * @param Array|bool $mArray Matrix array, if not assigned will use $this->matrix
      * @return Boolean True/False depending on whether or not the matrix is square
      */
     public function isSquare($mArray = false)
@@ -195,7 +194,7 @@ class Matrix {
      *
      * @param Array $mArray Matrix array, uses $this->matrix if not assigned
      * @return Integer The 'n' of a square matrix, or false if not square
-     * @throws Exception If not a square matrix, throws an exception
+     * @throws \Exception If not a square matrix, throws an exception
      */
     public function _getN($mArray=false)
     {
@@ -205,8 +204,7 @@ class Matrix {
             return count($mArray);
         } else {
             $m = $this->toString($mArray);
-            throw new Exception("'{$m}' is not a square matrix", Matrix::E_NOT_SQUARE);
-            return false;
+            throw new \Exception("'{$m}' is not a square matrix", Matrix::E_NOT_SQUARE);
         }
     }
     
@@ -241,21 +239,20 @@ class Matrix {
         }
         
     }
-    
+
     /**
      * Convert current Matrix to string format
-     * 
+     *
      * Convert an array to the string format used by this class.
-     * 
+     *
      * @see Matrix::_assign()
-     * @param Array $mArray if not assigned will use this instance's matrix.
+     * @param Array|bool $mArray if not assigned will use this instance's matrix.
+     * @throws \Exception If matrix is not an array
      * @return String The array broken down in to string format
-     * @throws Exception If matrix is not an array
      */
     public function toString($mArray = false)
     {
         if(!$mArray) $mArray = $this->matrix;
-        $i=0;$j=0;
         $rows=array();
         if(is_array($mArray))
         {
@@ -265,8 +262,7 @@ class Matrix {
             $retString = sprintf("[%s]", implode($rows, ";"));
             return $retString;
         } else {
-            throw new Exception("No matrix to convert", Matrix::E_NO_MATRIX);
-            return false;
+            throw new \Exception("No matrix to convert", Matrix::E_NO_MATRIX);
         }
     }
     
@@ -337,14 +333,13 @@ class Matrix {
      * @link http://en.wikipedia.org/wiki/Matrix_addition
      * @param Matrix $nMatrix Matrix class to be added to current instance
      * @return Matrix The result of the addition
-     * @throws Exception $msg of exception explains problem
+     * @throws \Exception $msg of exception explains problem
      */
     public function addMatrix(Matrix $nMatrix)
     {
         if(!$this->_verify() || !$nMatrix->_verify())
         {
-            throw new Exception("Matrices have varying column sizes", Matrix::E_INVALID_MATRIX);
-            return false;
+            throw new \Exception("Matrices have varying column sizes", Matrix::E_INVALID_MATRIX);
         }
         $matrix1 = $this->getArray();
         $matrix2 = $nMatrix->getArray();
@@ -352,8 +347,7 @@ class Matrix {
         {
             $m1 = $this->toString($matrix1);
             $m2 = $this->toString($matrix2);
-            throw new Exception("The rows and/or columns '{$m1}' and '{$m2}' are not the same", Matrix::E_NOT_EQUAL);
-            return false;
+            throw new \Exception("The rows and/or columns '{$m1}' and '{$m2}' are not the same", Matrix::E_NOT_EQUAL);
         }
         
         $rArray = array();
@@ -375,14 +369,13 @@ class Matrix {
      * @link http://en.wikipedia.org/wiki/Matrix_subtraction
      * @param Matrix $nMatrix Matrix class to be subtracted from current instance
      * @return Matrix The result of the subtraction
-     * @throws Exception $msg of exception explains problem
+     * @throws \Exception $msg of exception explains problem
      */
     public function subMatrix(Matrix $nMatrix)
     {
         if(!$this->_verify() || !$nMatrix->_verify())
         {
-            throw new Exception("Matrices have varying column sizes", Matrix::E_INVALID_MATRIX);
-            return false;
+            throw new \Exception("Matrices have varying column sizes", Matrix::E_INVALID_MATRIX);
         }
         $matrix1 = $this->getArray();
         $matrix2 = $nMatrix->getArray();
@@ -390,8 +383,7 @@ class Matrix {
         {
             $m1 = $this->toString($matrix1);
             $m2 = $this->toString($matrix2);
-            throw new Exception("The rows and/or columns '{$m1}' and '{$m2}' are not the same", Matrix::E_NOT_EQUAL);
-            return false;
+            throw new \Exception("The rows and/or columns '{$m1}' and '{$m2}' are not the same", Matrix::E_NOT_EQUAL);
         }
         
         $rArray = array();
@@ -412,15 +404,14 @@ class Matrix {
      * @link http://en.wikipedia.org/wiki/Scalar_multiplication
      * @param Float $k The value to multiply the matrix by
      * @return Matrix Returns a new Matrix instance with the result
-     * @throws Exception if the instance matrix is not valid
+     * @throws \Exception if the instance matrix is not valid
      */
     public function mpScalar($k)
     {
         //we'll verify a true matrix to ... help the user
         if(!$this->_verify()) {
-            $m = $this->toString;
-            throw new Exception("Matrix '{$m}' has varying column sizes", Matrix::E_INVALID_MATRIX);
-            return false;
+            $m = $this->toString();
+            throw new \Exception("Matrix '{$m}' has varying column sizes", Matrix::E_INVALID_MATRIX);
         }
         $cArray = $this->getArray();
         $rArray = array();
@@ -445,7 +436,7 @@ class Matrix {
      * @link http://en.wikipedia.org/wiki/Matrix_determinant
      * @param Array $mArray The array to find a determinate of
      * @return Float The Determinate of the square matrix
-     * @throws Exception If matrix is 1,1 or is not square
+     * @throws \Exception If matrix is 1,1 or is not square
      */
     public function getDeterminant($mArray=false)
     {
@@ -453,13 +444,11 @@ class Matrix {
         //print_r($mArray);
         if(!$this->isSquare($mArray)) {
             $m = $this->toString($mArray);
-            throw new Exception("'{$m}' is not a square matrix", Matrix::E_NOT_SQUARE);
-            return false;
+            throw new \Exception("'{$m}' is not a square matrix", Matrix::E_NOT_SQUARE);
         }
         $n = $this->_getN($mArray);
         if($n < 1){
-            throw new Exception("1 by 1 Matrix cannot have a determinant", Matrix::E_NO_MATRIX);
-            return 0; // how did it get this far?
+            throw new \Exception("1 by 1 Matrix cannot have a determinant", Matrix::E_NO_MATRIX);
         } elseif ($n == 1) {
             $det = $mArray[0][0];
         } elseif ($n == 2) {
@@ -494,15 +483,14 @@ class Matrix {
      * @param Array $cArray A matrix in array format (or $this->matrix by default)
      * @param Boolean $asArray When set to true, will return an array, when false a Matrix Object
      * @return Matrix|Array A matrix of coFactors for the array provided (or current matrix)
-     * @throws Exception if the matrix is not square
+     * @throws \Exception if the matrix is not square
      */
     public function coFactor($cArray=false,$asArray=true)
     {
         if(!$cArray) $cArray = $this->matrix;
         if(!$this->isSquare($cArray)) {
             $m = $this->toString($cArray);
-            throw new Exception("'{$m}' is not a square matrix", Matrix::E_NOT_SQUARE);
-            return false;
+            throw new \Exception("'{$m}' is not a square matrix", Matrix::E_NOT_SQUARE);
         }
         $n = $this->_getN($cArray);
         $minor = array();
@@ -548,15 +536,14 @@ class Matrix {
      * @param Array $cArray the array to transpose (defaults to $this->matrix)
      * @param Boolean $asArray whether to return an array or Matrix object
      * @return Array|Matrix Defaults to returning an array of the transposed matrix
-     * @throws Exception if the matrix is not square
+     * @throws \Exception if the matrix is not square
      */
     public function transpose($cArray=false,$asArray=true)
     {
         if(!$cArray) $cArray = $this->matrix;
         if(!$this->isSquare($cArray)) {
             $m = $this->toString($cArray);
-            throw new Exception("'{$m}' is not a square matrix", Matrix::E_NOT_SQUARE);
-            return false;
+            throw new \Exception("'{$m}' is not a square matrix", Matrix::E_NOT_SQUARE);
         }
         $n = $this->_getN();
         $nArray = array();
@@ -605,18 +592,16 @@ class Matrix {
      * @link http://en.wikipedia.org/wiki/Inverse_matrix
      * @param Array $cArray Array to invert (defaults to $this->matrix)
      * @return Matrix By default returns a new instance of Matrix
-     * @throws Exception for any number of reasons that would make the inverse not available
+     * @throws \Exception for any number of reasons that would make the inverse not available
      */
     public function inverse ($cArray=false)
     {
         if(!$cArray) $cArray = $this->matrix;
-        
-        $rArray = array();
+
         $det = $this->getDeterminant($cArray);
         if($det == 0) {
             $eString = $this->toString($cArray);
-            throw new Exception("Determinant of {$eString} is 0, No Inverse found", Matrix::E_NO_INVERSE);
-            return false;
+            throw new \Exception("Determinant of {$eString} is 0, No Inverse found", Matrix::E_NO_INVERSE);
         }
         
         $scalar = 1/$det;
@@ -635,15 +620,14 @@ class Matrix {
      * @link http://en.wikipedia.org/wiki/Matrix_multiplication
      * @param Matrix $bMatrix The matrix to multiply with the current
      * @return Matrix The result of multiplication.
-     * @throws Exception $msg explains why operation failed
+     * @throws \Exception $msg explains why operation failed
      */
     public function mpMatrix(Matrix $bMatrix)
     {
         if(!$this->_verify() || !$bMatrix->_verify()) {
             $eM1 = $this->toString();
             $eM2 = $bMatrix->toString();
-            throw new Exception("Either '{$eM1}' and/or '{$eM2}' is not a valid Matrix", Matrix::E_INVALID_MATRIX);
-            return false;
+            throw new \Exception("Either '{$eM1}' and/or '{$eM2}' is not a valid Matrix", Matrix::E_INVALID_MATRIX);
         }
         $aArray = $this->matrix;
         $bArray = $bMatrix->getArray();
@@ -652,12 +636,10 @@ class Matrix {
         if(count($aArray[0]) != count($bArray)) {
             $mA = $this->toString();
             $mB = $bMatrix->toString();
-            throw new Exception("Columns in '{$mA}' don't match Rows of '{$mB}'", Matrix::E_NOT_EQUAL);
-            return false;
+            throw new \Exception("Columns in '{$mA}' don't match Rows of '{$mB}'", Matrix::E_NOT_EQUAL);
         }
         
         $rArray = array();
-        $bRows = count($bArray[0]);
         
         //Loop through rows of Matrix A
         for($i=0;$i<count($aArray);$i++) {

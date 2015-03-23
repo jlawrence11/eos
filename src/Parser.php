@@ -132,22 +132,19 @@ class Parser {
 	 * it doesn't.
 	 *
 	 * @param String $infix Equation to check
-	 * @throws Exception if malformed.
+	 * @throws \Exception if malformed.
 	 * @return Bool true if passes - throws an exception if not.
 	 */
 	private function checkInfix($infix) {
 		if(trim($infix) == "") {
-			throw new Exception("No Equation given", Parser::E_NO_EQ);
-			return false;
+			throw new \Exception("No Equation given", Parser::E_NO_EQ);
 		}
 		//Make sure we have the same number of '(' as we do ')'
 		// and the same # of '[' as we do ']'
 		if(substr_count($infix, '(') != substr_count($infix, ')')) {
-			throw new Exception("Mismatched parenthesis in '{$infix}'", Parser::E_NO_SET);
-			return false;
+			throw new \Exception("Mismatched parenthesis in '{$infix}'", Parser::E_NO_SET);
 		} elseif(substr_count($infix, '[') != substr_count($infix, ']')) {
-			throw new Exception("Mismatched brackets in '{$infix}'", Parser::E_NO_SET);
-			return false;
+			throw new \Exception("Mismatched brackets in '{$infix}'", Parser::E_NO_SET);
 		}
 		$this->inFix = $infix;
 		return true;
@@ -173,7 +170,7 @@ class Parser {
 		$this->checkInfix($infix);
 		$pf = array();
 		$ops = new Stack();
-		$vars = new Stack();
+		//$vars = new Stack();
 
 		// remove all white-space
 		$infix = preg_replace("/\s/", "", $infix);
@@ -215,8 +212,7 @@ class Parser {
 					if($nchr)
 						$pf[++$pfIndex] = $nchr;
 					else {
-						throw new Exception("Error while searching for '". $this->SEP['open'][$key] ."' in '{$infix}'.", Parser::E_NO_SET);
-						return false;
+						throw new \Exception("Error while searching for '". $this->SEP['open'][$key] ."' in '{$infix}'.", Parser::E_NO_SET);
 					}
 				}
 				$ops->pop();
@@ -286,7 +282,7 @@ class Parser {
 		
 		// create our temporary function variables
 		$temp = array();
-		$tot = 0;
+		//$tot = 0;
 		$hold = 0;
 
 		// Loop through each number/operator 
@@ -309,8 +305,7 @@ class Parser {
 						break;
 					case '/':
 						if($temp[$hold-1] == 0) {
-							throw new Exception("Division by 0 on: '{$temp[$hold-2]} / {$temp[$hold-1]}' in {$this->inFix}", Parser::E_DIV_ZERO);
-							return false;
+							throw new \Exception("Division by 0 on: '{$temp[$hold-2]} / {$temp[$hold-1]}' in {$this->inFix}", Parser::E_DIV_ZERO);
 						}
 						$temp[$hold-2] = $temp[$hold-2] / $temp[$hold-1];
 						break;
@@ -323,8 +318,7 @@ class Parser {
                         break;
 					case '%':
 						if($temp[$hold-1] == 0) {
-							throw new Exception("Division by 0 on: '{$temp[$hold-2]} % {$temp[$hold-1]}' in {$this->inFix}", Parser::E_DIV_ZERO);
-							return false;
+							throw new \Exception("Division by 0 on: '{$temp[$hold-2]} % {$temp[$hold-1]}' in {$this->inFix}", Parser::E_DIV_ZERO);
 						}
 						$temp[$hold-2] = bcmod($temp[$hold-2], $temp[$hold-1]);
 						break;
@@ -363,13 +357,15 @@ class Parser {
 		//Check to make sure a 'valid' expression
 		$this->checkInfix($infix);
 
-		$ops = new Stack();
-		$vars = new Stack();
+		//$ops = new Stack();
+		//$vars = new Stack();
+        $hand = null;
 
 		//remove all white-space
 		$infix = preg_replace("/\s/", "", $infix);
-		if(Parser::$debug)
+		if(Parser::$debug) {
 			$hand=fopen("eq.txt","a");
+        }
 
         //replace scientific notation with normal notation (2e-9 to 2*10^-9)
         $infix = preg_replace('/([\d])([eE])(-?\d)/', '$1*10^$3', $infix);
@@ -401,8 +397,7 @@ class Parser {
                 $t = (strtolower($match[2])=='pi') ? pi() : exp(1);
                 $infix = str_replace($match[0], $match[1] . $front. $t. $back . $match[3], $infix);
             } elseif(!isset($vArray[$match[2]]) && (!is_array($vArray != "") && !is_numeric($vArray))) {
-				throw new Exception("Variable replacement does not exist for '". substr($match[0], 1, -1) ."' in {$this->inFix}", Parser::E_NO_VAR);
-				return false;
+				throw new \Exception("Variable replacement does not exist for '". substr($match[0], 1, 1). $match[2] ."' in {$this->inFix}", Parser::E_NO_VAR);
 			} elseif(!isset($vArray[$match[2]]) && (!is_array($vArray != "") && is_numeric($vArray))) {
 				$infix = str_replace($match[0], $match[1] . $front. $vArray. $back . $match[3], $infix);
 			} elseif(isset($vArray[$match[2]])) {
@@ -410,8 +405,9 @@ class Parser {
 			}
 		}
 
-		if(Parser::$debug)
+		if(Parser::$debug) {
 			fwrite($hand, "$infix\n");
+        }
 
 		// Finds all the 'functions' within the equation and calculates them 
 		// NOTE - when using function, only 1 set of paranthesis will be found, instead use brackets for sets within functions!! 
@@ -430,24 +426,21 @@ class Parser {
 				case "sec":
 					$tmp = cos($func);
 					if($tmp == 0) {
-						throw new Exception("Division by 0 on: 'sec({$func}) = 1/cos({$func})' in {$this->inFix}", Parser::E_DIV_ZERO);
-						return false;
+						throw new \Exception("Division by 0 on: 'sec({$func}) = 1/cos({$func})' in {$this->inFix}", Parser::E_DIV_ZERO);
 					}
 					$ans = 1/$tmp;
 					break;
 				case "csc":
 					$tmp = sin($func);
 					if($tmp == 0) {
-						throw new Exception("Division by 0 on: 'csc({$func}) = 1/sin({$func})' in {$this->inFix}", Parser::E_DIV_ZERO);
-						return false;
+						throw new \Exception("Division by 0 on: 'csc({$func}) = 1/sin({$func})' in {$this->inFix}", Parser::E_DIV_ZERO);
 					}
 					$ans = 1/$tmp;
 					break;
 				case "cot":
 					$tmp = tan($func);
 					if($tmp == 0) {
-						throw new Exception("Division by 0 on: 'cot({$func}) = 1/tan({$func})' in {$this->inFix}", Parser::E_DIV_ZERO);
-						return false;
+						throw new \Exception("Division by 0 on: 'cot({$func}) = 1/tan({$func})' in {$this->inFix}", Parser::E_DIV_ZERO);
 					}
 					$ans = 1/$tmp;
 					break;
@@ -457,21 +450,20 @@ class Parser {
                 case "log":
                     $ans = log($func);
                     if(is_nan($ans) || is_infinite($ans)) {
-                        throw new Exception("Result of 'log({$func}) = {$ans}' is either infinite or a non-number in {$this->inFix}", Parser::E_NAN);
-                        return false;
+                        throw new \Exception("Result of 'log({$func}) = {$ans}' is either infinite or a non-number in {$this->inFix}", Parser::E_NAN);
                     }
                     break;
                 case "log10":
                     $ans = log10($func);
                     if(is_nan($ans) || is_infinite($ans)) {
-                        throw new Exception("Result of 'log10({$func}) = {$ans}' is either infinite or a non-number in {$this->inFix}", Parser::E_NAN);
-                        return false;
+                        throw new \Exception("Result of 'log10({$func}) = {$ans}' is either infinite or a non-number in {$this->inFix}", Parser::E_NAN);
                     }
                     break;
                 case "sqrt":
                     $ans = sqrt($func);
                     break;
 				default:
+                    $ans = 0;
 					break;
 			}
 			$infix = str_replace($match[0], $ans, $infix);
@@ -500,7 +492,7 @@ class Parser {
         }
         //Until we can solve for non-integers, throw an error if not one.
         if(intval($num) != $num) {
-            throw new Exception("Factorial Error: {$num} is not an integer", Parser::E_NAN);
+            throw new \Exception("Factorial Error: {$num} is not an integer", Parser::E_NAN);
         }
         
         $tot = 1;
