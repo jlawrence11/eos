@@ -1,7 +1,7 @@
 {
     "name": "jlawrence/eos",
     "description": "Parse and solve math equations without using 'eval()'.",
-    "license": "MIT",
+    "license": "LGPL-2.1+",
     "keywords": ["EOS","equations","math","solve"],
     "authors": [
         {
