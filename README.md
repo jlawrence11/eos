@@ -1,6 +1,6 @@
-Tweaks made to allow the class to be used as a Composer package, and namespaced,
-beyond that all code is the same as the original so full credit to
-[https://github.com/jlawrence11/Classes](https://github.com/jlawrence11/Classes).
+Tweaks made to allow the class to be used as a Composer package, and namespaced by
+[thebeline](https://github.com/thebeline).  Thank you for the pull request and the
+initial conversion and composer setup.
 
 # Classes
 
