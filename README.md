@@ -5,18 +5,11 @@ beyond that all code is the same as the original so full credit to
 # Classes
 
 ## Composer Usage
-Add the repository to your `composer.json` file:
-```json
-"repositories": [{
-    "type": "vcs",
-    "url":  "git@github.com:thebeline/php-eos-class.git"
-}]
-```
 
 Add the dependency:
 ```json
 "require": {
-    "thebeline/eos": "dev-master"
+    "jlawrence/eos": "dev-master"
 }
 ```
 
