@@ -1,7 +1,6 @@
 <?php
 
-namespace EquationOS\Math;
-use EquationOS\Math\Parser;
+namespace jlawrence\eos;
 
 // fun class that requires the GD libraries to give visual output to the user 
 /* extends the Parser class so that it doesn't need to create it as a private var 
@@ -13,7 +12,7 @@ use EquationOS\Math\Parser;
  * equation to the user.  Extends the Parser class.
  *
  * @author Jon Lawrence <jlawrence11@gmail.com>
- * @copyright Copyright ©2005-2013 Jon Lawrence
+ * @copyright Copyright ï¿½2005-2013 Jon Lawrence
  * @license http://opensource.org/licenses/LGPL-2.1 LGPL 2.1 License
  * @package Math
  * @subpackage EOS

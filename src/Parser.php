@@ -27,14 +27,14 @@
  * - Fixed small implied multiplication problem
  *
  * @author Jon Lawrence <jlawrence11@gmail.com>
- * @copyright Copyright ©2005-2013, Jon Lawrence
+ * @copyright Copyright ï¿½2005-2013, Jon Lawrence
  * @license http://opensource.org/licenses/LGPL-2.1 LGPL 2.1 License
  * @package EOS
  * @version 2.0
  */
 
-namespace EquationOS\Math;
-use EquationOS\Util\Stack;
+namespace jlawrence\eos;
+
 
 /**
  * Equation Operating System (EOS) Parser
@@ -375,9 +375,9 @@ class Parser {
         $infix = preg_replace('/([\d])([eE])(-?\d)/', '$1*10^$3', $infix);
 
 		//Find all the variables that were passed and replaces them
-		while((preg_match('/(.){0,1}[&$]([a-zA-Z_][a-zA-Z0-9_]+)(.){0,1}/', $infix, $match)) != 0) {
+        while((preg_match('/(.){0,1}[&$]([a-zA-Z]+)(.){0,1}/', $infix, $match)) != 0) {
 
-			//remove notices by defining if undefined.
+            //remove notices by defining if undefined.
 			if(!isset($match[3])) {
 				$match[3] = "";
 			}

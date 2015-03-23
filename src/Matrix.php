@@ -10,7 +10,7 @@
  * @subpackage Matrix
  */
 
-namespace EquationOS\Math;
+namespace jlawrence\eos;
 
 /**
  * Matrix Class
@@ -23,7 +23,7 @@ namespace EquationOS\Math;
  * @version $Id: matrix.class.php 10 2012-08-06 23:41:36Z jlawrence11 $
  * @author Jon Lawrence <JLawrence11@gmail.com>
  * @license http://opensource.org/licenses/LGPL-2.1 LGPL 2.1 License
- * @copyright Copyright ©2012, Jon Lawrence
+ * @copyright Copyright ï¿½2012, Jon Lawrence
  * @package Math
  * @subpackage Matrix
  */
