@@ -189,10 +189,15 @@ class Parser {
 			// if the character is numerical
 			if(preg_match('/[0-9.]/i', $chr)) {
 				// if the previous character was not a '-' or a number
-				if((!preg_match('/[0-9.]/i', $lChar) && ($lChar != "")) && (@$pf[$pfIndex]!="-"))
+				if((!preg_match('/[0-9.]/i', $lChar) && ($lChar != "")) && (isset($pf[$pfIndex]) && ($pf[$pfIndex]!="-")))
 					$pfIndex++;	// increase the index so as not to overlap anything
 				// Add the number character to the array
-				@$pf[$pfIndex] .= $chr;
+                if(isset($pf[$pfIndex])) {
+                    $pf[$pfIndex] .= $chr;
+                } else {
+                    $pf[$pfIndex] = $chr;
+                }
+
 			}
 			// If the character opens a set e.g. '(' or '['
 			elseif(in_array($chr, $this->SEP['open'])) {
