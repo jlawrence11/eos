@@ -15,7 +15,7 @@ Add the dependency:
 
 `$ composer update` and you're done.
 
-## eos.class.php
+## jlawrence\eos\Parser
 
 ### Equation Operating System
 
@@ -28,16 +28,16 @@ call is representational of the class being used, but should be initialized
 and assigned to a variable first.  It is also important to note that these
 classes throw exceptions if running in to errors, please read the beginning
 of the `eos.class.php` file for the defines of the exceptions thrown. Exceptions
-includes a descriptive message of the error encountered and within `eqEOS` will
+includes a descriptive message of the error encountered and within `Parser` will
 also typically include the full equation used.
 
-#### eqEOS
+#### Parser
 
-This class has one important function, `eqEOS::solveIF()` which does all the legwork,
+This class has one important function, `Parser::solveIF()` which does all the legwork,
 so we'll start there and end with examples.  
 To initialize this class, use:
 
-    $eos = new eqEOS();
+    $eos = new jlawrence\eos\Parser();
 
 ##### solveIF($infix, $variables)
 
@@ -94,25 +94,25 @@ Given the equation:
 
 If this is called by:
 
-    eqEOS::solveIF('5$x^$y', 2)
+    Parser::solveIF('5$x^$y', 2)
 
 It will equal '20', as every variable is replaced by 2.  However, if called like:
 
-    eqEOS::solveIF('5$x^$y', array(
+    Parser::solveIF('5$x^$y', array(
                                 'x' => 2,
                                 'y' => 3);
 
 You will get the result of '40' as it would equate to `5*2^3`, as expected.
 
-#### eqGraph
+#### jlawrence\eos\Graph
 
-This is the fun class that can create graphs.  It extends `eqEOS`.  
+This is the fun class that can create graphs.  It extends `Parser`.
 To initialize use:
 
-    $graph = new eqGraph($width, $height);
+    $graph = new Graph($width, $height);
 
 The `$width` and `$height` are the values used for the image size, defaulting to
-a `640x480` image size if initialized with `$graph = new eqGraph();`
+a `640x480` image size if initialized with `$graph = new jlawrence\eos\Graph();`
 
 ##### graph($eq, $xLow, $xHigh, $xStep, [$xyGrid, $yGuess, ...])
 
