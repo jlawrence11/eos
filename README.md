@@ -15,9 +15,9 @@ Add the dependency:
 
 `$ composer update` and you're done.
 
-## jlawrence\eos\Parser
+## Equation Operating System
 
-### Equation Operating System
+### jlawrence\eos\
 
 This class makes it incredibly easy to use and parse/solve equations in
 your own applications. It includes a graph generator to turn an equation
@@ -104,7 +104,7 @@ It will equal '20', as every variable is replaced by 2.  However, if called like
 
 You will get the result of '40' as it would equate to `5*2^3`, as expected.
 
-#### jlawrence\eos\Graph
+#### Graph
 
 This is the fun class that can create graphs.  It extends `Parser`.
 To initialize use:
