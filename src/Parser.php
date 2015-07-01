@@ -415,8 +415,10 @@ class Parser {
         }
 
 		// Finds all the 'functions' within the equation and calculates them 
-		// NOTE - when using function, only 1 set of paranthesis will be found, instead use brackets for sets within functions!! 
-		while((preg_match("/(". implode("|", $this->FNC) . ")\(([^\)\(]*(\([^\)]*\)[^\(\)]*)*[^\)\(]*)\)/", $infix, $match)) != 0) {
+		// NOTE - when using function, only 1 set of paranthesis will be found, instead use brackets for sets within functions!!
+		//while((preg_match("/(". implode("|", $this->FNC) . ")\(([^\)\(]*(\([^\)]*\)[^\(\)]*)*[^\)\(]*)\)/", $infix, $match)) != 0) {
+        //Nested parenthesis are now a go!
+        while((preg_match("/(". implode("|", $this->FNC) . ")\(((?:[^()]|\((?2)\))*+)\)/", $infix, $match)) != 0) {
 			$func = $this->solveIF($match[2]);
 			switch($match[1]) {
 				case "cos":
@@ -465,6 +467,9 @@ class Parser {
                     }
                     break;
                 case "sqrt":
+                    if($func < 0) {
+                        throw new \Exception("Result of 'sqrt({$func}) = i.  We can't handle imaginary numbers", Parser::E_NAN);
+                    }
                     $ans = sqrt($func);
                     break;
 				default:
