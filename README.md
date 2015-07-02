@@ -8,11 +8,11 @@ initial conversion and composer setup.
 [![Latest Stable Version](https://poser.pugx.org/jlawrence/eos/v/stable)](https://packagist.org/packages/jlawrence/eos) [![Total Downloads](https://poser.pugx.org/jlawrence/eos/downloads)](https://packagist.org/packages/jlawrence/eos)  [![License](https://poser.pugx.org/jlawrence/eos/license)](https://packagist.org/packages/jlawrence/eos)
 
 Add the dependency:
-```json
-"require": {
-    "jlawrence/eos": "dev-master"
-}
-```
+
+	"require": {
+	    "jlawrence/eos": "2.*"
+	}
+
 
 `$ composer update` and you're done.
 
