@@ -11,6 +11,10 @@
  * developer.  It is a safe way to evaluate expressions without putting
  * the system at risk.
  *
+ * 2015/07
+ * - Added all real number factorial support
+ * - Added gamma function to class
+ *
  * 2014/08
  * - Added scientific notation support
  * - Added basic factorial support
@@ -27,10 +31,10 @@
  * - Fixed small implied multiplication problem
  *
  * @author Jon Lawrence <jlawrence11@gmail.com>
- * @copyright Copyright �2005-2013, Jon Lawrence
+ * @copyright Copyright 2005-2015, Jon Lawrence
  * @license http://opensource.org/licenses/LGPL-2.1 LGPL 2.1 License
  * @package EOS
- * @version 2.0
+ * @version 2.2
  */
 
 namespace jlawrence\eos;
@@ -415,7 +419,7 @@ class Parser {
         }
 
 		// Finds all the 'functions' within the equation and calculates them 
-		// NOTE - when using function, only 1 set of paranthesis will be found, instead use brackets for sets within functions!!
+		// NOTE - when using function, only 1 set of parenthesis will be found, instead use brackets for sets within functions!!
 		//while((preg_match("/(". implode("|", $this->FNC) . ")\(([^\)\(]*(\([^\)]*\)[^\(\)]*)*[^\)\(]*)\)/", $infix, $match)) != 0) {
         //Nested parenthesis are now a go!
         while((preg_match("/(". implode("|", $this->FNC) . ")\(((?:[^()]|\((?2)\))*+)\)/", $infix, $match)) != 0) {
@@ -486,23 +490,26 @@ class Parser {
 	} //end function solveIF
     
     /**
-	 * Solvwe factorial (!)
+	 * Solve factorial (!)
 	 *
-	 * Will take an integer and solve for it's factorial. Eg.
-     * `5!` will become `1*2*3*4*5` = `120`
-     * TODO: 
-     *    Solve for non-integer factorials
+	 * Will take any real positive number and solve for it's factorial. Eg.
+     * `5!` will become `1*2*3*4*5` = `120` For integers
+     * and
+     * 5.2! will become gamma(6.2) for non-integers
+     * DONE:
+     *    Solve for non-integer factorials  2015/07/02
 	 *
-	 * @param Integer $num Number to get factorial of
-	 * @return Integer Solved factorial
+	 * @param Float $num Non-negative real number to get factorial of
+     * @throws \Exception if number is at or less than 0
+	 * @return Float Solved factorial
 	 */
     protected function factorial($num) {
-        if($num < 2) {
-            return 1;
+        if($num < 0) {
+            throw new \Exception("Factorial Error: Factorials don't exist for numbers < 0", Parser::E_NAN);
         }
-        //Until we can solve for non-integers, throw an error if not one.
+        //A non-integer!  Gamma that sucker up!
         if(intval($num) != $num) {
-            throw new \Exception("Factorial Error: {$num} is not an integer", Parser::E_NAN);
+            return $this->gamma($num + 1);
         }
         
         $tot = 1;
@@ -511,4 +518,67 @@ class Parser {
         }
         return $tot;
     } //end function factorial
+
+    /**
+     * Gamma Function
+     *
+     * Because we can. This function exists as a catch-all for different
+     * numerical approx. of gamma if I decide to add any past Lanczos'.
+     * This method is public because a function doesn't currently exist
+     * within this parser to use it.  That will change in the future.
+     *
+     * @param $z Number to compute gamma from
+     * @return Float The gamma (hopefully, I'll test it after writing the code)
+     */
+    public function gamma($z)
+    {
+        return $this->laGamma($z);
+    }
+
+    /**
+     * Lanczos Approximation
+     *
+     * The Lanczos Approximation method of finding gamma values
+     *
+     * @link http://www.rskey.org/CMS/index.php/the-library/11
+     * @link http://algolist.manual.ru/maths/count_fast/gamma_function.php
+     * @link https://en.wikipedia.org/wiki/Lanczos_approximation
+     * @param float $z Number to obtain the gamma of
+     * @return float Gamma of inputted number
+     * @throws \Exception if Number is less than or equal to 0
+     */
+    protected function laGamma($z)
+    {
+        //check validity of $z, throw error if not a valid number to be used with gamma
+        if($z <= 0) {
+            throw new \Exception("Gamma cannot be calculated on numbers less than or equal to 0", Parser::E_NAN);
+        }
+        // Set up coefficients
+        $p = array(
+            0 => 1.000000000190015,
+            1 => 76.18009172947146,
+            2 => -86.50532032941677,
+            3 => 24.01409824083091,
+            4 => -1.231739572450155,
+            5 => 1.208650973866179E-3,
+            6 => -5.395239384953E-6
+        );
+        //formula:
+        // ((sqrt(2pi)/z)(p[0]+sum(p[n]/(z+n), 1, 6)))(z+5.5)^(z+0.5)*e^(-(z+5.5))
+        // Break it down now...
+        $g1 = sqrt(2*pi())/$z;
+        //Next comes our summation
+        $g2 =0;
+        for($n=1;$n<=6;$n++) {
+            $g2 += $p[$n]/($z+$n);
+        }
+        // Don't forget to add p[0] to it...
+        $g2 += $p[0];
+        $g3 = pow($z+5.5, $z + .5);
+        $g4 = exp(-($z+5.5));
+        //now just multiply them all together
+        $gamma = $g1 * $g2 * $g3 * $g4;
+        return $gamma;
+    }
+
 } //end class 'Parser'
