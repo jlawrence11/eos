@@ -49,17 +49,19 @@ To use this function:
 ###### _$infix_
 
 Is simply a standard equation with variable support. Variables
-have two forms, one is native to PHP programmers already, prefixed with '$'.
+have three forms, one is native to PHP programmers already, prefixed with '$'.
 The other way to declare a variable is with '&amp;' and is included for
-backward compatibility for with the initial version from 2005.  
+backward compatibility for with the initial version from 2005. The final way is as most people actually working with equations will understand.  There is no need for a sigis anymore.
+
 Example Equations:
 
     2(4$x)
     2(4&x)
+	2(4x)
     5+ ((1+2)*4) +3
     5+4(1+2)+3
-    10*sin($x)
-    10*cos($x)
+    10*sin(x)
+    10*cos(x)
 
 The first two pairs shown are exactly the same.  The parser has good implied
 multiplication, for everything but allowed functions.  Allowed functions require
@@ -91,15 +93,15 @@ Such as:
 
 Given the equation:
 
-    5$x^$y
+    5x^y
 
 If this is called by:
 
-    Parser::solveIF('5$x^$y', 2)
+    Parser::solveIF('5x^y', 2)
 
 It will equal '20', as every variable is replaced by 2.  However, if called like:
 
-    Parser::solveIF('5$x^$y', array(
+    Parser::solveIF('5x^y', array(
                                 'x' => 2,
                                 'y' => 3);
 
