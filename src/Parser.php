@@ -391,7 +391,7 @@ class Parser {
 		//while((preg_match("/(". implode("|", $this->FNC) . ")\(([^\)\(]*(\([^\)]*\)[^\(\)]*)*[^\)\(]*)\)/", $infix, $match)) != 0) {
         //Nested parenthesis are now a go!
         while((preg_match("/(". implode("|", $this->FNC) . ")\(((?:[^()]|\((?2)\))*+)\)/", $infix, $match)) != 0) {
-			$func = $this->solveIF($match[2]);
+			$func = $this->solveIF($match[2], $vArray);
 			switch($match[1]) {
 				case "cos":
 					$ans = cos($func);
