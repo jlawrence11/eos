@@ -34,7 +34,7 @@
  * @copyright Copyright 2005-2015, Jon Lawrence
  * @license http://opensource.org/licenses/LGPL-2.1 LGPL 2.1 License
  * @package EOS
- * @version 2.2
+ * @version 2.2.1
  */
 
 namespace jlawrence\eos;
@@ -54,7 +54,7 @@ namespace jlawrence\eos;
  * @license http://opensource.org/licenses/LGPL-2.1 LGPL 2.1 License
  * @package Math
  * @subpackage EOS
- * @version 2.0
+ * @version 2.2.1
  */
 class Parser {
 	
@@ -164,6 +164,7 @@ class Parser {
 	 * @link http://en.wikipedia.org/wiki/Infix_notation Infix Notation
 	 * @link http://en.wikipedia.org/wiki/Reverse_Polish_notation Reverse Polish Notation
 	 * @param String $infix A standard notation equation
+     * @throws \Exception When parenthesis are mismatched.
 	 * @return Array Fully formed RPN Stack
 	 */
 	public function in2post($infix = null) {
@@ -279,10 +280,11 @@ class Parser {
 	 * 
 	 * This function will solve a RPN array. Default action is to solve
 	 * the RPN array stored in the class from Parser::in2post(), can take
-	 * an array input to solve as well, though default action is prefered.
+	 * an array input to solve as well, though default action is preferred.
 	 *
 	 * @link http://en.wikipedia.org/wiki/Reverse_Polish_notation Postix Notation
 	 * @param Array $pfArray RPN formatted array. Optional.
+     * @throws \Exception On division by zero.
      * @return Float Result of the operation.
 	 */
 	public function solvePF($pfArray = null) {
@@ -359,6 +361,7 @@ class Parser {
 	 *
 	 * @param String $infix Standard Equation to solve
 	 * @param String|Array $vArray Variable replacement
+     * @throws \Exception On division by zero and on NaN and lack of variable replacement.
 	 * @return Float Solved equation
 	 */
 	function solveIF($infix, $vArray = null) {
@@ -378,41 +381,6 @@ class Parser {
 
         //replace scientific notation with normal notation (2e-9 to 2*10^-9)
         $infix = preg_replace('/([\d])([eE])(-?\d)/', '$1*10^$3', $infix);
-
-		//Find all the variables that were passed and replaces them
-        while((preg_match('/(.){0,1}[&$]([a-zA-Z]+)(.){0,1}/', $infix, $match)) != 0) {
-
-            //remove notices by defining if undefined.
-			if(!isset($match[3])) {
-				$match[3] = "";
-			}
-
-			if(Parser::$debug)
-				fwrite($hand, "{$match[1]} || {$match[3]}\n");
-			// Ensure that the variable has an operator or something of that sort in front and back - if it doesn't, add an implied '*'
-			if((!in_array($match[1], array_merge($this->ST, $this->ST1, $this->ST2, $this->SEP['open'])) && $match[1] != "") || is_numeric($match[1])) //$this->SEP['close'] removed
-				$front = "*";
-			else
-				$front = "";
-
-			if((!in_array($match[3], array_merge($this->ST, $this->ST1, $this->ST2, $this->SEP['close'])) && $match[3] != "") || is_numeric($match[3])) //$this->SEP['open'] removed
-				$back = "*";
-			else
-				$back = "";
-			
-			//Make sure that the variable does have a replacement
-            //First check for pi and e variables that wll automagically be replaced
-            if(in_array(strtolower($match[2]), array('pi', 'e'))) {
-                $t = (strtolower($match[2])=='pi') ? pi() : exp(1);
-                $infix = str_replace($match[0], $match[1] . $front. $t. $back . $match[3], $infix);
-            } elseif(!isset($vArray[$match[2]]) && (!is_array($vArray != "") && !is_numeric($vArray))) {
-				throw new \Exception("Variable replacement does not exist for '". substr($match[0], 1, 1). $match[2] ."' in {$this->inFix}", Parser::E_NO_VAR);
-			} elseif(!isset($vArray[$match[2]]) && (!is_array($vArray != "") && is_numeric($vArray))) {
-				$infix = str_replace($match[0], $match[1] . $front. $vArray. $back . $match[3], $infix);
-			} elseif(isset($vArray[$match[2]])) {
-				$infix = str_replace($match[0], $match[1] . $front. $vArray[$match[2]]. $back . $match[3], $infix);
-			}
-		}
 
 		if(Parser::$debug) {
 			fwrite($hand, "$infix\n");
@@ -482,6 +450,42 @@ class Parser {
 			}
 			$infix = str_replace($match[0], $ans, $infix);
 		}
+
+        //Find all the variables that were passed and replaces them
+        while((preg_match('/(.){0,1}[&$]{0,1}([a-zA-Z]+)(.){0,1}/', $infix, $match)) != 0) {
+
+            //remove notices by defining if undefined.
+            if(!isset($match[3])) {
+                $match[3] = "";
+            }
+
+            if(Parser::$debug)
+                fwrite($hand, "{$match[1]} || {$match[3]}\n");
+            // Ensure that the variable has an operator or something of that sort in front and back - if it doesn't, add an implied '*'
+            if((!in_array($match[1], array_merge($this->ST, $this->ST1, $this->ST2, $this->SEP['open'])) && $match[1] != "") || is_numeric($match[1])) //$this->SEP['close'] removed
+                $front = "*";
+            else
+                $front = "";
+
+            if((!in_array($match[3], array_merge($this->ST, $this->ST1, $this->ST2, $this->SEP['close'])) && $match[3] != "") || is_numeric($match[3])) //$this->SEP['open'] removed
+                $back = "*";
+            else
+                $back = "";
+
+            //Make sure that the variable does have a replacement
+            //First check for pi and e variables that wll automagically be replaced
+            if(in_array(strtolower($match[2]), array('pi', 'e'))) {
+                $t = (strtolower($match[2])=='pi') ? pi() : exp(1);
+                $infix = str_replace($match[0], $match[1] . $front. $t. $back . $match[3], $infix);
+            } elseif(!isset($vArray[$match[2]]) && (!is_array($vArray != "") && !is_numeric($vArray))) {
+                throw new \Exception("Variable replacement does not exist for '". substr($match[0], 1, 1). $match[2] ."' in {$this->inFix}", Parser::E_NO_VAR);
+            } elseif(!isset($vArray[$match[2]]) && (!is_array($vArray != "") && is_numeric($vArray))) {
+                $infix = str_replace($match[0], $match[1] . $front. $vArray. $back . $match[3], $infix);
+            } elseif(isset($vArray[$match[2]])) {
+                $infix = str_replace($match[0], $match[1] . $front. $vArray[$match[2]]. $back . $match[3], $infix);
+            }
+        }
+
 		if(Parser::$debug)
 			fclose($hand);
 		return $this->solvePF($this->in2post($infix));
