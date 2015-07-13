@@ -35,7 +35,7 @@ so we'll start there and end with examples.
 
 To use this function:
 
-    $value = Parser::solveIF($eq, $vars);
+    $value = Parser::solve($eq, $vars);
 
 ###### _$infix_
 
