@@ -35,10 +35,10 @@ namespace jlawrence\eos;
 class Parser {
 
     /**#@+
-     *Private variables
+     *public variables
      */
-    //private $postFix;
-    //private $inFix;
+    //Public so advanced/user-defined/etc can access it when throwing exceptions.
+    public static $inFix;
     /**#@-*/
     /**#@+
      * Protected variables
@@ -110,11 +110,10 @@ class Parser {
         //Make sure we have the same number of '(' as we do ')'
         // and the same # of '[' as we do ']'
         if(substr_count($infix, '(') != substr_count($infix, ')')) {
-            throw new \Exception("Mismatched parenthesis in '{$infix}'", Math::E_NO_SET);
+            throw new \Exception("Mismatched parenthesis in ". self::$inFix, Math::E_NO_SET);
         } elseif(substr_count($infix, '[') != substr_count($infix, ']')) {
-            throw new \Exception("Mismatched brackets in '{$infix}'", Math::E_NO_SET);
+            throw new \Exception("Mismatched brackets in '". self::$inFix, Math::E_NO_SET);
         }
-        //$this->inFix = $infix;
         return true;
     }
 
@@ -186,7 +185,7 @@ class Parser {
                     if($nchr)
                         $pf[++$pfIndex] = $nchr;
                     else {
-                        throw new \Exception("Error while searching for '". self::$SEP['open'][$key] ."' in '{$infix}'.", Math::E_NO_SET);
+                        throw new \Exception("Error while searching for '". self::$SEP['open'][$key] ."' in ". self::$inFix, Math::E_NO_SET);
                     }
                 }
                 $ops->pop();
@@ -235,7 +234,8 @@ class Parser {
         // set the private variable for later use if needed
         //self::$postFix = $pf;
 
-        // return the RPN array in case developer wants to use it fro some insane reason (bug testing ;]
+        // return the RPN array in case developer wants to use it for some insane reason (bug testing ;] )
+        // Also... because we pass it right in to the RPN solver.  So I guess there's that too.
         return $pf;
     } //end function in2post
 
@@ -244,16 +244,14 @@ class Parser {
      *
      * This function will solve a RPN array. Default action is to solve
      * the RPN array stored in the class from Parser::in2post(), can take
-     * an array input to solve as well, though default action is prefered.
+     * an array input to solve as well, though default action is preferred.
      *
      * @link http://en.wikipedia.org/wiki/Reverse_Polish_notation Postix Notation
      * @param Array $pfArray RPN formatted array. Optional.
      * @throws \Exception on division by 0
      * @return Float Result of the operation.
      */
-    public static function solvePF($pfArray = null) {
-        // if no RPN array is passed - use the one stored in the private var
-        //$pf = (!is_array($pfArray)) ? $this->postFix : $pfArray;
+    public static function solvePF($pfArray) {
         $pf = $pfArray;
 
         // create our temporary function variables
@@ -281,7 +279,7 @@ class Parser {
                         break;
                     case '/':
                         if($temp[$hold-1] == 0) {
-                            throw new \Exception("Division by 0 on: '{$temp[$hold-2]} / {$temp[$hold-1]}'", Math::E_DIV_ZERO);
+                            throw new \Exception("Division by 0 on: '{$temp[$hold-2]} / {$temp[$hold-1]}' in ". self::$inFix, Math::E_DIV_ZERO);
                         }
                         $temp[$hold-2] = $temp[$hold-2] / $temp[$hold-1];
                         break;
@@ -294,7 +292,7 @@ class Parser {
                         break;
                     case '%':
                         if($temp[$hold-1] == 0) {
-                            throw new \Exception("Division by 0 on: '{$temp[$hold-2]} % {$temp[$hold-1]}'", Math::E_DIV_ZERO);
+                            throw new \Exception("Division by 0 on: '{$temp[$hold-2]} % {$temp[$hold-1]}' in ". self::$inFix, Math::E_DIV_ZERO);
                         }
                         $temp[$hold-2] = bcmod($temp[$hold-2], $temp[$hold-1]);
                         break;
@@ -308,10 +306,25 @@ class Parser {
 
     } //end function solvePF
 
+
+    /**
+     * Solve
+     *
+     * This function is called by the user to solve an equation within the parser system
+     * No internal functions or added advanced functions should ever call this. Sets
+     * the internal $infix variable for use in thrown exceptions. The variable array must
+     * be in the format of 'variable' => value. If variable array is scalar (ie 5), all
+     * variables will be replaced with it.
+     *
+     * @param $equation String Equation to Solve
+     * @param Array|Double $values variable values
+     * @return Float Answer to the equation
+     */
     public static function solve($equation, $values = null) {
         if(is_array($equation)) {
             return self::solvePF($equation);
         } else {
+            self::$inFix = $equation;
             return self::solveIF($equation, $values);
         }
     }
@@ -319,10 +332,11 @@ class Parser {
     /**
      * Solve Infix (Standard) Notation Equation
      *
-     * Will take a standard equation with optional variables and solve it. Variables
-     * must begin with '&' or '$'
-     * The variable array must be in the format of 'variable' => value. If
-     * variable array is scalar (ie 5), all variables will be replaced with it.
+     * Will take a standard equation with optional variables and solve it.
+     * This function is the one for programmers making modules for this
+     * package should call as it does not set the internal variable for
+     * the equation.  This should not be used by the programmer/user that
+     * is using this package to solve equations.
      *
      * @param String $infix Standard Equation to solve
      * @param String|Array $vArray Variable replacement
@@ -330,7 +344,6 @@ class Parser {
      * @return Float Solved equation
      */
     public static function solveIF($infix, $vArray = null) {
-        //$infix = ($infix != "") ? $infix : $this->inFix;
         //Check to make sure a 'valid' expression
         self::checkInfix($infix);
 
@@ -350,8 +363,6 @@ class Parser {
 
 
         // Finds all the 'functions' within the equation and calculates them
-        // NOTE - when using function, only 1 set of parenthesis will be found, instead use brackets for sets within functions!!
-        //while((preg_match("/(". implode("|", $this->FNC) . ")\(([^\)\(]*(\([^\)]*\)[^\(\)]*)*[^\)\(]*)\)/", $infix, $match)) != 0) {
         //Nested parenthesis are now a go!
         while((preg_match("/(". implode("|", self::$FNC) . ")\(((?:[^()]|\((?2)\))*+)\)/", $infix, $match)) != 0) {
             $func = self::solveIF($match[2], $vArray);
@@ -366,25 +377,13 @@ class Parser {
                     $ans = Trig::tan($func);
                     break;
                 case "sec":
-                    $tmp = Trig::cos($func);
-                    if($tmp == 0) {
-                        throw new \Exception("Division by 0 on: 'sec({$func}) = 1/cos({$func})'", Math::E_DIV_ZERO);
-                    }
-                    $ans = 1/$tmp;
+                    $ans = Trig::sec($func);
                     break;
                 case "csc":
-                    $tmp = Trig::sin($func);
-                    if($tmp == 0) {
-                        throw new \Exception("Division by 0 on: 'csc({$func}) = 1/sin({$func})'", Math::E_DIV_ZERO);
-                    }
-                    $ans = 1/$tmp;
+                    $ans = Trig::csc($func);
                     break;
                 case "cot":
-                    $tmp = Trig::tan($func);
-                    if($tmp == 0) {
-                        throw new \Exception("Division by 0 on: 'cot({$func}) = 1/tan({$func})'", Math::E_DIV_ZERO);
-                    }
-                    $ans = 1/$tmp;
+                    $ans = Trig::cot($func);
                     break;
                 case "abs":
                     $ans = abs($func);
@@ -392,12 +391,12 @@ class Parser {
                 case "ln":
                     $ans = log($func);
                     if(is_nan($ans) || is_infinite($ans)) {
-                        throw new \Exception("Result of 'log({$func}) = {$ans}' is either infinite or a non-number.", Math::E_NAN);
+                        throw new \Exception("Result of 'ln({$func}) = {$ans}' is either infinite or a non-number in ". self::$inFix, Math::E_NAN);
                     }
                     break;
                 case "sqrt":
                     if($func < 0) {
-                        throw new \Exception("Result of 'sqrt({$func}) = i.  We can't handle imaginary numbers", Math::E_NAN);
+                        throw new \Exception("Result of 'sqrt({$func}) = i' in ". self::$inFix .".  We can't handle imaginary numbers", Math::E_NAN);
                     }
                     $ans = sqrt($func);
                     break;
@@ -440,13 +439,12 @@ class Parser {
                 $back = "";
 
             //Make sure that the variable does have a replacement
-            //First check for pi and e variables that wll automagically be replaced
-            //echo $match[2];
+            //First check for pi and e variables that wll automatically be replaced
             if(in_array(strtolower($match[2]), array('pi', 'e'))) {
                 $t = (strtolower($match[2])=='pi') ? pi() : exp(1);
                 $infix = str_replace($match[0], $match[1] . $front. $t. $back . $match[3], $infix);
             } elseif(!isset($vArray[$match[2]]) && (!is_array($vArray != "") && !is_numeric($vArray))) {
-                throw new \Exception("Variable replacement does not exist for '". substr($match[0], 1, 1). $match[2] ."'.", Math::E_NO_VAR);
+                throw new \Exception("Variable replacement does not exist for '". $match[2] ."' in ". self::$inFix .".", Math::E_NO_VAR);
             } elseif(!isset($vArray[$match[2]]) && (!is_array($vArray != "") && is_numeric($vArray))) {
                 $infix = str_replace($match[0], $match[1] . $front. $vArray. $back . $match[3], $infix);
             } elseif(isset($vArray[$match[2]])) {
@@ -471,7 +469,7 @@ class Parser {
      */
     protected static function factorial($num) {
         if($num < 0) {
-            throw new \Exception("Factorial Error: Factorials don't exist for numbers < 0", Math::E_NAN);
+            throw new \Exception("Factorial Error: Factorials don't exist for numbers < 0 in ". self::$inFix, Math::E_NAN);
         }
         //A non-integer!  Gamma that sucker up!
         if(intval($num) != $num) {

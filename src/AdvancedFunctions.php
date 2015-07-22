@@ -56,7 +56,7 @@ class AdvancedFunctions
         $sc = Parser::solveIF($eq, $vars);
         $ans = log($sc, $base);
         if(is_nan($ans) || is_infinite($ans)) {
-            throw new \Exception("Result of 'log({$eq}, {$base}) = {$ans}' is either infinite or a non-number.", Math::E_NAN);
+            throw new \Exception("Result of 'log({$eq}, {$base}) = {$ans}' is either infinite or a non-number in ". Parser::$inFix, Math::E_NAN);
         }
         return $ans;
     }

@@ -34,7 +34,6 @@ class Trig
     public static function cos($x)
     {
         return cos(self::getRadDeg($x));
-        return cos(deg2rad($x));
     }
 
     public static function sin($x)
@@ -51,7 +50,7 @@ class Trig
     {
         $tmp = self::cos($x);
         if($tmp == 0) {
-            throw new \Exception("Division by 0 on: 'sec({$x})) = 1/cos({$x})'", Math::E_DIV_ZERO);
+            throw new \Exception("Division by 0 on: 'sec({$x}) = 1/cos({$x})' in ". Parser::$inFix, Math::E_DIV_ZERO);
         }
         return 1/$tmp;
     }
@@ -60,7 +59,7 @@ class Trig
     {
         $tmp = self::sin($x);
         if($tmp == 0) {
-            throw new \Exception("Division by 0 on: 'csc({$x})) = 1/sin({$x})'", Math::E_DIV_ZERO);
+            throw new \Exception("Division by 0 on: 'csc({$x})) = 1/sin({$x})' in ". Parser::$inFix, Math::E_DIV_ZERO);
         }
         return 1/$tmp;
     }
@@ -69,7 +68,7 @@ class Trig
     {
         $tmp = self::tan($x);
         if($tmp == 0) {
-            throw new \Exception("Division by 0 on: 'cot({$x})) = 1/tan({$x})'", Math::E_DIV_ZERO);
+            throw new \Exception("Division by 0 on: 'cot({$x})) = 1/tan({$x})' in ". Parser::$inFix, Math::E_DIV_ZERO);
         }
         return 1/$tmp;
     }

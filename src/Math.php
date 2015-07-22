@@ -7,7 +7,7 @@ namespace jlawrence\eos;
 
 /**
  * Class Math
- * @package jlawrence\Math
+ * @package jlawrence\eos
  *
  * Will be a holder for constants, variables, and other things commonly needed by the
  * rest of the package.
