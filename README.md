@@ -1,6 +1,4 @@
-Tweaks made to allow the class to be used as a Composer package, and namespaced by
-[thebeline](https://github.com/thebeline).  Thank you for the pull request and the
-initial conversion and composer setup.
+**IF YOU USE `dev-master` IN COMPOSER, MAKE SURE TO CHANGE TO THE 2.2.2 RELEASE AS THIS BRANCH WILL SOON CONTAIN AN INCOMPATIBLE VERSION.**
 
 # Classes
 
