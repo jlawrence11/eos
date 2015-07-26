@@ -3,8 +3,7 @@
 namespace jlawrence\eos;
 
 // fun class that requires the GD libraries to give visual output to the user 
-/* extends the Parser class so that it doesn't need to create it as a private var 
-    - and it extends the functionality of that class */
+
 /**
  * Equation Graph
  *
@@ -12,20 +11,21 @@ namespace jlawrence\eos;
  * equation to the user.  Extends the Parser class.
  *
  * @author Jon Lawrence <jlawrence11@gmail.com>
- * @copyright Copyright �2005-2013 Jon Lawrence
+ * @copyright Copyright ©2005-2013 Jon Lawrence
  * @license http://opensource.org/licenses/LGPL-2.1 LGPL 2.1 License
  * @package Math
  * @subpackage EOS
- * @version 2.0
+ * @version 3.x
  */
-class Graph extends Parser {
-	private $width;
-	private $height;
+class Graph {
+	private static $width = 640;
+	private static $height = 480;
 	//GD Image reference
-	private $image;
+	private static $image;
+    public static $labelAxis = true;
 
 	/**
-	 * Constructor
+	 * Initializer
 	 *
 	 * Sets up the Graph class with an image width and height defaults to
 	 * 640x480
@@ -33,12 +33,12 @@ class Graph extends Parser {
 	 * @param Integer $width Image width
 	 * @param Integer $height Image height
 	 */
-	public function __construct($width=640, $height=480) {
+	public static function init($width=640, $height=480) {
 		// default width and height equal to that of a poor monitor (in early 2000s)
-		$this->width = $width;
-		$this->height = $height;
-		//initialize main class variables
-		parent::__construct();
+		self::$width = $width;
+		self::$height = $height;
+		//initialize main class
+		Parser::init();
 	} //end function eqGraph
 
 
@@ -51,67 +51,98 @@ class Graph extends Parser {
 	 * @param Integer $xLow Lower x-bound for graph
 	 * @param Integer $xHigh Upper x-bound for graph
 	 * @param Float $xStep Stepping points while solving, the lower, the better precision. Slow if lower than .01
-	 * @param Boolean $xyGrid Draw gridlines?
+	 * @param Boolean $xyGrid Draw grid-lines?
 	 * @param Boolean $yGuess Guess the upper/lower yBounds?
 	 * @param Integer $yLow Lower y-bound
 	 * @param Integer $yHigh Upper y-bound
 	 * @return Null
 	 */
-	public function graph($eq, $xLow, $xHigh, $xStep, $xyGrid = false, $yGuess = true, $yLow=false, $yHigh=false) {
+    public static function graph($eq, $xLow, $xHigh, $xStep, $xyGrid = false, $yGuess = true, $yLow=null, $yHigh=null) {
 		//create our image and allocate the two colors
-		$img = ImageCreate($this->width, $this->height);
-		//$white = ImageColorAllocate($img, 255, 255, 255);
+		$img = ImageCreate(self::$width, self::$height);
+        //The following noinspection needed because the first color allocated is the background, but not used for anything else.
+        /** @noinspection PhpUnusedLocalVariableInspection */
+        $white = ImageColorAllocate($img, 255, 255, 255);
 		$black = ImageColorAllocate($img, 0, 0, 0);
-		$grey = ImageColorAllocate($img, 220, 220, 220);
+		$grey = ImageColorAllocate($img, 150, 150, 150);
+        $darkGrey = ImageColorAllocate($img, 50, 50, 50);
 		$xStep = abs($xStep);
         $hand = null;
         $xVars = array();
+        //If yGuess is true, make sure yLow and yHigh are not set
+        if($yGuess){
+            $yLow = null;
+            $yHigh = null;
+        }
+        //We want to limit the number of lines/ticks/etc so graph remains readable, set max now
+        $xMaxLines = 30;
+        $yMaxLines = 30;
 		//DEVELOPER, UNCOMMENT NEXT LINE IF WANTING TO PREVENT SLOW GRAPHS
 		//$xStep = ($xStep < .01) ? $xStep : 0.01;
 		if($xLow > $xHigh)
 			list($xLow, $xHigh) = array($xHigh, $xLow);	//swap function
 		
-		$xScale = $this->width/($xHigh-$xLow);
+		$xScale = self::$width/($xHigh-$xLow);
 		$counter = 0;
-		if(Parser::$debug) {
+		if(Math::$DEBUG) {
 			$hand=fopen("eqgraph.txt","w");
 			fwrite($hand, "$eq\n");
 		}
 		for($i=$xLow;$i<=$xHigh;$i+=$xStep) {
 			$tester = sprintf("%10.3f",$i);
 			if($tester == "-0.000") $i = 0;
-			$y = $this->solveIF($eq, $i);
+			$y = Parser::solve($eq, $i);
 			//eval('$y='. str_replace('&x', $i, $eq).";"); /* used to debug my Parser class results */
-			if(Parser::$debug) {
+			if(Math::$DEBUG) {
 				$tmp1 = sprintf("y(%5.3f) = %10.3f\n", $i, $y);
 				fwrite($hand, $tmp1);
 			}
 
 			// If developer asked us to find the upper and lower bounds for y... 
 			if($yGuess==true) {
-				$yLow = ($yLow===false || ($y<$yLow)) ? $y : $yLow;
-				$yHigh = ($yHigh===false || $y>$yHigh) ? $y : $yHigh;
+				$yLow = ($yLow===null || ($y<$yLow)) ? $y : $yLow;
+				$yHigh = ($yHigh===null || $y>$yHigh) ? $y : $yHigh;
 			}
 			$xVars[$counter] = $y;
 			$counter++;			
 		}
-		if(Parser::$debug)
-			fclose($hand);
-		// add 0.01 to each side so that if y is from 1 to 5, the lines at 1 and 5 are seen 
-		$yLow-=0.01;$yHigh+=0.01;
+
 
 		//Now that we have all the variables stored...find the yScale
-		$yScale = $this->height/(($yHigh)-($yLow));
+		$yScale = self::$height/(($yHigh)-($yLow));
+        //Calculate the stepping points for lines now
+        if($yHigh-$yLow > $yMaxLines) {
+            $yJump = ceil(($yHigh-$yLow)/$yMaxLines);
+        } else {
+            $yJump = 1;
+        }
+        if($xHigh-$xLow > $xMaxLines) {
+            $xJump = ceil(($xHigh-$xLow)/$xMaxLines);
+        } else {
+            $xJump = 1;
+        }
+
+        // add 0.01 to each side so that if y is from 1 to 5, the lines at 1 and 5 are seen
+        $yLow-=0.01;$yHigh+=0.01;
+
+        if(Math::$DEBUG){
+            fwrite($hand, $yLow ." -- ". $yHigh ."\n");
+        }
 
 		// if developer wanted a grid on the graph, add it now 
 		if($xyGrid==true) {
-			for($i=ceil($yLow);$i<=floor($yHigh);$i++) {
+            if(Math::$DEBUG){
+                fwrite($hand, "Drawing Grid\n");
+            }
+			for($i=ceil($yLow);$i<=floor($yHigh);$i+=$yJump) {
 				$i0 = abs($yHigh-$i);
-				ImageLine($img, 0, $i0*$yScale, $this->width, $i0*$yScale, $grey);
+				ImageLine($img, 0, $i0*$yScale, self::$width, $i0*$yScale, $grey);
+                imagestring($img, 1, 2, $i0*$yScale+2, $i, $grey);
 			}
-			for($i=ceil($xLow);$i<=floor($xHigh);$i++) {
+			for($i=ceil($xLow);$i<=floor($xHigh);$i+=$xJump) {
 				$i0 = abs($xLow-$i);
-				ImageLine($img, $i0*$xScale, 0, $i0*$xScale, $this->height, $grey);
+				ImageLine($img, $i0*$xScale, 0, $i0*$xScale, self::$height, $grey);
+                imagestring($img, 1, $i0*$xScale+2, 2, $i, $grey);
 			}
 		}
 		
@@ -119,22 +150,31 @@ class Graph extends Parser {
 		if($xLow <= 0 && $xHigh >= 0) {
 			//the y-axis is within our range - draw it.
 			$x0 = abs($xLow)*$xScale;
-			ImageLine($img, $x0, 0, $x0, $this->height, $black);
-			for($i=ceil($yLow);$i<=floor($yHigh);$i++) {
+			ImageLine($img, $x0, 0, $x0, self::$height, $black);
+			for($i=ceil($yLow);$i<=floor($yHigh);$i+=$yJump) {
 				$i0 = abs($yHigh-$i);
 				ImageLine($img, $x0-3, $i0*$yScale, $x0+3, $i0*$yScale, $black);
+                //If we want the axis labeled... (call in the allies?)
+                if(self::$labelAxis) {
+                    imagestring($img, 1, $x0+2, $i0*$yScale+1, $i, $black);
+                }
 			}
 		}
 		if($yLow <= 0 && $yHigh >= 0) {
 			//the x-axis is within our range - draw it.
 			$y0 = abs($yHigh)*$yScale;
-			ImageLine($img, 0, $y0, $this->width, $y0, $black);
-			for($i=ceil($xLow);$i<=floor($xHigh);$i++) {
+			ImageLine($img, 0, $y0, self::$width, $y0, $black);
+            //Create ticks for y
+			for($i=ceil($xLow);$i<=floor($xHigh);$i+=$xJump) {
 				$i0 = abs($xLow-$i);
 				ImageLine($img, $i0*$xScale, $y0-3, $i0*$xScale, $y0+3, $black);
+                //If we want the axis labeled....
+                if(self::$labelAxis){
+                    imagestring($img, 1, $i0*$xScale+2, $y0+1, $i, $black);
+                }
 			}
 		}
-		$counter=2;
+		$counter=1;
 
 		//now graph it all ;]
 		for($i=$xLow+$xStep;$i<=$xHigh;$i+=$xStep) {
@@ -148,7 +188,10 @@ class Graph extends Parser {
 				ImageLine($img, $x1, $y1, $x2, $y2, $black);
 			$counter++;
 		}
-		$this->image = $img;
+        if(Math::$DEBUG) {
+            fclose($hand);
+        }
+        self::$image = $img;
 	} //end function 'graph'
 
 	/**
@@ -156,9 +199,9 @@ class Graph extends Parser {
 	 *
 	 * Sends a JPG image with proper header to output
 	 */
-	public function outJPG() {
+	public static function outJPG() {
 		header("Content-type: image/jpeg");
-		ImageJpeg($this->image);
+		ImageJpeg(self::$image);
 	}
 
 	/**
@@ -166,9 +209,9 @@ class Graph extends Parser {
 	 *
 	 * Sends a PNG image with proper header to output
 	 */
-	function outPNG() {
+	public static function outPNG() {
 		header("Content-type: image/png");
-		ImagePng($this->image);
+		ImagePng(self::$image);
 	}
 	
 	/**
@@ -179,8 +222,8 @@ class Graph extends Parser {
 	 *
 	 * @return Resource GD Image Resource
 	 */
-	public function getImage() {
-		return $this->image;
+	public static function getImage() {
+		return self::$image;
 	}
 	
 	/**
@@ -190,7 +233,7 @@ class Graph extends Parser {
 	 *
 	 * @return Resource GD Image resource
 	 */
-	public function outGD() {
-		return $this->getImage();
+	public static function outGD() {
+		return self::getImage();
 	}
 } //end class 'eqGraph'
