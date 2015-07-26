@@ -1,10 +1,4 @@
-<<<<<<< HEAD
 # EOS
-=======
-**IF YOU USE `dev-master` IN COMPOSER, MAKE SURE TO CHANGE TO THE 2.2.2 RELEASE AS THIS BRANCH WILL SOON CONTAIN AN INCOMPATIBLE VERSION.**
-
-# Classes
->>>>>>> 2798fead128e4985c61827a70fbcd43c8868ed30
 
 ## Composer Usage
 [![Latest Stable Version](https://poser.pugx.org/jlawrence/eos/v/stable)](https://packagist.org/packages/jlawrence/eos) [![Total Downloads](https://poser.pugx.org/jlawrence/eos/downloads)](https://packagist.org/packages/jlawrence/eos)  [![License](https://poser.pugx.org/jlawrence/eos/license)](https://packagist.org/packages/jlawrence/eos)
