@@ -451,8 +451,10 @@ class Parser {
 			$infix = str_replace($match[0], $ans, $infix);
 		}
 
+        $infix = preg_replace('/[$&]/', "", $infix);
         //Find all the variables that were passed and replaces them
-        while((preg_match('/(.){0,1}[&$]{0,1}([a-zA-Z]+)(.){0,1}/', $infix, $match)) != 0) {
+        while((preg_match('/([^a-zA-Z]){0,1}([a-zA-Z]+)([^a-zA-Z]){0,1}/', $infix, $match)) != 0) {
+
 
             //remove notices by defining if undefined.
             if(!isset($match[3])) {
