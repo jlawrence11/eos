@@ -105,7 +105,7 @@ The image will default to 640x480, to initialize a different size use:
 
 The `$width` and `$height` are the values used for the image size.
 
-##### graph($eq, $xLow, $xHigh, $xStep, [$xyGrid, $yGuess, ...])
+##### graph($eq, $xLow, $xHigh, [$xStep, $xyGrid, $yGuess, ...])
 
 This method will generate the graph for the equation (`$eq`) with a min and max
 `x` range that it will parse through. All Variables explained:
@@ -117,8 +117,7 @@ This method will generate the graph for the equation (`$eq`) with a min and max
 * `$xHigh`
     The last point calculated for the variable - the right side of the graph.
 * `$xStep`
-    Stepping point for the variable.  Suggested not to use a value less than
-    `.01`.  This is the precision of the graph.
+    Stepping point for the variable. Set to null/false to use the smart xStep feature within the graph class.
 * `$xyGrid = false`
     Show `x/y` gridlines on the graph.  Defaults to false.  Each grid line is set at an integer, with a max of 30 lines, so it will calculate the stepping for it. When the grid is show, the lines are labeled along the top and left side of the image. 
 * `$yGuess = true`
@@ -136,7 +135,7 @@ If you don't want the axis' labeled with their numbers, you can turn off the def
 
 TODO:
 
-* Smart (default) `$xStep` calculations based on image size and ranges.
+* Allow user-defined colors for all aspects of the graph.
 
 To set up a graph with a `21x21` window (ie `-10 to 10`) for the equation
 `sin(x)` and output as PNG, would use as:

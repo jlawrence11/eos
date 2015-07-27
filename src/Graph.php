@@ -57,7 +57,7 @@ class Graph {
 	 * @param Integer $yHigh Upper y-bound
 	 * @return Null
 	 */
-    public static function graph($eq, $xLow, $xHigh, $xStep, $xyGrid = false, $yGuess = true, $yLow=null, $yHigh=null) {
+    public static function graph($eq, $xLow, $xHigh, $xStep=null, $xyGrid = false, $yGuess = true, $yLow=null, $yHigh=null) {
 		//create our image and allocate the two colors
 		$img = ImageCreate(self::$width, self::$height);
         //The following noinspection needed because the first color allocated is the background, but not used for anything else.
@@ -66,6 +66,10 @@ class Graph {
 		$black = ImageColorAllocate($img, 0, 0, 0);
 		$grey = ImageColorAllocate($img, 150, 150, 150);
         $darkGrey = ImageColorAllocate($img, 50, 50, 50);
+        //Smart xStep calc
+        if($xStep == false) {
+            $xStep = ($xHigh - $xLow) / self::$width;
+        }
 		$xStep = abs($xStep);
         $hand = null;
         $xVars = array();
