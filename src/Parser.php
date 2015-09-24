@@ -358,7 +358,7 @@ class Parser {
         while((preg_match("/(". implode("|", array_keys(self::$AFNC)) . ")\(((?:[^()]|\((?2)\))*+)\)/", $infix, $match)) != 0) {
             $method = self::$AFNC[$match[1]];
             $ans = call_user_func($method, $match[2], $vArray);
-            $infix = str_replace($match[0], $ans, $infix);
+            $infix = str_replace($match[0], "({$ans})", $infix);
         }
 
 
@@ -404,7 +404,7 @@ class Parser {
                     $ans = 0;
                     break;
             }
-            $infix = str_replace($match[0], $ans, $infix);
+            $infix = str_replace($match[0], "({$ans})", $infix);
         }
 
         //replace scientific notation with normal notation (2e-9 to 2*10^-9)
