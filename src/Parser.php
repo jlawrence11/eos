@@ -540,4 +540,17 @@ class Parser {
         return $gamma;
     }
 
+    public static function parameterSplit($parameterString)
+    {
+		$parameterArray = array();
+
+		while(preg_match("/^([^(),]*)(\(((?:[^()]|\((?2)\))*+)\))?,/", $parameterString, $matches))
+		{
+			$parameterArray[] = substr($matches[0], 0, -1);
+			$parameterString = substr($parameterString, strlen($matches[0]));
+		}
+		$parameterArray[] = $parameterString;
+
+		return $parameterArray;
+	}
 } //end class 'Parser'
