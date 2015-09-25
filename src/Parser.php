@@ -51,6 +51,8 @@ class Parser {
 	protected static $ST = array('^', '!');
 	protected static $ST1 = array('/', '*', '%');
 	protected static $ST2 = array('+', '-');
+	protected static $ST3_long = array('<<', '>>', '==', '!=', '<>', '&&', '||');
+	protected static $ST3_char = array('<', '>', '=', '!', '&', '|', '?', ':', '!');
 	//Allowed functions
 	protected static $FNC = array('sin', 'cos', 'tan', 'csc', 'sec', 'cot', 'abs', 'ln', 'sqrt');
 	protected static $AFNC = array();
@@ -221,6 +223,23 @@ class Parser {
 					$pfIndex++;
 				}
 			}
+			elseif(in_array($chr, self::$ST3_char)) {
+				if(in_array($lChar, self::$ST3_char))
+				{
+					$ops->push($ops->pop() . $chr);
+				}
+				else
+				{
+					while(in_array($ops->peek(), array_merge(self::$ST1, self::$ST2, self::$ST3_char, self::$ST)))
+						$pf[++$pfIndex] = $ops->pop();
+					$ops->push($chr);
+					$pfIndex++;
+				}
+			}
+			else
+			{
+				echo "bad char '{$chr}' 0x" . bin2hex($chr) . PHP_EOL;
+			}
 			// make sure we record this character to be referred to by the next one
 			$lChar = $chr;
 		}
@@ -262,7 +281,7 @@ class Parser {
 		// Loop through each number/operator
 		for($i=0;$i<count($pf); $i++) {
 			// If the string isn't an operator, add it to the temp var as a holding place
-			if(!in_array($pf[$i], array_merge(self::$ST, self::$ST1, self::$ST2))) {
+			if(!in_array($pf[$i], array_merge(self::$ST, self::$ST1, self::$ST2, self::$ST3_char, self::$ST3_long))) {
 				$temp[$hold++] = $pf[$i];
 			}
 			// ...Otherwise perform the operator on the last two numbers
@@ -296,6 +315,45 @@ class Parser {
 						}
 						$temp[$hold-2] = bcmod($temp[$hold-2], $temp[$hold-1]);
 						break;
+					case '=':
+					case '==':
+						$temp[$hold-2] = ($temp[$hold-2] == $temp[$hold-1]);
+						break;
+					case '<':
+						$temp[$hold-2] = ($temp[$hold-2] < $temp[$hold-1]);
+						break;
+					case '>':
+						$temp[$hold-2] = ($temp[$hold-2] > $temp[$hold-1]);
+						break;
+					case '<>':
+					case '!=':
+						$temp[$hold-2] = ($temp[$hold-2] != $temp[$hold-1]);
+						break;
+					case '&':
+						$temp[$hold-2] = ($temp[$hold-2] & $temp[$hold-1]);
+						break;
+					case '&&':
+						$temp[$hold-2] = ($temp[$hold-2] && $temp[$hold-1]);
+						break;
+					case '|':
+						$temp[$hold-2] = ($temp[$hold-2] | $temp[$hold-1]);
+						break;
+					case '||':
+						$temp[$hold-2] = ($temp[$hold-2] || $temp[$hold-1]);
+						break;
+					case ':':
+						$temp[$hold-2] = array($temp[$hold-2], $temp[$hold-1]);
+						break;
+					case '?':
+						$temp[$hold-2] = $temp[$hold-2] ? $temp[$hold-1][0] : $temp[$hold-1][1];
+						break;
+					case '<<':
+						$temp[$hold-2] = ($temp[$hold-2] << $temp[$hold-1]);
+						break;
+					case '>>':
+						$temp[$hold-2] = ($temp[$hold-2] >> $temp[$hold-1]);
+						break;
+
 				}
 				// Decrease the hold var to one above where the last number is
 				$hold = $hold-1;
