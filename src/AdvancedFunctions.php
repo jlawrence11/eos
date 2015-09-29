@@ -32,7 +32,9 @@ class AdvancedFunctions
        //remove whitespace
         $input = preg_replace("/\s/", "", $input);
         //split in to parts
-        list($eq, $start, $stop) = explode(",", $input);
+        list($eq, $start, $stop) = Parser::parameterSplit($input);
+        $stop = Parser::solveIF($stop, $vars);
+        $start = Parser::solveIF($start, $vars);
         $ret = 0;
         for($i=$start; $i <= $stop; $i++) {
             $ret += Parser::solveIF($eq, $i);
@@ -47,8 +49,10 @@ class AdvancedFunctions
     public static function log($input, $vars)
     {
         $base = 10;
-        if(stripos($input, ",")) {
-            list($eq, $base) = explode(",", $input);
+        $parameters = Parser::parameterSplit($input);
+        if(count($parameters) > 1) {
+            list($eq, $base) = $parameters;
+            $base = Parser::solveIF($base, $vars);
         } else {
             $eq = $input;
         }
