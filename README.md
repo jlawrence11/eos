@@ -64,19 +64,7 @@ Example Equations:
     10*cos(x)
 
 The first two pairs shown are exactly the same.  The parser has good implied
-multiplication, for everything but allowed functions.  Allowed functions require
-an implicit operator on either/both sides to work properly, I hope to change
-that in the next revision; but for now, note that it will not work as you would
-expect.  
-For example:
-
-    5sin(1.5707963267) = 51
-    5*sin(1.5707963267) = 5
-    sin(1.5707963267)5 = 15
-
-The reason is because there is no implied multiplication being applied, the result
-of `sin(1.5707963267) = 1` is being concatenated with the number 5, giving
-incredibly odd results if you are not expecting it.
+multiplication.
 
 ###### _$variables_
 
@@ -146,7 +134,7 @@ This method will generate the graph for the equation (`$eq`) with a min and max
 TODO:
 * Add `x` and `y` labels
 * Smart `grid spacing` calculations so can be effective with large ranges.
-* Smart (default) `$xStep` calcuations based on image size and ranges.
+* Smart (default) `$xStep` calculations based on image size and ranges.
 
 To set up a graph with a `21x21` window (ie `-10 to 10`) for the equation
 `sin($x)` and output as PNG, would use as:
@@ -155,5 +143,5 @@ To set up a graph with a `21x21` window (ie `-10 to 10`) for the equation
     $graph->outPNG();
 
 It would look like:  
-![Sin(x)](http://img825.imageshack.us/img825/1380/sinx21x21.png)
+![Sin(x)](https://camo.githubusercontent.com/670e45b15c83ae37fddaaa91a6b1dec3e9c65ce7/687474703a2f2f73362e706f7374696d672e6f72672f6e6d3774636a386c742f656f73332e706e67)
 ---

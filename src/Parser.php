@@ -448,7 +448,7 @@ class Parser {
                     $ans = 0;
 					break;
 			}
-			$infix = str_replace($match[0], $ans, $infix);
+			$infix = str_replace($match[0], "({$ans})", $infix);
 		}
 
         $infix = preg_replace('/[$&]/', "", $infix);
@@ -479,7 +479,7 @@ class Parser {
             if(in_array(strtolower($match[2]), array('pi', 'e'))) {
                 $t = (strtolower($match[2])=='pi') ? pi() : exp(1);
                 $infix = str_replace($match[0], $match[1] . $front. $t. $back . $match[3], $infix);
-            } elseif(!isset($vArray[$match[2]]) && (!is_array($vArray != "") && !is_numeric($vArray))) {
+            } elseif(!isset($vArray[$match[2]]) && (!is_array($vArray != "") && !is_numeric($vArray) && 0 !== $vArray)) {
                 throw new \Exception("Variable replacement does not exist for '". substr($match[0], 1, 1). $match[2] ."' in {$this->inFix}", Parser::E_NO_VAR);
             } elseif(!isset($vArray[$match[2]]) && (!is_array($vArray != "") && is_numeric($vArray))) {
                 $infix = str_replace($match[0], $match[1] . $front. $vArray. $back . $match[3], $infix);
