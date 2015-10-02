@@ -354,13 +354,7 @@ class Parser {
         //remove all white-space
         $infix = preg_replace("/\s/", "", $infix);
 
-        //Advanced/User-defined functions
-        while((preg_match("/(". implode("|", array_keys(self::$AFNC)) . ")\(((?:[^()]|\((?2)\))*+)\)/", $infix, $match)) != 0) {
-            $method = self::$AFNC[$match[1]];
-            $ans = call_user_func($method, $match[2], $vArray);
-            $infix = str_replace($match[0], $ans, $infix);
-        }
-
+        $infix = self::checkAdvancedInput($infix,$vArray);
 
         // Finds all the 'functions' within the equation and calculates them
         //Nested parenthesis are now a go!
@@ -404,7 +398,7 @@ class Parser {
                     $ans = 0;
                     break;
             }
-            $infix = str_replace($match[0], $ans, $infix);
+            $infix = str_replace($match[0], "({$ans})", $infix);
         }
 
         //replace scientific notation with normal notation (2e-9 to 2*10^-9)
@@ -416,6 +410,32 @@ class Parser {
 
 
     } //end function solveIF
+
+    /**
+     * checkAdvancedInput
+     *
+     * Will take the input from `Parser::solveIF()` and solve all the advanced functions
+     * that exist within it, returning it to the function when done for further
+     * processing.
+     *
+     * @param $input String Check for advanced functions, recursively go through them.
+     * @param $vArray Array|Int|Null Variables from user-input
+     * @return String the input with all advanced functions solved for.
+     */
+    protected static function checkAdvancedInput($input, $vArray)
+    {
+        $infix = $input;
+        //Advanced/User-defined functions
+        while((preg_match("/(". implode("|", array_keys(self::$AFNC)) . ")\(((?:[^()]|\((?2)\))*+)\)/", $infix, $match)) != 0) {
+            $method = self::$AFNC[$match[1]];
+            if(stripos($match[2], '(') !== false) {
+                $match[2] = self::checkAdvancedInput($match[2], $vArray);
+            }
+            $ans = call_user_func($method, $match[2], $vArray);
+            $infix = str_replace($match[0], "({$ans})", $infix);
+        }
+        return $infix;
+    }
 
     protected static function replaceVars($infix, $vArray)
     {
@@ -445,7 +465,7 @@ class Parser {
             if(in_array(strtolower($match[2]), array('pi', 'e'))) {
                 $t = (strtolower($match[2])=='pi') ? pi() : exp(1);
                 $infix = str_replace($match[0], $match[1] . $front. $t. $back . $match[3], $infix);
-            } elseif(!isset($vArray[$match[2]]) && (!is_array($vArray != "") && !is_numeric($vArray))) {
+            } elseif(!isset($vArray[$match[2]]) && (!is_array($vArray != "") && !is_numeric($vArray) && 0 !== $vArray)) {
                 throw new \Exception("Variable replacement does not exist for '". $match[2] ."' in ". self::$inFix .".", Math::E_NO_VAR);
             } elseif(!isset($vArray[$match[2]]) && (!is_array($vArray != "") && is_numeric($vArray))) {
                 $infix = str_replace($match[0], $match[1] . $front. $vArray. $back . $match[3], $infix);

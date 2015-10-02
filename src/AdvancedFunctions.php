@@ -22,18 +22,30 @@ class AdvancedFunctions
         return $ret;
     }
     /**
-     * @param $input String In the form of "$equation, start, stop"
-     * @param $vars Array of variables used for solving the current equation.  Unused here.
+     * Summation function
+     *
+     * Will take an equation and run it through a summation algorithm. All parts
+     * of the input can be in equation form, so the start and stops can have
+     * equations to determine what they should be using the globally inputted
+     * variables from the user.
+     *
+     * @param $input String In the form of "equation, start, stop"
+     * @param $vars Array of variables used for solving the current equation.
      * @return Float The summation of the equation
      */
-    public static function sum($input, /** @noinspection PhpUnusedParameterInspection */
-                               $vars)
+    public static function sum($input, $vars)
     {
        //remove whitespace
         $input = preg_replace("/\s/", "", $input);
         //split in to parts
         list($eq, $start, $stop) = explode(",", $input);
         $ret = 0;
+        //make sure there's a variable, or return equation as-is
+        if((Parser::solveIF($eq,0)) == preg_replace("/[\(\)]/", "", $eq)) {
+            return $eq;
+        }
+        $start = Parser::solveIF($start, $vars);
+        $stop = Parser::solveIF($stop, $vars);
         for($i=$start; $i <= $stop; $i++) {
             $ret += Parser::solveIF($eq, $i);
         }
@@ -54,6 +66,9 @@ class AdvancedFunctions
         }
         //Make sure no functions or operators are hidden inside
         $sc = Parser::solveIF($eq, $vars);
+        if(10 != $base) {
+            $base = Parser::solveIF($base, $vars);
+        }
         $ans = log($sc, $base);
         if(is_nan($ans) || is_infinite($ans)) {
             throw new \Exception("Result of 'log({$eq}, {$base}) = {$ans}' is either infinite or a non-number in ". Parser::$inFix, Math::E_NAN);

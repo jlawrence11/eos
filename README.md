@@ -49,19 +49,7 @@ Example Equations:
     10*sin(x)
     10*cos(x)
 
-The parser has good implied multiplication, for everything but allowed functions.
-Allowed functions require an explicit operator on either/both sides to work properly,
-I hope to change that in the next revision; but for now, note that it will not work
-as you would expect.
-For example:
-
-    5sin(1.5707963267) = 51
-    5*sin(1.5707963267) = 5
-    sin(1.5707963267)5 = 15
-
-The reason is because there is no implied multiplication being applied, the result
-of `sin(1.5707963267) = 1` is being concatenated with the number 5, giving
-incredibly odd results if you are not expecting it.
+The parser has good implied multiplication.
 
 ###### _$variables_
 
