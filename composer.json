@@ -9,7 +9,9 @@
             "email": "jon@jon-lawrence.com"
         }
     ],
-    "require": {},
+    "require": {
+        "phpunit/phpunit": "*"
+    },
     "require-dev": {},
     "autoload": {
         "psr-4": {
