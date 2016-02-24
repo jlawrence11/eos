@@ -6,11 +6,13 @@
 namespace jlawrence\eos;
 
 
-class AdvancedFunctions 
+class AdvancedFunctions
 {
 
     /**
      * Create a list for the parser of 'expressiveFunction' => 'class::function'
+     *
+     * @return array
      */
     public static function map()
     {
@@ -21,6 +23,7 @@ class AdvancedFunctions
 
         return $ret;
     }
+
     /**
      * Summation function
      *
@@ -29,9 +32,9 @@ class AdvancedFunctions
      * equations to determine what they should be using the globally inputted
      * variables from the user.
      *
-     * @param $input String In the form of "equation, start, stop"
-     * @param $vars Array of variables used for solving the current equation.
-     * @return Float The summation of the equation
+     * @param string $input String in the form of "equation, start, stop"
+     * @param array $vars Array of variables used for solving the current equation.
+     * @return float The summation of the equation
      */
     public static function sum($input, $vars)
     {
@@ -55,6 +58,11 @@ class AdvancedFunctions
 
     /**
      * Log function for all non-natural logs.  Defaults to base 10
+     *
+     * @param $input
+     * @param array $vars Variable replacement
+     * @return float
+     * @throws \Exception
      */
     public static function log($input, $vars)
     {
