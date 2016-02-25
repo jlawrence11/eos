@@ -10,7 +10,9 @@
         }
     ],
     "require": {},
-    "require-dev": {},
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    },
     "autoload": {
         "psr-4": {
             "jlawrence\\eos\\": "src/"

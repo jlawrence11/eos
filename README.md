@@ -133,5 +133,21 @@ To set up a graph with a `21x21` window (ie `-10 to 10`) for the equation
 
 It would look like:  
 ![Sin(x)](http://s6.postimg.org/nm7tcj8lt/eos3.png)
----
+
+## Development
+
+### Testing
+
+Run the unit tests by first installing phpunit with (from the repository root)
+
+```
+composer update
+```
+
+Then run the tests with
+
+```
+phpunit tests/unit
+```
+
 ---
