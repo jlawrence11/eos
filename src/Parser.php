@@ -34,34 +34,47 @@ namespace jlawrence\eos;
  */
 class Parser {
 
-    /**#@+
-     *public variables
+    /**
+     * @var string Infix equation
+     * Public so advanced/user-defined/etc can access it when throwing exceptions.
      */
-    //Public so advanced/user-defined/etc can access it when throwing exceptions.
     public static $inFix;
-    /**#@-*/
-    /**#@+
-     * Protected variables
+
+    /**
+     * @var array Opening and closing selectors
      */
-    //What are opening and closing selectors
-    protected static $SEP = array('open' => array('(', '['), 'close' => array(')', ']'));
-    //Top precedence following operator - not in use
+    protected static $SEP = array(
+        'open' => array('(', '['),
+        'close' => array(')', ']')
+    );
+
+    // Top precedence following operator - not in use
     protected static $SGL = array('!');
-    //Order of operations arrays follow
+
+    // Order of operations arrays follow
     protected static $ST = array('^', '!');
     protected static $ST1 = array('/', '*', '%');
     protected static $ST2 = array('+', '-');
-    //Allowed functions
-    protected static $FNC = array('sin', 'cos', 'tan', 'csc', 'sec', 'cot', 'abs', 'ln', 'sqrt');
+
+    /**
+     * @var array Allowed functions
+     */
+    protected static $FNC = array(
+        'sin', 'cos', 'tan',
+        'csc', 'sec', 'cot',
+        'abs', 'ln', 'sqrt'
+    );
+
+    /**
+     * @var array Advanced functions container
+     */
     protected static $AFNC = array();
-    /**#@-*/
+
     /**
      * Initialize
-     *
-     *
      */
     public static function init() {
-        if(empty(self::$AFNC)) {
+        if (empty(self::$AFNC)) {
             //No advanced functions yet, so this function has not run, do so now.
             self::$AFNC = AdvancedFunctions::map();
         }
@@ -75,7 +88,7 @@ class Parser {
      * class structure see jlawrence\eos\AdvancedFunctions.
      * Class must be static, and must have a function named 'map'
      *
-     * @param $class String Fully Qualified String to class (must include namespace)
+     * @param string $class Fully Qualified String to class (must include namespace)
      * @return bool True on success
      * @throws \Exception When the added class doesn't have the 'map' function or doesn't exist.
      */
@@ -98,7 +111,7 @@ class Parser {
      * statement has a matching closing one, and throws an exception if
      * it doesn't.
      *
-     * @param String $infix Equation to check
+     * @param string $infix Equation to check
      * @throws \Exception if malformed.
      * @return Bool true if passes - throws an exception if not.
      */
@@ -126,9 +139,9 @@ class Parser {
      *
      * @link http://en.wikipedia.org/wiki/Infix_notation Infix Notation
      * @link http://en.wikipedia.org/wiki/Reverse_Polish_notation Reverse Polish Notation
-     * @param String $infix A standard notation equation
+     * @param string $infix A standard notation equation
      * @throws \Exception When parenthesis are mismatched
-     * @return Array Fully formed RPN Stack
+     * @return array Fully formed RPN Stack
      */
     public static function in2post($infix) {
         // if an equation was not passed, use the one that was passed in the constructor
@@ -237,7 +250,7 @@ class Parser {
         // return the RPN array in case developer wants to use it for some insane reason (bug testing ;] )
         // Also... because we pass it right in to the RPN solver.  So I guess there's that too.
         return $pf;
-    } //end function in2post
+    }
 
     /**
      * Solve Postfix (RPN)
@@ -247,9 +260,9 @@ class Parser {
      * an array input to solve as well, though default action is preferred.
      *
      * @link http://en.wikipedia.org/wiki/Reverse_Polish_notation Postix Notation
-     * @param Array $pfArray RPN formatted array. Optional.
+     * @param array $pfArray RPN formatted array. Optional.
      * @throws \Exception on division by 0
-     * @return Float Result of the operation.
+     * @return float Result of the operation.
      */
     public static function solvePF($pfArray) {
         $pf = $pfArray;
@@ -301,10 +314,10 @@ class Parser {
                 $hold = $hold-1;
             }
         }
+
         // return the last number in the array
         return $temp[$hold-1];
-
-    } //end function solvePF
+    }
 
 
     /**
@@ -316,9 +329,9 @@ class Parser {
      * be in the format of 'variable' => value. If variable array is scalar (ie 5), all
      * variables will be replaced with it.
      *
-     * @param $equation String Equation to Solve
-     * @param Array|Double $values variable values
-     * @return Float Answer to the equation
+     * @param string $equation Equation to Solve
+     * @param array|double $values variable values
+     * @return float Answer to the equation
      */
     public static function solve($equation, $values = null) {
         if(is_array($equation)) {
@@ -338,10 +351,10 @@ class Parser {
      * the equation.  This should not be used by the programmer/user that
      * is using this package to solve equations.
      *
-     * @param String $infix Standard Equation to solve
-     * @param String|Array $vArray Variable replacement
+     * @param string $infix Standard Equation to solve
+     * @param string|array $vArray Variable replacement
      * @throws \Exception On division by zero or NaN
-     * @return Float Solved equation
+     * @return float Solved equation
      */
     public static function solveIF($infix, $vArray = null) {
         //Check to make sure a 'valid' expression
@@ -407,9 +420,7 @@ class Parser {
         $infix = self::replaceVars($infix, $vArray);
 
         return self::solvePF(self::in2post($infix));
-
-
-    } //end function solveIF
+    }
 
     /**
      * checkAdvancedInput
@@ -418,9 +429,9 @@ class Parser {
      * that exist within it, returning it to the function when done for further
      * processing.
      *
-     * @param $input String Check for advanced functions, recursively go through them.
-     * @param $vArray Array|Int|Null Variables from user-input
-     * @return String the input with all advanced functions solved for.
+     * @param string $input Check for advanced functions, recursively go through them.
+     * @param array|int|null $vArray Variables from user-input
+     * @return string The input with all advanced functions solved for.
      */
     protected static function checkAdvancedInput($input, $vArray)
     {
@@ -437,6 +448,12 @@ class Parser {
         return $infix;
     }
 
+    /**
+     * @param string $infix
+     * @param array $vArray
+     * @return string
+     * @throws \Exception
+     */
     protected static function replaceVars($infix, $vArray)
     {
         //Remove old '$' and '&' signis so the regex works properly.
@@ -485,9 +502,9 @@ class Parser {
      * DONE:
      *    Solve for non-integer factorials  2015/07/02
      *
-     * @param Float $num Non-negative real number to get factorial of
+     * @param float $num Non-negative real number to get factorial of
      * @throws \Exception if number is at or less than 0
-     * @return Float Solved factorial
+     * @return float Solved factorial
      */
     protected static function factorial($num) {
         if($num < 0) {
@@ -502,8 +519,9 @@ class Parser {
         for($i=1;$i<=$num;$i++) {
             $tot *= $i;
         }
+
         return $tot;
-    } //end function factorial
+    }
 
     /**
      * Gamma Function
@@ -512,7 +530,7 @@ class Parser {
      * numerical approx. of gamma if I decide to add any past Lanczos'.
      *
      * @param $z Number to compute gamma from
-     * @return Float The gamma (hopefully, I'll test it after writing the code)
+     * @return float The gamma (hopefully, I'll test it after writing the code)
      */
     public static function gamma($z)
     {
@@ -542,22 +560,27 @@ class Parser {
             5 => 1.208650973866179E-3,
             6 => -5.395239384953E-6
         );
-        //formula:
+
+        // Formula:
         // ((sqrt(2pi)/z)(p[0]+sum(p[n]/(z+n), 1, 6)))(z+5.5)^(z+0.5)*e^(-(z+5.5))
+
         // Break it down now...
         $g1 = sqrt(2*pi())/$z;
-        //Next comes our summation
+
+        // Next comes our summation
         $g2 =0;
         for($n=1;$n<=6;$n++) {
             $g2 += $p[$n]/($z+$n);
         }
+
         // Don't forget to add p[0] to it...
         $g2 += $p[0];
         $g3 = pow($z+5.5, $z + .5);
         $g4 = exp(-($z+5.5));
+
         //now just multiply them all together
         $gamma = $g1 * $g2 * $g3 * $g4;
+
         return $gamma;
     }
-
-} //end class 'Parser'
+}

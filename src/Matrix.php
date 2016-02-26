@@ -29,36 +29,36 @@ namespace jlawrence\eos;
  */
 class Matrix {
 
-	/**
-	 * Invalid String input type
-	 */
-	const E_INVALID_INPUT = 5001;
+    /**
+     * Invalid String input type
+     */
+    const E_INVALID_INPUT = 5001;
 
-	/**
-	 * Matrix needed to be a square matrix for the operation
-	 */
-	const E_NOT_SQUARE = 5002;
-	
-	/**
-	 * Matrix was undefined
-	 */
-	const E_NO_MATRIX = 5003;
-	
-	/**
-	 * Matrix had varying column lengths
-	 */
-	const E_INVALID_MATRIX = 5004;
-	
-	/**
-	 * Matrix operation required rows/cols to be even, they were not
-	 */
-	const E_NOT_EQUAL = 5005;
-	
-	/**
-	 * Determinate was '0' while preforming another operation
-	 */
-	const E_NO_INVERSE = 5006;
-	
+    /**
+     * Matrix needed to be a square matrix for the operation
+     */
+    const E_NOT_SQUARE = 5002;
+
+    /**
+     * Matrix was undefined
+     */
+    const E_NO_MATRIX = 5003;
+
+    /**
+     * Matrix had varying column lengths
+     */
+    const E_INVALID_MATRIX = 5004;
+
+    /**
+     * Matrix operation required rows/cols to be even, they were not
+     */
+    const E_NOT_EQUAL = 5005;
+
+    /**
+     * Determinate was '0' while preforming another operation
+     */
+    const E_NO_INVERSE = 5006;
+
     private $matrix;
     
     /**
@@ -66,13 +66,12 @@ class Matrix {
      * 
      * For format of input string, see the see tag below
      *
-     *@see Matrix::_assign()
-     * @param String $mText Matrix text input
+     * @see Matrix::_assign()
+     * @param string $mText Matrix text input
      */
     public function __construct($mText="")
     {
-        if($mText)
-            $this->_assign($mText);
+        if ($mText) $this->_assign($mText);
     }
     
     /**
@@ -121,10 +120,9 @@ class Matrix {
      * number of items, ensuring it is a valid matrix
      *
      * @access private
-     * @param array $mArray
-     * @return Boolean True if it passes, false if not a valid matrix
+     * @param array|bool $mArray
+     * @return bool True if it passes, false if not a valid matrix
      */
-    
     private function _verify($mArray = false)
     {
         if(!$mArray) $mArray = $this->matrix;
@@ -157,8 +155,8 @@ class Matrix {
      * the matrix of the current instance is valid. Valid is denoted by all
      * rows have the same number of columns.
      *
-     * @param Array|bool $mArray Array to be used, if not assigned will default to $this->matrix
-     * @return Boolean True/False depending on if array is a valid matrix
+     * @param array|bool $mArray Array to be used, if not assigned will default to $this->matrix
+     * @return bool True/False depending on if array is a valid matrix
      */
     public function isValid($mArray = false)
     {
@@ -172,8 +170,8 @@ class Matrix {
      * Will determine whether or not the matrix is valid, and if it
      * is, will determine if the matrix is a square matrix (n by n).
      *
-     * @param Array|bool $mArray Matrix array, if not assigned will use $this->matrix
-     * @return Boolean True/False depending on whether or not the matrix is square
+     * @param array|bool $mArray Matrix array, if not assigned will use $this->matrix
+     * @return bool True/False depending on whether or not the matrix is square
      */
     public function isSquare($mArray = false)
     {
@@ -192,11 +190,11 @@ class Matrix {
      * Will check to see if a matrix is square, if so, will return 'n', which
      * is the number of rows==columns in the matrix
      *
-     * @param Array $mArray Matrix array, uses $this->matrix if not assigned
-     * @return Integer The 'n' of a square matrix, or false if not square
+     * @param array|bool $mArray Matrix array, uses $this->matrix if not assigned
+     * @return int The 'n' of a square matrix, or false if not square
      * @throws \Exception If not a square matrix, throws an exception
      */
-    public function _getN($mArray=false)
+    public function _getN($mArray = false)
     {
         if(!$mArray) $mArray = $this->matrix;
         
@@ -214,9 +212,9 @@ class Matrix {
      * Creates an Identity Matrix of size 'n'.
      *
      * @link http://en.wikipedia.org/wiki/Identity_matrix
-     * @param Integer $n The rows/cols of identity matrix
-     * @param Boolean $useInternal If true will set $this->matrix
-     * @return Matrix|Boolean Return an identity matrix if $useInternal is false, otherwise 'true'
+     * @param int $n The rows/cols of identity matrix
+     * @param bool $useInternal If true will set $this->matrix
+     * @return Matrix|bool Return an identity matrix if $useInternal is false, otherwise 'true'
      */
     public function createIdentity($n, $useInternal = true)
     {
@@ -246,9 +244,9 @@ class Matrix {
      * Convert an array to the string format used by this class.
      *
      * @see Matrix::_assign()
-     * @param Array|bool $mArray if not assigned will use this instance's matrix.
+     * @param array|bool $mArray if not assigned will use this instance's matrix.
      * @throws \Exception If matrix is not an array
-     * @return String The array broken down in to string format
+     * @return string The array broken down in to string format
      */
     public function toString($mArray = false)
     {
@@ -272,7 +270,7 @@ class Matrix {
      * PHP magic method for "echoing" this object without a specific method called
      * Will use {@link Matrix::toString()} with no parameters for it's return.
      * 
-     * @return String Returns the $matrix value in string format
+     * @return string Returns the $matrix value in string format
      */
     public function __toString()
     {
@@ -284,7 +282,7 @@ class Matrix {
      *
      * Will return the matrix array of the current instance.
      *
-     * @return Array The matrix array of the current instance
+     * @return array The matrix array of the current instance
      */
     public function getArray()
     {
@@ -297,9 +295,9 @@ class Matrix {
      * Will output the matrix in 'pretty' format, if used with 'echo' and
      * HTML, surround it by the '<<pre>>' and '<</pre>>' tags to display properly
      *
-     * @param Integer $width The width of printing space to use
-     * @param Array $mArray Matrix array, defaults to $this->matrix
-     * @return String "Pretty-Printed" matrix in ASCII format
+     * @param int $width The width of printing space to use
+     * @param array|bool $mArray Matrix array, defaults to $this->matrix
+     * @return string "Pretty-Printed" matrix in ASCII format
      */
     public function prettyPrint($width=80, $mArray=false)
     {
@@ -402,7 +400,7 @@ class Matrix {
      * Multiplies a matrix by a scalar value (int/float/etc) (constant, ie '2')
      *
      * @link http://en.wikipedia.org/wiki/Scalar_multiplication
-     * @param Float $k The value to multiply the matrix by
+     * @param float $k The value to multiply the matrix by
      * @return Matrix Returns a new Matrix instance with the result
      * @throws \Exception if the instance matrix is not valid
      */
@@ -434,11 +432,11 @@ class Matrix {
      * of this function from within itself.
      *
      * @link http://en.wikipedia.org/wiki/Matrix_determinant
-     * @param Array $mArray The array to find a determinate of
-     * @return Float The Determinate of the square matrix
+     * @param array|bool $mArray The array to find a determinate of
+     * @return float The Determinate of the square matrix
      * @throws \Exception If matrix is 1,1 or is not square
      */
-    public function getDeterminant($mArray=false)
+    public function getDeterminant($mArray = false)
     {
         if(!$mArray) $mArray = $this->matrix;
         //print_r($mArray);
@@ -480,9 +478,9 @@ class Matrix {
      * of the matrix as is the default.
      *
      * @link http://en.wikipedia.org/wiki/Matrix_cofactors
-     * @param Array $cArray A matrix in array format (or $this->matrix by default)
-     * @param Boolean $asArray When set to true, will return an array, when false a Matrix Object
-     * @return Matrix|Array A matrix of coFactors for the array provided (or current matrix)
+     * @param array|bool $cArray A matrix in array format (or $this->matrix by default)
+     * @param bool $asArray When set to true, will return an array, when false a Matrix Object
+     * @return Matrix|array A matrix of coFactors for the array provided (or current matrix)
      * @throws \Exception if the matrix is not square
      */
     public function coFactor($cArray=false,$asArray=true)
@@ -533,9 +531,9 @@ class Matrix {
      * Transposes the current matrix, or the array provided
      *
      * @link http://en.wikipedia.org/wiki/Matrix_transpose
-     * @param Array $cArray the array to transpose (defaults to $this->matrix)
-     * @param Boolean $asArray whether to return an array or Matrix object
-     * @return Array|Matrix Defaults to returning an array of the transposed matrix
+     * @param array|bool $cArray the array to transpose (defaults to $this->matrix)
+     * @param bool $asArray whether to return an array or Matrix object
+     * @return array|Matrix Defaults to returning an array of the transposed matrix
      * @throws \Exception if the matrix is not square
      */
     public function transpose($cArray=false,$asArray=true)
@@ -567,9 +565,9 @@ class Matrix {
      * or the current matrix instance if not provided.
      *
      * @link http://en.wikipedia.org/wiki/Adjugate_matrix
-     * @param Array $cArray Defaults to $this->matrix if not provided
-     * @param Boolean $asArray Whether to return an array or Matrix object
-     * @return Array|Matrix Defaults to return the array of the Adjugate matrix
+     * @param array|bool $cArray Defaults to $this->matrix if not provided
+     * @param bool $asArray Whether to return an array or Matrix object
+     * @return array|Matrix Defaults to return the array of the Adjugate matrix
      */
     public function adjugate($cArray=false,$asArray=true)
     {
@@ -590,11 +588,11 @@ class Matrix {
      * Matrix returned denoted by A^-1
      *
      * @link http://en.wikipedia.org/wiki/Inverse_matrix
-     * @param Array $cArray Array to invert (defaults to $this->matrix)
+     * @param array|bool $cArray Array to invert (defaults to $this->matrix)
      * @return Matrix By default returns a new instance of Matrix
      * @throws \Exception for any number of reasons that would make the inverse not available
      */
-    public function inverse ($cArray=false)
+    public function inverse($cArray = false)
     {
         if(!$cArray) $cArray = $this->matrix;
 

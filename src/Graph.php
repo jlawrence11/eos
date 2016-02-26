@@ -21,8 +21,12 @@ class Graph
 {
     private static $width = 640;
     private static $height = 480;
-    //GD Image reference
+
+    /**
+     * @var resource
+     */
     private static $image;
+
     public static $labelAxis = true;
     public static $backgroundColor = array(255, 255, 255);
     public static $gridColor = array(150, 150, 150);
@@ -35,17 +39,18 @@ class Graph
      * Sets up the Graph class with an image width and height defaults to
      * 640x480
      *
-     * @param Integer $width Image width
-     * @param Integer $height Image height
+     * @param int $width Image width
+     * @param int $height Image height
      */
     public static function init($width = 640, $height = 480)
     {
         // default width and height equal to that of a poor monitor (in early 2000s)
         self::$width = $width;
         self::$height = $height;
-        //initialize main class
+
+        // initialize main class
         Parser::init();
-    } //end function eqGraph
+    }
 
 
     /**
@@ -53,15 +58,15 @@ class Graph
      *
      * Creates a GD image based on the equation given with the parameters that are set
      *
-     * @param String $eq Equation to use.  Needs variable in equation to create graph, all variables are interpreted as 'x'
-     * @param Integer $xLow Lower x-bound for graph
-     * @param Integer $xHigh Upper x-bound for graph
-     * @param Float $xStep Stepping points while solving, the lower, the better precision. Slow if lower than .01
-     * @param Boolean $xyGrid Draw grid-lines?
-     * @param Boolean $yGuess Guess the upper/lower yBounds?
-     * @param Integer $yLow Lower y-bound
-     * @param Integer $yHigh Upper y-bound
-     * @return Null
+     * @param string $eq Equation to use.  Needs variable in equation to create graph, all variables are interpreted as 'x'
+     * @param integer $xLow Lower x-bound for graph
+     * @param integer $xHigh Upper x-bound for graph
+     * @param float $xStep Stepping points while solving, the lower, the better precision. Slow if lower than .01
+     * @param bool $xyGrid Draw grid-lines?
+     * @param bool $yGuess Guess the upper/lower yBounds?
+     * @param int $yLow Lower y-bound
+     * @param int $yHigh Upper y-bound
+     * @return null
      */
     public static function graph($eq, $xLow, $xHigh, $xStep = null, $xyGrid = false, $yGuess = true, $yLow = null, $yHigh = null)
     {
@@ -207,7 +212,7 @@ class Graph
             fclose($hand);
         }
         self::$image = $img;
-    } //end function 'graph'
+    }
 
     /**
      * Sends JPG to browser
@@ -255,4 +260,4 @@ class Graph
     {
         return self::getImage();
     }
-} //end class 'eqGraph'
+}

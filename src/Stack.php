@@ -34,7 +34,7 @@ class Stack {
      *
      * Will view the last element of the stack without removing it
      *
-     * @return Mixed An element of the array or false if none exist
+     * @return mixed An element of the array or false if none exist
      */
     public function peek() {
         if($this->index > -1)
@@ -48,7 +48,7 @@ class Stack {
      *
      * Will add an element to the end of the stack
      *
-     * @param Mixed $data Element to add
+     * @param mixed $data Element to add
      */
     public function poke($data) {
         $this->locArray[++$this->index] = $data;
@@ -60,7 +60,7 @@ class Stack {
      * Alias of {@see Stack::poke()}
      * Adds element to the stack
      *
-     * @param Mixed $data Element to add
+     * @param mixed $data Element to add
      */
     public function push($data) {
         //alias for 'poke'
@@ -73,7 +73,7 @@ class Stack {
      * Retrieves an element from the end of the stack, and removes it from
      * the stack at the same time. If no elements, returns boolean false
      *
-     * @return Mixed Element at end of stack or false if none exist
+     * @return mixed Element at end of stack or false if none exist
      */
     public function pop() {
         if($this->index > -1)
@@ -100,7 +100,7 @@ class Stack {
      *
      * Returns the array of stack elements, keeping all, indexed at 0
      *
-     * @return Mixed Array of stack elements or false if none exist.
+     * @return mixed Array of stack elements or false if none exist.
      */
     public function getStack() {
         if($this->index > -1)
