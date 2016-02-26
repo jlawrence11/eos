@@ -71,10 +71,10 @@ class Parser {
     protected static $AFNC = array();
 
     /**
-     * Initialise
+     * Initialize
      */
     public static function init() {
-        if(empty(self::$AFNC)) {
+        if (empty(self::$AFNC)) {
             //No advanced functions yet, so this function has not run, do so now.
             self::$AFNC = AdvancedFunctions::map();
         }
