@@ -41,6 +41,5 @@ class ParserTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(14, Parser::solve('2 + 3 * 4'));
         $this->assertEquals(12, Parser::solve('3 * (7 - 3)'));
         $this->assertEquals(13, Parser::solve('2 + 3 * 5 - 4'));
-        $this->assertEquals(13, Parser::solve('2 * 3 – 2 * 5'));
     }
 }
