@@ -1,5 +1,11 @@
 # EOS
 
+[![Build Status](https://travis-ci.org/jlawrence/eos.svg?branch=master)](https://travis-ci.org/jlawrence/eos)
+[![Latest Stable Version](https://poser.pugx.org/jlawrence/eos/v/stable.svg)](https://packagist.org/packages/jlawrence/eos)
+[![Latest Unstable Version](https://poser.pugx.org/jlawrence/eos/v/unstable.svg)](https://packagist.org/packages/jlawrence/eos)
+[![Total Downloads](https://poser.pugx.org/jlawrence/eos/downloads.svg)](https://packagist.org/packages/jlawrence/eos)
+[![License](https://poser.pugx.org/jlawrence/eos/license.svg)](https://packagist.org/packages/jlawrence/eos)
+
 ## Composer Usage
 [![Latest Stable Version](https://poser.pugx.org/jlawrence/eos/v/stable)](https://packagist.org/packages/jlawrence/eos) [![Total Downloads](https://poser.pugx.org/jlawrence/eos/downloads)](https://packagist.org/packages/jlawrence/eos)  [![License](https://poser.pugx.org/jlawrence/eos/license)](https://packagist.org/packages/jlawrence/eos)
 
