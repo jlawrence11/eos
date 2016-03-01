@@ -1,6 +1,6 @@
 # EOS
 
-[![Build Status](https://travis-ci.org/jlawrence11/eos.svg?branch=master)](https://travis-ci.org/jlawrence/eos)
+[![Build Status](https://travis-ci.org/jlawrence11/eos.svg?branch=master)](https://travis-ci.org/jlawrence11/eos)
 [![Latest Stable Version](https://poser.pugx.org/jlawrence/eos/v/stable.svg)](https://packagist.org/packages/jlawrence/eos)
 [![Latest Unstable Version](https://poser.pugx.org/jlawrence/eos/v/unstable.svg)](https://packagist.org/packages/jlawrence/eos)
 [![Total Downloads](https://poser.pugx.org/jlawrence/eos/downloads.svg)](https://packagist.org/packages/jlawrence/eos)
