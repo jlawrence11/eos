@@ -157,7 +157,7 @@ composer update
 Then run the tests with
 
 ```
-phpunit tests/unit
+phpunit
 ```
 
 ---
