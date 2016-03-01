@@ -1,16 +1,26 @@
 # EOS
 
-## Composer Usage
-[![Latest Stable Version](https://poser.pugx.org/jlawrence/eos/v/stable)](https://packagist.org/packages/jlawrence/eos) [![Total Downloads](https://poser.pugx.org/jlawrence/eos/downloads)](https://packagist.org/packages/jlawrence/eos)  [![License](https://poser.pugx.org/jlawrence/eos/license)](https://packagist.org/packages/jlawrence/eos)
+[![Build Status](https://travis-ci.org/jlawrence/eos.svg?branch=master)](https://travis-ci.org/jlawrence/eos)
+[![Latest Stable Version](https://poser.pugx.org/jlawrence/eos/v/stable.svg)](https://packagist.org/packages/jlawrence/eos)
+[![Latest Unstable Version](https://poser.pugx.org/jlawrence/eos/v/unstable.svg)](https://packagist.org/packages/jlawrence/eos)
+[![Total Downloads](https://poser.pugx.org/jlawrence/eos/downloads.svg)](https://packagist.org/packages/jlawrence/eos)
+[![License](https://poser.pugx.org/jlawrence/eos/license.svg)](https://packagist.org/packages/jlawrence/eos)
+[![Code Climate](https://codeclimate.com/github/jlawrence11/eos/badges/gpa.svg)](https://codeclimate.com/github/jlawrence11/eos)
+[![Test Coverage](https://codeclimate.com/github/jlawrence11/eos/badges/coverage.svg)](https://codeclimate.com/github/jlawrence11/eos)
+
+## Installation
+
+Install EOS with [Composer](https://getcomposer.org/)
 
 Add the dependency:
 
-	"require": {
-	    "jlawrence/eos": "3.*"
-	}
+```json
+"require": {
+    "jlawrence/eos": "3.*"
+}
+```
 
-
-`$ composer update` and you're done.
+Run `composer update` and you're done.
 
 ## Equation Operating System
 
@@ -147,7 +157,7 @@ composer update
 Then run the tests with
 
 ```
-phpunit tests/unit
+phpunit
 ```
 
 ---
