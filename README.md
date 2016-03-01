@@ -5,6 +5,8 @@
 [![Latest Unstable Version](https://poser.pugx.org/jlawrence/eos/v/unstable.svg)](https://packagist.org/packages/jlawrence/eos)
 [![Total Downloads](https://poser.pugx.org/jlawrence/eos/downloads.svg)](https://packagist.org/packages/jlawrence/eos)
 [![License](https://poser.pugx.org/jlawrence/eos/license.svg)](https://packagist.org/packages/jlawrence/eos)
+[![Code Climate](https://codeclimate.com/github/jlawrence11/eos/badges/gpa.svg)](https://codeclimate.com/github/jlawrence11/eos)
+[![Test Coverage](https://codeclimate.com/github/jlawrence11/eos/badges/coverage.svg)](https://codeclimate.com/github/jlawrence11/eos)
 
 ## Installation
 
