@@ -47,18 +47,18 @@ class ParserTest extends PHPUnit_Framework_TestCase
 
     public function testVariables()
     {
-        $this->assertEquals(10, Parser::solve('x*y', [
+        $this->assertEquals(10, Parser::solve('x*y', array(
             'x' => 5,
             'y' => 2
-        ]));
+        )));
 
-        $this->assertEquals(24, Parser::solve('2(4x)', [
+        $this->assertEquals(24, Parser::solve('2(4x)', array(
             'x' => 3
-        ]));
+        )));
 
-        $this->assertEquals(15, Parser::solve('2a+a', [
+        $this->assertEquals(15, Parser::solve('2a+a', array(
             'a' => 5
-        ]));
+        )));
     }
 
     public function testTrigonometryInDegrees()
