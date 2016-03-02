@@ -91,6 +91,8 @@ class Parser {
      * @param string $class Fully Qualified String to class (must include namespace)
      * @return bool True on success
      * @throws \Exception When the added class doesn't have the 'map' function or doesn't exist.
+     *
+     * @codeCoverageIgnore
      */
     public static function addFunctionClass($class)
     {
@@ -198,7 +200,10 @@ class Parser {
                     if($nchr)
                         $pf[++$pfIndex] = $nchr;
                     else {
+                        //Should NEVER get here...
+                        // @codeCoverageIgnoreStart
                         throw new \Exception("Error while searching for '". self::$SEP['open'][$key] ."' in ". self::$inFix, Math::E_NO_SET);
+                        // @codeCoverageIgnoreEnd
                     }
                 }
                 $ops->pop();
@@ -407,9 +412,11 @@ class Parser {
                     }
                     $ans = sqrt($func);
                     break;
+                // @codeCoverageIgnoreStart
                 default:
                     $ans = 0;
                     break;
+                // @codeCoverageIgnoreEnd
             }
             $infix = str_replace($match[0], "({$ans})", $infix);
         }

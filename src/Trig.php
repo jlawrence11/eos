@@ -49,27 +49,27 @@ class Trig
     public static function sec($x)
     {
         $tmp = self::cos($x);
-        if($tmp == 0) {
+        if($tmp == 0)
             throw new \Exception("Division by 0 on: 'sec({$x}) = 1/cos({$x})' in ". Parser::$inFix, Math::E_DIV_ZERO);
-        }
+
         return 1/$tmp;
     }
 
     public static function csc($x)
     {
         $tmp = self::sin($x);
-        if($tmp == 0) {
+        if($tmp == 0)
             throw new \Exception("Division by 0 on: 'csc({$x})) = 1/sin({$x})' in ". Parser::$inFix, Math::E_DIV_ZERO);
-        }
+
         return 1/$tmp;
     }
 
     public static function cot($x)
     {
         $tmp = self::tan($x);
-        if($tmp == 0) {
+        if($tmp == 0)
             throw new \Exception("Division by 0 on: 'cot({$x})) = 1/tan({$x})' in ". Parser::$inFix, Math::E_DIV_ZERO);
-        }
+
         return 1/$tmp;
     }
 } 

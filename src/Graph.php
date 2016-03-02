@@ -105,19 +105,23 @@ class Graph
 
         $xScale = self::$width / ($xHigh - $xLow);
         $counter = 0;
+        // @codeCoverageIgnoreStart
         if (Math::$DEBUG) {
             $hand = fopen("Graph.txt", "w");
             fwrite($hand, "$eq\n");
         }
+        // @codeCoverageIgnoreEnd
         for ($i = $xLow; $i <= $xHigh; $i += $xStep) {
             $tester = sprintf("%10.3f", $i);
             if ($tester == "-0.000") $i = 0;
             $y = Parser::solve($eq, $i);
             //eval('$y='. str_replace('&x', $i, $eq).";"); /* used to debug my Parser class results */
+            // @codeCoverageIgnoreStart
             if (Math::$DEBUG) {
                 $tmp1 = sprintf("y(%5.3f) = %10.3f\n", $i, $y);
                 fwrite($hand, $tmp1);
             }
+            // @codeCoverageIgnoreEnd
 
             // If developer asked us to find the upper and lower bounds for y...
             if ($yGuess == true) {
@@ -131,6 +135,7 @@ class Graph
 
         //Now that we have all the variables stored...find the yScale
         $yScale = self::$height / (($yHigh) - ($yLow));
+        // @codeCoverageIgnoreStart
         //Calculate the stepping points for lines now
         if ($yHigh - $yLow > $yMaxLines) {
             $yJump = ceil(($yHigh - $yLow) / $yMaxLines);
@@ -142,20 +147,25 @@ class Graph
         } else {
             $xJump = 1;
         }
+        // @codeCoverageIgnoreEnd
 
         // add 0.01 to each side so that if y is from 1 to 5, the lines at 1 and 5 are seen
         $yLow -= 0.01;
         $yHigh += 0.01;
 
+        // @codeCoverageIgnoreStart
         if (Math::$DEBUG) {
             fwrite($hand, $yLow . " -- " . $yHigh . "\n");
         }
+        // @codeCoverageIgnoreEnd
 
         // if developer wanted a grid on the graph, add it now
         if ($xyGrid == true) {
+            // @codeCoverageIgnoreStart
             if (Math::$DEBUG) {
                 fwrite($hand, "Drawing Grid\n");
             }
+            // @codeCoverageIgnoreEnd
             for ($i = ceil($yLow); $i <= floor($yHigh); $i += $yJump) {
                 $i0 = abs($yHigh - $i);
                 ImageLine($img, 0, $i0 * $yScale, self::$width, $i0 * $yScale, $gColor);
@@ -210,9 +220,11 @@ class Graph
                 ImageLine($img, $x1, $y1, $x2, $y2, $lColor);
             $counter++;
         }
+        // @codeCoverageIgnoreStart
         if (Math::$DEBUG) {
             fclose($hand);
         }
+        // @codeCoverageIgnoreEnd
         self::$image = $img;
     }
 
@@ -220,6 +232,8 @@ class Graph
      * Sends JPG to browser
      *
      * Sends a JPG image with proper header to output
+     *
+     * @codeCoverageIgnore
      */
     public static function outJPG()
     {
@@ -231,6 +245,8 @@ class Graph
      * Sends PNG to browser
      *
      * Sends a PNG image with proper header to output
+     *
+     * @codeCoverageIgnore
      */
     public static function outPNG()
     {

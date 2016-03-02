@@ -336,9 +336,8 @@ class Matrix {
     public function addMatrix(Matrix $nMatrix)
     {
         if(!$this->_verify() || !$nMatrix->_verify())
-        {
             throw new \Exception("Matrices have varying column sizes", Matrix::E_INVALID_MATRIX);
-        }
+
         $matrix1 = $this->getArray();
         $matrix2 = $nMatrix->getArray();
         if((count($matrix1)!=count($matrix2)) || (count($matrix1[0])!=count($matrix2[0])))
@@ -372,9 +371,8 @@ class Matrix {
     public function subMatrix(Matrix $nMatrix)
     {
         if(!$this->_verify() || !$nMatrix->_verify())
-        {
             throw new \Exception("Matrices have varying column sizes", Matrix::E_INVALID_MATRIX);
-        }
+
         $matrix1 = $this->getArray();
         $matrix2 = $nMatrix->getArray();
         if((count($matrix1)!=count($matrix2)) || (count($matrix1[0])!=count($matrix2[0])))
@@ -407,10 +405,9 @@ class Matrix {
     public function mpScalar($k)
     {
         //we'll verify a true matrix to ... help the user
-        if(!$this->_verify()) {
-            $m = $this->toString();
-            throw new \Exception("Matrix '{$m}' has varying column sizes", Matrix::E_INVALID_MATRIX);
-        }
+        if(!$this->_verify())
+            throw new \Exception("Matrix '{$this}' has varying column sizes", Matrix::E_INVALID_MATRIX);
+
         $cArray = $this->getArray();
         $rArray = array();
         $rows = count($cArray);
@@ -440,13 +437,15 @@ class Matrix {
     {
         if(!$mArray) $mArray = $this->matrix;
         //print_r($mArray);
-        if(!$this->isSquare($mArray)) {
-            $m = $this->toString($mArray);
-            throw new \Exception("'{$m}' is not a square matrix", Matrix::E_NOT_SQUARE);
-        }
+        if(!$this->isSquare($mArray))
+            throw new \Exception("'{$this}' is not a square matrix", Matrix::E_NOT_SQUARE);
+
         $n = $this->_getN($mArray);
         if($n < 1){
-            throw new \Exception("1 by 1 Matrix cannot have a determinant", Matrix::E_NO_MATRIX);
+            // @codeCoverageIgnoreStart
+            // Should never get this far
+            throw new \Exception("No Matrix", Matrix::E_NO_MATRIX);
+            // @codeCoverageIgnoreEnd
         } elseif ($n == 1) {
             $det = $mArray[0][0];
         } elseif ($n == 2) {
@@ -486,10 +485,9 @@ class Matrix {
     public function coFactor($cArray=false,$asArray=true)
     {
         if(!$cArray) $cArray = $this->matrix;
-        if(!$this->isSquare($cArray)) {
-            $m = $this->toString($cArray);
-            throw new \Exception("'{$m}' is not a square matrix", Matrix::E_NOT_SQUARE);
-        }
+        if(!$this->isSquare($cArray))
+            throw new \Exception("'{$this}' is not a square matrix", Matrix::E_NOT_SQUARE);
+
         $n = $this->_getN($cArray);
         $minor = array();
         $rArray = array();
@@ -539,10 +537,9 @@ class Matrix {
     public function transpose($cArray=false,$asArray=true)
     {
         if(!$cArray) $cArray = $this->matrix;
-        if(!$this->isSquare($cArray)) {
-            $m = $this->toString($cArray);
-            throw new \Exception("'{$m}' is not a square matrix", Matrix::E_NOT_SQUARE);
-        }
+        if(!$this->isSquare($cArray))
+            throw new \Exception("'{$this}' is not a square matrix", Matrix::E_NOT_SQUARE);
+
         $n = $this->_getN();
         $nArray = array();
         for($i=0;$i<$n;$i++) {
@@ -573,12 +570,11 @@ class Matrix {
     {
         if(!$cArray) $cArray = $this->matrix;
         $rArray = $this->transpose($this->coFactor($cArray));
-        if($asArray==true) {
+        if($asArray==true)
             return $rArray;
-        } else {
-            $rMatrix = new Matrix($this->toString($rArray));
-            return $rMatrix;
-        }
+
+        $rMatrix = new Matrix($this->toString($rArray));
+        return $rMatrix;
     }
     
     /**
@@ -597,10 +593,9 @@ class Matrix {
         if(!$cArray) $cArray = $this->matrix;
 
         $det = $this->getDeterminant($cArray);
-        if($det == 0) {
-            $eString = $this->toString($cArray);
-            throw new \Exception("Determinant of {$eString} is 0, No Inverse found", Matrix::E_NO_INVERSE);
-        }
+        if($det == 0)
+            throw new \Exception("Determinant of {$this} is 0, No Inverse found", Matrix::E_NO_INVERSE);
+
         
         $scalar = 1/$det;
         $adj = $this->adjugate($cArray, false);
@@ -623,9 +618,12 @@ class Matrix {
     public function mpMatrix(Matrix $bMatrix)
     {
         if(!$this->_verify() || !$bMatrix->_verify()) {
+            // @codeCoverageIgnoreStart
+            // Should never get this far
             $eM1 = $this->toString();
             $eM2 = $bMatrix->toString();
             throw new \Exception("Either '{$eM1}' and/or '{$eM2}' is not a valid Matrix", Matrix::E_INVALID_MATRIX);
+            // @codeCoverageIgnoreEnd
         }
         $aArray = $this->matrix;
         $bArray = $bMatrix->getArray();

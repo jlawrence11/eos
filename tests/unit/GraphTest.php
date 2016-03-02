@@ -15,6 +15,6 @@ class GraphTest extends PHPUnit_Framework_TestCase
     public function testGraphImage()
     {
         Graph::graph('x', -10, 10, null, true, true, null, null);
-        $this->assertFalse(is_null(Graph::getImage()));
+        $this->assertFalse(is_null(Graph::outGD()));
     }
 }

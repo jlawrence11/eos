@@ -94,4 +94,98 @@ class MatrixTest extends PHPUnit_Framework_TestCase
         $matrixA = new Matrix("[1,0,1;0,1,0;0,0,1]");
         $this->assertEquals("[1,0,-1;0,1,0;0,0,1]", $matrixA->inverse());
     }
+
+    public function testNonMatrixInput()
+    {
+        $matrix = new Matrix();
+        $this->assertFalse($matrix->_assign("[1,2,3;4,5;6,7,8]"));
+        $this->assertFalse($matrix->isValid("[]"));
+        $this->assertFalse($matrix->isSquare("[]"));
+    }
+
+    public function testMatrixIdentity()
+    {
+        $matrix = new Matrix();
+        $matrixB = $matrix->createIdentity(2, false);
+        $this->assertEquals("[1,0;0,1]", $matrixB->toString());
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionCode \jlawrence\eos\Matrix::E_NOT_SQUARE
+     */
+    public function testNonSquareN()
+    {
+        $matrix = new Matrix("[1,2,3;4,5,6]");
+        $matrix->_getN();
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionCode \jlawrence\eos\Matrix::E_NO_MATRIX
+     */
+    public function testNoMatrixString()
+    {
+        $matrix = new Matrix();
+        $temp = sprintf("%s", $matrix->toString());
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionCode \jlawrence\eos\Matrix::E_INVALID_INPUT
+     */
+    public function testMismatchedBrackets()
+    {
+        $matrix = new Matrix("34'4;5");
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionCode \jlawrence\eos\Matrix::E_NOT_EQUAL
+     */
+    public function testWrongAddition()
+    {
+        $matrixA = new Matrix("[1,2;3,4]");
+        $matrixB = new Matrix("[1,2,3;4,5,6;7,8,9]");
+        $matrixC = $matrixA->addMatrix($matrixB);
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionCode \jlawrence\eos\Matrix::E_NOT_EQUAL
+     */
+    public function testWrongSubtraction()
+    {
+        $matrixA = new Matrix("[1,2;3,4]");
+        $matrixB = new Matrix("[1,2,3;4,5,6;7,8,9]");
+        $matrixC = $matrixA->subMatrix($matrixB);
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionCode \jlawrence\eos\Matrix::E_NOT_SQUARE
+     */
+    public function testNoSquareDeterminate()
+    {
+        $matrix = new Matrix("[1,2;3,4;5,6]");
+        $matrixC = $matrix->getDeterminant();
+    }
+
+    public function testOneByOneDeterminate()
+    {
+        $matrix = new Matrix("[1]");
+        $this->assertEquals(1,$matrix->getDeterminant());
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionCode \jlawrence\eos\Matrix::E_NOT_EQUAL
+     */
+    public function testWrongMatrixMultiplication()
+    {
+        $matrixA = new Matrix("[1,2;3,4]");
+        $matrixB = new Matrix("[1,2,3;4,5,6;7,8,9]");
+        $matrixC = $matrixA->mpMatrix($matrixB);
+    }
+
 }
