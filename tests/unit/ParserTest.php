@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . "/../../vendor/autoload.php";
+require_once __DIR__.'/../../vendor/autoload.php';
 
 use jlawrence\eos\Parser;
 use jlawrence\eos\Trig;
@@ -47,18 +47,18 @@ class ParserTest extends PHPUnit_Framework_TestCase
 
     public function testVariables()
     {
-        $this->assertEquals(10, Parser::solve('x*y', array(
+        $this->assertEquals(10, Parser::solve('x*y', [
             'x' => 5,
-            'y' => 2
-        )));
+            'y' => 2,
+        ]));
 
-        $this->assertEquals(24, Parser::solve('2(4x)', array(
-            'x' => 3
-        )));
+        $this->assertEquals(24, Parser::solve('2(4x)', [
+            'x' => 3,
+        ]));
 
-        $this->assertEquals(15, Parser::solve('2a+a', array(
-            'a' => 5
-        )));
+        $this->assertEquals(15, Parser::solve('2a+a', [
+            'a' => 5,
+        ]));
     }
 
     public function testTrigonometryInDegrees()
@@ -94,26 +94,26 @@ class ParserTest extends PHPUnit_Framework_TestCase
     public function testLogSqrtPowersSummation()
     {
         $this->assertEquals(2, Parser::solve('ln(e^2)'));
-        $this->assertEquals(8, Parser::solve("log(sqrt(2^x),2)", 16));
-        $this->assertEquals(2, Parser::solve("log(100)"));
+        $this->assertEquals(8, Parser::solve('log(sqrt(2^x),2)', 16));
+        $this->assertEquals(2, Parser::solve('log(100)'));
         $this->assertEquals(9, Parser::solve('sum(sum(x, 1, 2)x, 1, 2)'));
-        $this->assertEquals(100, Parser::solve("sum(100, 2, 3)"));
+        $this->assertEquals(100, Parser::solve('sum(100, 2, 3)'));
     }
 
     public function testModulus()
     {
-        $this->assertEquals(2, Parser::solve("5%3"));
-        $this->assertEquals(1, Parser::solve("4%3"));
+        $this->assertEquals(2, Parser::solve('5%3'));
+        $this->assertEquals(1, Parser::solve('4%3'));
     }
 
     public function testAbs()
     {
-        $this->assertEquals(4, Parser::solve("abs(-4)"));
+        $this->assertEquals(4, Parser::solve('abs(-4)'));
     }
 
     public function testSolvePostFix()
     {
-        $pf = array('2', '3', '+');
+        $pf = ['2', '3', '+'];
         $this->assertEquals(5, Parser::solve($pf));
     }
 
@@ -123,7 +123,7 @@ class ParserTest extends PHPUnit_Framework_TestCase
      */
     public function testDivisionByZero()
     {
-        Parser::solve("3/0");
+        Parser::solve('3/0');
     }
 
     /**
@@ -132,7 +132,7 @@ class ParserTest extends PHPUnit_Framework_TestCase
      */
     public function testModulusByZero()
     {
-        Parser::solve("3%0");
+        Parser::solve('3%0');
     }
 
     /**
@@ -141,7 +141,7 @@ class ParserTest extends PHPUnit_Framework_TestCase
      */
     public function testLnError()
     {
-        Parser::solve("ln(0)");
+        Parser::solve('ln(0)');
     }
 
     /**
@@ -150,7 +150,7 @@ class ParserTest extends PHPUnit_Framework_TestCase
      */
     public function testLogError()
     {
-        Parser::solve("log(0)");
+        Parser::solve('log(0)');
     }
 
     /**
@@ -159,7 +159,7 @@ class ParserTest extends PHPUnit_Framework_TestCase
      */
     public function testSqrtError()
     {
-        Parser::solve("sqrt(-4)");
+        Parser::solve('sqrt(-4)');
     }
 
     /**
@@ -168,7 +168,7 @@ class ParserTest extends PHPUnit_Framework_TestCase
      */
     public function testNoVariable()
     {
-        Parser::solve("4x");
+        Parser::solve('4x');
     }
 
     /**
@@ -177,7 +177,7 @@ class ParserTest extends PHPUnit_Framework_TestCase
      */
     public function testNegativeFactorial()
     {
-        Parser::solve("-4!");
+        Parser::solve('-4!');
     }
 
     /**
@@ -186,7 +186,7 @@ class ParserTest extends PHPUnit_Framework_TestCase
      */
     public function testNoEquation()
     {
-        Parser::solve("");
+        Parser::solve('');
     }
 
     /**
@@ -195,7 +195,7 @@ class ParserTest extends PHPUnit_Framework_TestCase
      */
     public function testMismatchedParenthesis()
     {
-        Parser::solve("(2+(3*4)");
+        Parser::solve('(2+(3*4)');
     }
 
     /**
@@ -204,6 +204,6 @@ class ParserTest extends PHPUnit_Framework_TestCase
      */
     public function testMismatchedBrackets()
     {
-        Parser::solve("[2+[3*4]");
+        Parser::solve('[2+[3*4]');
     }
 }
