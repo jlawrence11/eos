@@ -50,6 +50,8 @@ class Graph
 
         // initialize main class
         Parser::init();
+        //can't really mess this up, return true
+        return true;
     }
 
 

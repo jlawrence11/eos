@@ -3,6 +3,7 @@
 require_once __DIR__ . "/../../vendor/autoload.php";
 
 use jlawrence\eos\Parser;
+use jlawrence\eos\Trig;
 
 class ParserTest extends PHPUnit_Framework_TestCase
 {
@@ -60,12 +61,36 @@ class ParserTest extends PHPUnit_Framework_TestCase
         ]));
     }
 
+    public function testTrigonometryInDegrees()
+    {
+        Trig::$DEGREES = true;
+        $this->assertEquals(0, Parser::solve('sin(180)'));
+        $this->assertEquals(0, Parser::solve('cos(90)'));
+        $this->assertEquals(1, Parser::solve('tan(45)'));
+
+        Trig::$DEGREES = false;
+    }
+
     public function testTrigonometry()
     {
-        $result = Parser::solve('10*sin(x)', [
-            'x' => 180
-        ]);
+        $this->assertEquals(1, Parser::solve('sin(pi/2)'));
+        $this->assertEquals(-1, Parser::solve('cos(pi)'));
+        $this->assertEquals(1, Parser::solve('tan(pi/4)'));
+    }
 
-        $this->assertTrue(-8.01 > $result && $result > -8.02);
+    public function testGamma()
+    {
+        $this->assertEquals(120, Parser::solve('5!'));
+
+        $result = Parser::solve('3.5!');
+
+        $this->assertTrue(11.64 > $result && $result > 11.63);
+    }
+
+    public function testLogSqrtPowersSummation()
+    {
+        $this->assertEquals(2, Parser::solve('ln(e^2)'));
+        $this->assertEquals(8, Parser::solve("log(sqrt(2^x),2)", 16));
+        $this->assertEquals(9, Parser::solve('sum(sum(x, 1, 2)x, 1, 2)'));
     }
 }
