@@ -159,5 +159,10 @@ Then run the tests with
 ```
 phpunit
 ```
+---
+
+When creating classes for adding functions to the package, make sure to call
+`Parser::solveIF()` instead of `Parser::solve()` so that the class retains
+the full original equation used by the user.
 
 ---
