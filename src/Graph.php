@@ -2,10 +2,10 @@
 
 namespace jlawrence\eos;
 
-// fun class that requires the GD libraries to give visual output to the user 
+// fun class that requires the GD libraries to give visual output to the user
 
 /**
- * Equation Graph
+ * Equation Graph.
  *
  * Fun class that requires the GD libraries to give visual output of an
  * equation to the user.  Extends the Parser class.
@@ -13,8 +13,7 @@ namespace jlawrence\eos;
  * @author Jon Lawrence <jlawrence11@gmail.com>
  * @copyright Copyright ©2005-2013 Jon Lawrence
  * @license http://opensource.org/licenses/LGPL-2.1 LGPL 2.1 License
- * @package Math
- * @subpackage EOS
+ *
  * @version 3.x
  */
 class Graph
@@ -28,18 +27,18 @@ class Graph
     private static $image;
 
     public static $labelAxis = true;
-    public static $backgroundColor = array(255, 255, 255);
-    public static $gridColor = array(150, 150, 150);
-    public static $axisColor = array(0, 0, 0);
-    public static $lineColor = array(0, 0, 0);
+    public static $backgroundColor = [255, 255, 255];
+    public static $gridColor = [150, 150, 150];
+    public static $axisColor = [0, 0, 0];
+    public static $lineColor = [0, 0, 0];
 
     /**
-     * Initializer
+     * Initializer.
      *
      * Sets up the Graph class with an image width and height defaults to
      * 640x480
      *
-     * @param int $width Image width
+     * @param int $width  Image width
      * @param int $height Image height
      */
     public static function init($width = 640, $height = 480)
@@ -54,44 +53,45 @@ class Graph
         return true;
     }
 
-
     /**
-     * Create GD Graph Image
+     * Create GD Graph Image.
      *
      * Creates a GD image based on the equation given with the parameters that are set
      *
-     * @param string $eq Equation to use.  Needs variable in equation to create graph, all variables are interpreted as 'x'
-     * @param integer $xLow Lower x-bound for graph
-     * @param integer $xHigh Upper x-bound for graph
-     * @param float $xStep Stepping points while solving, the lower, the better precision. Slow if lower than .01
-     * @param bool $xyGrid Draw grid-lines?
-     * @param bool $yGuess Guess the upper/lower yBounds?
-     * @param int $yLow Lower y-bound
-     * @param int $yHigh Upper y-bound
+     * @param string $eq     Equation to use.  Needs variable in equation to create graph, all variables are interpreted as 'x'
+     * @param int    $xLow   Lower x-bound for graph
+     * @param int    $xHigh  Upper x-bound for graph
+     * @param float  $xStep  Stepping points while solving, the lower, the better precision. Slow if lower than .01
+     * @param bool   $xyGrid Draw grid-lines?
+     * @param bool   $yGuess Guess the upper/lower yBounds?
+     * @param int    $yLow   Lower y-bound
+     * @param int    $yHigh  Upper y-bound
+     *
      * @return null
      */
     public static function graph($eq, $xLow, $xHigh, $xStep = null, $xyGrid = false, $yGuess = true, $yLow = null, $yHigh = null)
     {
         //create our image and allocate the two colors
-        $img = ImageCreate(self::$width, self::$height);
+        $img = imagecreate(self::$width, self::$height);
         //The following noinspection needed because the first color allocated is the background, but not used for anything else.
-        /** @noinspection PhpUnusedLocalVariableInspection */
-        $bgColor = ImageColorAllocate($img, self::$backgroundColor[0], self::$backgroundColor[1], self::$backgroundColor[2]);
-        $aColor = ImageColorAllocate($img, self::$axisColor[0], self::$axisColor[1], self::$axisColor[2]);
-        $lColor = ImageColorAllocate($img, self::$lineColor[0], self::$lineColor[1], self::$lineColor[2]);
-        $gColor = ImageColorAllocate($img, self::$gridColor[0], self::$gridColor[1], self::$gridColor[2]);
+        /* @noinspection PhpUnusedLocalVariableInspection */
+        $bgColor = imagecolorallocate($img, self::$backgroundColor[0], self::$backgroundColor[1], self::$backgroundColor[2]);
+        $aColor = imagecolorallocate($img, self::$axisColor[0], self::$axisColor[1], self::$axisColor[2]);
+        $lColor = imagecolorallocate($img, self::$lineColor[0], self::$lineColor[1], self::$lineColor[2]);
+        $gColor = imagecolorallocate($img, self::$gridColor[0], self::$gridColor[1], self::$gridColor[2]);
         //$black = ImageColorAllocate($img, 0, 0, 0);
         //$grey = ImageColorAllocate($img, 150, 150, 150);
         //$darkGrey = ImageColorAllocate($img, 50, 50, 50);
-        if ($xLow > $xHigh)
-            list($xLow, $xHigh) = array($xHigh, $xLow); //swap function
+        if ($xLow > $xHigh) {
+            list($xLow, $xHigh) = [$xHigh, $xLow];
+        } //swap function
         //Smart xStep calc
         if ($xStep == false) {
             $xStep = ($xHigh - $xLow) / self::$width;
         }
         $xStep = abs($xStep);
         $hand = null;
-        $xVars = array();
+        $xVars = [];
         //If yGuess is true, make sure yLow and yHigh are not set
         if ($yGuess) {
             $yLow = null;
@@ -107,13 +107,15 @@ class Graph
         $counter = 0;
         // @codeCoverageIgnoreStart
         if (Math::$DEBUG) {
-            $hand = fopen("Graph.txt", "w");
+            $hand = fopen('Graph.txt', 'w');
             fwrite($hand, "$eq\n");
         }
         // @codeCoverageIgnoreEnd
         for ($i = $xLow; $i <= $xHigh; $i += $xStep) {
-            $tester = sprintf("%10.3f", $i);
-            if ($tester == "-0.000") $i = 0;
+            $tester = sprintf('%10.3f', $i);
+            if ($tester == '-0.000') {
+                $i = 0;
+            }
             $y = Parser::solve($eq, $i);
             //eval('$y='. str_replace('&x', $i, $eq).";"); /* used to debug my Parser class results */
             // @codeCoverageIgnoreStart
@@ -131,7 +133,6 @@ class Graph
             $xVars[$counter] = $y;
             $counter++;
         }
-
 
         //Now that we have all the variables stored...find the yScale
         $yScale = self::$height / (($yHigh) - ($yLow));
@@ -155,7 +156,7 @@ class Graph
 
         // @codeCoverageIgnoreStart
         if (Math::$DEBUG) {
-            fwrite($hand, $yLow . " -- " . $yHigh . "\n");
+            fwrite($hand, $yLow.' -- '.$yHigh."\n");
         }
         // @codeCoverageIgnoreEnd
 
@@ -168,12 +169,12 @@ class Graph
             // @codeCoverageIgnoreEnd
             for ($i = ceil($yLow); $i <= floor($yHigh); $i += $yJump) {
                 $i0 = abs($yHigh - $i);
-                ImageLine($img, 0, $i0 * $yScale, self::$width, $i0 * $yScale, $gColor);
+                imageline($img, 0, $i0 * $yScale, self::$width, $i0 * $yScale, $gColor);
                 imagestring($img, 1, 2, $i0 * $yScale + 2, $i, $gColor);
             }
             for ($i = ceil($xLow); $i <= floor($xHigh); $i += $xJump) {
                 $i0 = abs($xLow - $i);
-                ImageLine($img, $i0 * $xScale, 0, $i0 * $xScale, self::$height, $gColor);
+                imageline($img, $i0 * $xScale, 0, $i0 * $xScale, self::$height, $gColor);
                 imagestring($img, 1, $i0 * $xScale + 2, 2, $i, $gColor);
             }
         }
@@ -182,10 +183,10 @@ class Graph
         if ($xLow <= 0 && $xHigh >= 0) {
             //the y-axis is within our range - draw it.
             $x0 = abs($xLow) * $xScale;
-            ImageLine($img, $x0, 0, $x0, self::$height, $aColor);
+            imageline($img, $x0, 0, $x0, self::$height, $aColor);
             for ($i = ceil($yLow); $i <= floor($yHigh); $i += $yJump) {
                 $i0 = abs($yHigh - $i);
-                ImageLine($img, $x0 - 3, $i0 * $yScale, $x0 + 3, $i0 * $yScale, $aColor);
+                imageline($img, $x0 - 3, $i0 * $yScale, $x0 + 3, $i0 * $yScale, $aColor);
                 //If we want the axis labeled... (call in the allies?)
                 if (self::$labelAxis) {
                     imagestring($img, 1, $x0 + 2, $i0 * $yScale + 1, $i, $aColor);
@@ -195,11 +196,11 @@ class Graph
         if ($yLow <= 0 && $yHigh >= 0) {
             //the x-axis is within our range - draw it.
             $y0 = abs($yHigh) * $yScale;
-            ImageLine($img, 0, $y0, self::$width, $y0, $aColor);
+            imageline($img, 0, $y0, self::$width, $y0, $aColor);
             //Create ticks for y
             for ($i = ceil($xLow); $i <= floor($xHigh); $i += $xJump) {
                 $i0 = abs($xLow - $i);
-                ImageLine($img, $i0 * $xScale, $y0 - 3, $i0 * $xScale, $y0 + 3, $aColor);
+                imageline($img, $i0 * $xScale, $y0 - 3, $i0 * $xScale, $y0 + 3, $aColor);
                 //If we want the axis labeled....
                 if (self::$labelAxis) {
                     imagestring($img, 1, $i0 * $xScale + 2, $y0 + 1, $i, $aColor);
@@ -216,8 +217,9 @@ class Graph
             $y2 = (($xVars[$counter] < $yLow) || ($xVars[$counter] > $yHigh)) ? -1 : (abs($yHigh - $xVars[$counter])) * $yScale;
 
             // if any of the y values were found to be off of the y-bounds, don't graph those connecting lines
-            if ($y1 != -1 && $y2 != -1)
-                ImageLine($img, $x1, $y1, $x2, $y2, $lColor);
+            if ($y1 != -1 && $y2 != -1) {
+                imageline($img, $x1, $y1, $x2, $y2, $lColor);
+            }
             $counter++;
         }
         // @codeCoverageIgnoreStart
@@ -229,7 +231,7 @@ class Graph
     }
 
     /**
-     * Sends JPG to browser
+     * Sends JPG to browser.
      *
      * Sends a JPG image with proper header to output
      *
@@ -237,12 +239,12 @@ class Graph
      */
     public static function outJPG()
     {
-        header("Content-type: image/jpeg");
-        ImageJpeg(self::$image);
+        header('Content-type: image/jpeg');
+        imagejpeg(self::$image);
     }
 
     /**
-     * Sends PNG to browser
+     * Sends PNG to browser.
      *
      * Sends a PNG image with proper header to output
      *
@@ -250,17 +252,17 @@ class Graph
      */
     public static function outPNG()
     {
-        header("Content-type: image/png");
-        ImagePng(self::$image);
+        header('Content-type: image/png');
+        imagepng(self::$image);
     }
 
     /**
-     * Output GD Image
+     * Output GD Image.
      *
      * Will give the developer the GD resource for the graph that
      * can be used to store the graph to the FS or other media
      *
-     * @return Resource GD Image Resource
+     * @return resource GD Image Resource
      */
     public static function getImage()
     {
@@ -268,11 +270,11 @@ class Graph
     }
 
     /**
-     * Output GD Image
+     * Output GD Image.
      *
      * Alias for eqGraph::getImage()
      *
-     * @return Resource GD Image resource
+     * @return resource GD Image resource
      */
     public static function outGD()
     {
